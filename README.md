@@ -1,9 +1,5 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
+README for module net.ljcomputing.ecsr-neo4j
+============================================
 
-README for module ${artifactId}
-===============================
-
-This module belongs to the project ${rootArtifactId}
+This module belongs to the project net.ljcomputing.ecsr-neo4j
 
