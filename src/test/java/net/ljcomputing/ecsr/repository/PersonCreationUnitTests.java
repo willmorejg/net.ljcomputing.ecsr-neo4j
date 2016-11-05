@@ -35,12 +35,10 @@ import net.ljcomputing.ecsr.domain.person.OrganizationalTeam;
 import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.domain.person.Team;
 import net.ljcomputing.ecsr.domain.person.TeamMember;
-import net.ljcomputing.ecsr.repository.person.OrganizationRepository;
 import net.ljcomputing.ecsr.repository.person.OrganizationalMemberRepository;
 import net.ljcomputing.ecsr.repository.person.OrganizationalTeamRepository;
-import net.ljcomputing.ecsr.repository.person.PersonRepository;
 import net.ljcomputing.ecsr.repository.person.TeamMemberRepository;
-import net.ljcomputing.ecsr.repository.person.TeamRepository;
+import net.ljcomputing.ecsr.service.PersonalityService;
 
 /**
  * @author James G. Willmore
@@ -55,22 +53,22 @@ public class PersonCreationUnitTests {
   /** The Constant LOGGER. */
   @SuppressWarnings("unused")
   private static final Logger LOGGER = LoggerFactory.getLogger(PersonCreationUnitTests.class);
-
-  /** The person repository. */
+  
+  /** The person service. */
   @Autowired
-  private transient PersonRepository personRepos;
-
-  /** The team repository. */
+  private transient PersonalityService<Person> personService;
+  
+  /** The team service. */
   @Autowired
-  private transient TeamRepository teamRepos;
+  private transient PersonalityService<Team> teamService;
+
+  /** The organization service. */
+  @Autowired
+  private transient PersonalityService<Organization> organizationService;
 
   /** The team member repository. */
   @Autowired
   private transient TeamMemberRepository teamMemberRepos;
-  
-  /** The organization repos. */
-  @Autowired
-  private transient OrganizationRepository organizationRepos;
   
   /** The org member repos. */
   @Autowired
@@ -98,7 +96,7 @@ public class PersonCreationUnitTests {
 
       person.setLastName(names[n]); //NOPMD
 
-      personRepos.save(person);
+      personService.save(person);
     }
   }
 
@@ -115,7 +113,7 @@ public class PersonCreationUnitTests {
 
       team.setName(name);
 
-      teamRepos.save(team);
+      teamService.save(team);
     }
   }
 
@@ -125,8 +123,8 @@ public class PersonCreationUnitTests {
   @Test
   @Rollback(false)
   public void test03() {
-    final Iterable<Person> people = personRepos.findAll();
-    final Iterable<Team> teams = teamRepos.findAll(); //NOPMD
+    final Iterable<Person> people = personService.findAll();
+    final Iterable<Team> teams = teamService.findAll(); //NOPMD
     
     for (final Person person : people) {
       for (final Team team : teams) {
@@ -153,7 +151,7 @@ public class PersonCreationUnitTests {
 
       org.setName(name);
 
-      organizationRepos.save(org);
+      organizationService.save(org);
     }
   }
 
@@ -163,8 +161,8 @@ public class PersonCreationUnitTests {
   @Test
   @Rollback(false)
   public void test05() {
-    final Iterable<Person> people = personRepos.findAll();
-    final Iterable<Organization> orgs = organizationRepos.findAll(); //NOPMD
+    final Iterable<Person> people = personService.findAll();
+    final Iterable<Organization> orgs = organizationService.findAll(); //NOPMD
     
     for (final Person person : people) {
       for (final Organization org : orgs) {
@@ -184,8 +182,8 @@ public class PersonCreationUnitTests {
   @Test
   @Rollback(false)
   public void test06() {
-    final Iterable<Team> teams = teamRepos.findAll();
-    final Iterable<Organization> orgs = organizationRepos.findAll(); //NOPMD
+    final Iterable<Team> teams = teamService.findAll();
+    final Iterable<Organization> orgs = organizationService.findAll(); //NOPMD
     
     for (final Team team : teams) {
       for (final Organization org : orgs) {

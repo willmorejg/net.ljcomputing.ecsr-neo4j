@@ -19,7 +19,6 @@ package net.ljcomputing.ecsr.repository.person;
 import org.springframework.data.neo4j.annotation.Query;
 
 import net.ljcomputing.ecsr.domain.person.Person;
-import net.ljcomputing.ecsr.repository.DomainRepository;
 
 /**
  * Person repository.
@@ -27,7 +26,7 @@ import net.ljcomputing.ecsr.repository.DomainRepository;
  * @author James G. Willmore
  *
  */
-public interface PersonRepository extends DomainRepository<Person> {
+public interface PersonRepository extends PersonalityRepository<Person> {
 
   /**
    * Find by first name and last name - 

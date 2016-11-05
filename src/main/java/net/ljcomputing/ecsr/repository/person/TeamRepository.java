@@ -17,7 +17,6 @@
 package net.ljcomputing.ecsr.repository.person;
 
 import net.ljcomputing.ecsr.domain.person.Team;
-import net.ljcomputing.ecsr.repository.DomainRepository;
 
 /**
  * Team repository.
@@ -25,7 +24,7 @@ import net.ljcomputing.ecsr.repository.DomainRepository;
  * @author James G. Willmore
  *
  */
-public interface TeamRepository extends DomainRepository<Team> {
+public interface TeamRepository extends PersonalityRepository<Team> {
 
   /**
    * Find by name.

@@ -14,23 +14,15 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.repository.person;
+package net.ljcomputing.ecsr.service;
 
 import net.ljcomputing.ecsr.domain.person.Organization;
 
 /**
- * Organization repository.
+ * Organization service.
  * 
  * @author James G. Willmore
  *
  */
-public interface OrganizationRepository extends PersonalityRepository<Organization> {
-
-  /**
-   * Find by name.
-   *
-   * @param name the name
-   * @return the team
-   */
-  Organization findByName(String name);
+public interface OrganizationService extends PersonalityService<Organization> {
 }

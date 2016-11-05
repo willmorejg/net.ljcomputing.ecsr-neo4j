@@ -17,6 +17,7 @@
 package net.ljcomputing.ecsr.repository;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -36,9 +37,9 @@ import net.ljcomputing.ecsr.configuration.EcsrNeo4JConfiguration;
 import net.ljcomputing.ecsr.domain.person.Organization;
 import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.domain.person.Team;
-import net.ljcomputing.ecsr.repository.person.OrganizationRepository;
-import net.ljcomputing.ecsr.repository.person.PersonRepository;
-import net.ljcomputing.ecsr.repository.person.TeamRepository;
+import net.ljcomputing.ecsr.service.OrganizationService;
+import net.ljcomputing.ecsr.service.PersonService;
+import net.ljcomputing.ecsr.service.TeamService;
 
 /**
  * @author James G. Willmore
@@ -53,17 +54,16 @@ public class PersonUpdateUnitTests {
   /** The Constant LOGGER. */
   private static final Logger LOGGER = LoggerFactory.getLogger(PersonUpdateUnitTests.class);
 
-  /** The person repository. */
+  /** The person service. */
   @Autowired
-  private transient PersonRepository personRepos;
+  private transient PersonService personService;
 
-  /** The team repository. */
+  /** The team service. */
   @Autowired
-  private transient TeamRepository teamRepos;
+  private transient TeamService teamService;
 
-  /** The organization repos. */
   @Autowired
-  private transient OrganizationRepository organizationRepos;
+  private transient OrganizationService organizationService;
 
   /**
    * Test 01.
@@ -71,37 +71,45 @@ public class PersonUpdateUnitTests {
   @Test
   @Rollback(false)
   public void test01() {
-    final Iterable<Organization> orgs = organizationRepos.findAll();
+    final Iterable<Organization> orgs = organizationService.findAll();
 
     for (final Organization org : orgs) {
       org.setName(org.getName() + ": " + new Date()); //NOPMD
-      organizationRepos.save(org);
-      final Organization newOrg = organizationRepos.findByUuid(org.getUuid());
+      organizationService.save(org);
+      final Organization newOrg = organizationService.findByUuid(org.getUuid());
       final String json = ToStringBuilder.reflectionToString(newOrg,
           ToStringStyle.JSON_STYLE);
       LOGGER.debug("updated to: {}", json);
     }
 
-    final Iterable<Team> teams = teamRepos.findAll();
+    final Iterable<Team> teams = teamService.findAll();
 
     for (final Team team : teams) {
       team.setName(team.getName() + ": " + new Date()); //NOPMD
-      teamRepos.save(team);
-      final Team newTeam = teamRepos.findByUuid(team.getUuid());
+      teamService.save(team);
+      final Team newTeam = teamService.findByUuid(team.getUuid());
       final String json = ToStringBuilder.reflectionToString(newTeam,
           ToStringStyle.JSON_STYLE);
       LOGGER.debug("updated to: {}", json);
     }
 
-    final Iterable<Person> people = personRepos.findAll();
+    final Iterable<Person> people = personService.findAll();
 
     for (final Person person : people) {
       person.setMiddleName(new Date().toString()); //NOPMD
-      personRepos.save(person);
-      final Person newPerson = personRepos.findByUuid(person.getUuid());
+      personService.save(person);
+      final Person newPerson = personService.findByUuid(person.getUuid());
       final String json = ToStringBuilder.reflectionToString(newPerson,
           ToStringStyle.JSON_STYLE);
       LOGGER.debug("updated to: {}", json);
+    }
+
+    final List<Person> peopleNamed = personService.locateByName("Jim", "Willmore");
+
+    for (final Person person : peopleNamed) {
+      final String json = ToStringBuilder.reflectionToString(person,
+          ToStringStyle.JSON_STYLE);
+      LOGGER.debug("  person named found: {}", json);
     }
   }
 }

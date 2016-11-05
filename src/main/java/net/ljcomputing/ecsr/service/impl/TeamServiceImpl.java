@@ -14,23 +14,22 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.repository.person;
+package net.ljcomputing.ecsr.service.impl;
 
-import net.ljcomputing.ecsr.domain.person.Organization;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import net.ljcomputing.ecsr.domain.person.Team;
+import net.ljcomputing.ecsr.repository.person.TeamRepository;
+import net.ljcomputing.ecsr.service.TeamService;
 
 /**
- * Organization repository.
+ * Team service implementation.
  * 
  * @author James G. Willmore
  *
  */
-public interface OrganizationRepository extends PersonalityRepository<Organization> {
-
-  /**
-   * Find by name.
-   *
-   * @param name the name
-   * @return the team
-   */
-  Organization findByName(String name);
+@Service
+@Transactional
+public class TeamServiceImpl extends PersonalityServiceImpl<Team, TeamRepository> implements TeamService {
 }

@@ -14,35 +14,61 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.repository;
+package net.ljcomputing.ecsr.service;
 
-import org.springframework.data.neo4j.annotation.Query;
-import org.springframework.data.neo4j.repository.GraphRepository;
+import java.util.List;
 
 import net.ljcomputing.ecsr.domain.Domain;
 
 /**
- * Domain repository.
- * 
- * @author James G. Willmore
+ * Interface shared by all domain services.
  *
+ * @author James G. Willmore
+ * @param <T> the domain type
  */
-public interface DomainRepository<T extends Domain> extends GraphRepository<T> {
-
+public interface DomainService<T extends Domain> {
+  
+  /**
+   * Save the doamin.
+   *
+   * @param domain the domain
+   * @return the t
+   */
+  T save(T domain);
+  
+  /**
+   * Delete the domain.
+   *
+   * @param domain the domain
+   */
+  void delete(T domain);
+  
+  /**
+   * Delete the domain by id.
+   *
+   * @param id the id
+   */
+  void delete(Long id);
+  
+  /**
+   * Find all the domains.
+   *
+   * @return the list
+   */
+  List<T> findAll();
+  
   /**
    * Find by uuid.
    *
    * @param uuid the uuid
-   * @return the t
+   * @return the domain
    */
-  @Query("MATCH (n) WHERE n.uuid = {0} RETURN n")
-  T findByUuid(final String uuid);
-  
+  T findByUuid(String uuid);
+
   /**
    * Delete by uuid.
    *
    * @param uuid the uuid
    */
-  @Query("MATCH (n) WHERE n.uuid = {0} DELETE n")
-  void deleteByUuid(final String uuid);
+  void deleteByUuid(String uuid);
 }

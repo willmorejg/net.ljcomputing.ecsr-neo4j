@@ -16,21 +16,14 @@
 
 package net.ljcomputing.ecsr.repository.person;
 
-import net.ljcomputing.ecsr.domain.person.Organization;
+import net.ljcomputing.ecsr.domain.person.Personality;
+import net.ljcomputing.ecsr.repository.DomainRepository;
 
 /**
- * Organization repository.
+ * Personality repository.
  * 
  * @author James G. Willmore
  *
  */
-public interface OrganizationRepository extends PersonalityRepository<Organization> {
-
-  /**
-   * Find by name.
-   *
-   * @param name the name
-   * @return the team
-   */
-  Organization findByName(String name);
+public interface PersonalityRepository<T extends Personality> extends DomainRepository<T> {
 }
