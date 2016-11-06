@@ -14,22 +14,18 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.service.impl;
+package net.ljcomputing.ecsr.service.person;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import net.ljcomputing.ecsr.domain.person.Organization;
+import net.ljcomputing.ecsr.domain.person.OrganizationalTeam;
 import net.ljcomputing.ecsr.domain.person.Team;
-import net.ljcomputing.ecsr.repository.person.TeamRepository;
-import net.ljcomputing.ecsr.service.TeamService;
 
 /**
- * Team service implementation.
+ * Organizational team service.
  * 
  * @author James G. Willmore
  *
  */
-@Service
-@Transactional
-public class TeamServiceImpl extends PersonalityServiceImpl<Team, TeamRepository> implements TeamService {
+public interface OrganizationalTeamService
+    extends MembershipService<Team, Organization, OrganizationalTeam> {
 }

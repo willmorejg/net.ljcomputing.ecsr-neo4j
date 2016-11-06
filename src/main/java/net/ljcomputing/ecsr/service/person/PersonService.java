@@ -14,20 +14,26 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.domain.person;
+package net.ljcomputing.ecsr.service.person;
 
-import org.neo4j.ogm.annotation.RelationshipEntity;
+import java.util.List;
+
+import net.ljcomputing.ecsr.domain.person.Person;
 
 /**
- * Organizational team domain.
+ * Person service.
  * 
  * @author James G. Willmore
  *
  */
-@RelationshipEntity(type = "ORGANIZATIONAL_TEAM")
-public class OrganizationalTeam extends AbstractMembership<Team, Organization>
-    implements Membership<Team, Organization> {
-
-  /** The Constant serialVersionUID. */
-  private static final long serialVersionUID = 7732591005710335588L;
+public interface PersonService extends PersonalityService<Person> {
+  
+  /**
+   * Locate by name.
+   *
+   * @param firstName the first name
+   * @param lastName the last name
+   * @return the list
+   */
+  List<Person> locateByName(String firstName, String lastName);
 }

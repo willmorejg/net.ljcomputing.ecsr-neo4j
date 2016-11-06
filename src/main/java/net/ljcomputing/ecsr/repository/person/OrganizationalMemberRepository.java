@@ -50,4 +50,15 @@ public interface OrganizationalMemberRepository extends DomainRepository<Organiz
   @Query("START n=node(*) MATCH (p:Person)-[:ORGANIZATIONAL_MEMBER]-(o:Organization) "
       + "WHERE o.name={0} " + "RETURN DISTINCT p")
   Iterable<Person> findByOrganizationName(final String name);
+
+  /**
+   * Find organization membership.
+   *
+   * @param memberUuid the member uuid
+   * @param membershipUuid the membership uuid
+   * @return the organizational member
+   */
+  @Query("START n=node(*) OPTIONAL MATCH (p:Person)-[r:ORGANIZATIONAL_TEAM]-(o:Organization) "
+      + "WHERE p.uuid = {0} and o.uuid = {1} RETURN DISTINCT r")
+  OrganizationalMember findOrganizationMembership(final String memberUuid, final String membershipUuid);
 }

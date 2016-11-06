@@ -14,20 +14,10 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.domain.person;
-
-import org.neo4j.ogm.annotation.RelationshipEntity;
-
 /**
- * Organizational team domain.
+ * Package containing ECSR person service implementation classes.
  * 
  * @author James G. Willmore
  *
  */
-@RelationshipEntity(type = "ORGANIZATIONAL_TEAM")
-public class OrganizationalTeam extends AbstractMembership<Team, Organization>
-    implements Membership<Team, Organization> {
-
-  /** The Constant serialVersionUID. */
-  private static final long serialVersionUID = 7732591005710335588L;
-}
+package net.ljcomputing.ecsr.service.person.impl;

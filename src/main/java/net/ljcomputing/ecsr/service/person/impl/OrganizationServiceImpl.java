@@ -14,15 +14,23 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.service;
+package net.ljcomputing.ecsr.service.person.impl;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import net.ljcomputing.ecsr.domain.person.Organization;
+import net.ljcomputing.ecsr.repository.person.OrganizationRepository;
+import net.ljcomputing.ecsr.service.person.OrganizationService;
 
 /**
- * Organization service.
+ * Organization service implementation.
  * 
  * @author James G. Willmore
  *
  */
-public interface OrganizationService extends PersonalityService<Organization> {
+@Service
+@Transactional
+public class OrganizationServiceImpl extends
+    PersonalityServiceImpl<Organization, OrganizationRepository> implements OrganizationService {
 }

@@ -16,6 +16,8 @@
 
 package net.ljcomputing.ecsr.domain.person;
 
+import net.ljcomputing.ecsr.domain.Domain;
+
 /**
  * The Interface Membership.
  *
@@ -23,7 +25,7 @@ package net.ljcomputing.ecsr.domain.person;
  * @param <T> the member (a Person or Team)
  * @param <S> the member of (an Organization or Team)
  */
-public interface Membership<T, S> {
+public interface Membership<T extends Personality, S extends Personality> extends Domain {
 
   /**
    * Gets the member.

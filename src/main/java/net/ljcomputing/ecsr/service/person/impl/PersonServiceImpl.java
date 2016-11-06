@@ -14,7 +14,7 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.service.impl;
+package net.ljcomputing.ecsr.service.person.impl;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.repository.person.PersonRepository;
-import net.ljcomputing.ecsr.service.PersonService;
+import net.ljcomputing.ecsr.service.person.PersonService;
 
 /**
  * Person service implementation.
@@ -41,7 +41,7 @@ public class PersonServiceImpl extends PersonalityServiceImpl<Person, PersonRepo
   private transient PersonRepository repository;
 
   /**
-   * @see net.ljcomputing.ecsr.service.PersonService#locateByName(java.lang.String, java.lang.String)
+   * @see net.ljcomputing.ecsr.service.person.PersonService#locateByName(java.lang.String, java.lang.String)
    */
   @Override
   public List<Person> locateByName(String firstName, String lastName) {

@@ -14,15 +14,10 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.service;
-
-import net.ljcomputing.ecsr.domain.person.Team;
-
 /**
- * Team service.
+ * Package containing ECSR person service classes.
  * 
  * @author James G. Willmore
  *
  */
-public interface TeamService extends PersonalityService<Team> {
-}
+package net.ljcomputing.ecsr.service.person;

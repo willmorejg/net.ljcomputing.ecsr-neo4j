@@ -14,26 +14,16 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.service;
+package net.ljcomputing.ecsr.service.person;
 
-import java.util.List;
-
-import net.ljcomputing.ecsr.domain.person.Person;
+import net.ljcomputing.ecsr.domain.person.Personality;
+import net.ljcomputing.ecsr.service.DomainService;
 
 /**
- * Person service.
+ * Interface shared by all personality services.
  * 
  * @author James G. Willmore
  *
  */
-public interface PersonService extends PersonalityService<Person> {
-  
-  /**
-   * Locate by name.
-   *
-   * @param firstName the first name
-   * @param lastName the last name
-   * @return the list
-   */
-  List<Person> locateByName(String firstName, String lastName);
+public interface PersonalityService<T extends Personality> extends DomainService<T> {
 }

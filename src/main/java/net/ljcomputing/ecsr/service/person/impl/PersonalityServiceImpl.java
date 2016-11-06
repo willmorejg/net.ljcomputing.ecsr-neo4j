@@ -14,20 +14,19 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.domain.person;
+package net.ljcomputing.ecsr.service.person.impl;
 
-import org.neo4j.ogm.annotation.RelationshipEntity;
+import net.ljcomputing.ecsr.domain.person.Personality;
+import net.ljcomputing.ecsr.repository.person.PersonalityRepository;
+import net.ljcomputing.ecsr.service.impl.DomainServiceImpl;
+import net.ljcomputing.ecsr.service.person.PersonalityService;
 
 /**
- * Organizational team domain.
+ * Personality service implementation.
  * 
  * @author James G. Willmore
  *
  */
-@RelationshipEntity(type = "ORGANIZATIONAL_TEAM")
-public class OrganizationalTeam extends AbstractMembership<Team, Organization>
-    implements Membership<Team, Organization> {
-
-  /** The Constant serialVersionUID. */
-  private static final long serialVersionUID = 7732591005710335588L;
+public abstract class PersonalityServiceImpl<T extends Personality, R extends PersonalityRepository<T>>
+    extends DomainServiceImpl<T, R> implements PersonalityService<T> {
 }

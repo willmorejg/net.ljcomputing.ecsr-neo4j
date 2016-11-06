@@ -37,8 +37,8 @@ public interface TeamMemberRepository extends DomainRepository<TeamMember> {
    * @param uuid the uuid
    * @return the iterable
    */
-  @Query("START n=node(*) " + "MATCH (t:Team)-[:TEAM_MEMBER]-(p:Person) " + "WHERE p.uuid={0} "
-      + "RETURN DISTINCT t")
+  @Query("START n=node(*) MATCH (t:Team)-[:TEAM_MEMBER]-(p:Person) "
+      + "WHERE p.uuid={0} RETURN DISTINCT t")
   Iterable<Team> findByMemberUuid(final String uuid);
 
   /**
@@ -47,7 +47,18 @@ public interface TeamMemberRepository extends DomainRepository<TeamMember> {
    * @param name the name
    * @return the iterable
    */
-  @Query("START n=node(*) " + "MATCH (p:Person)-[:TEAM_MEMBER]-(t:Team) " + "WHERE t.name={0} "
-      + "RETURN DISTINCT p")
+  @Query("START n=node(*) MATCH (p:Person)-[:TEAM_MEMBER]-(t:Team) "
+      + "WHERE t.name={0} RETURN DISTINCT p")
   Iterable<Person> findByTeamName(final String name);
+  
+  /**
+   * Find the team membership for the given person and team UUIDs.
+   *
+   * @param memberUuid the member uuid
+   * @param membershipUuid the membership uuid
+   * @return the team member
+   */
+  @Query("START n=node(*) OPTIONAL MATCH (p:Person)-[r:TEAM_MEMBER]-(t:Team) "
+      + "WHERE p.uuid = {0} and t.uuid = {1} RETURN DISTINCT r")
+  TeamMember findTeamMembership(final String memberUuid, final String membershipUuid);
 }

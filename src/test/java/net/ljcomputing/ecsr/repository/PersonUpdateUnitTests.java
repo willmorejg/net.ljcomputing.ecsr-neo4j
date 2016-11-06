@@ -37,9 +37,9 @@ import net.ljcomputing.ecsr.configuration.EcsrNeo4JConfiguration;
 import net.ljcomputing.ecsr.domain.person.Organization;
 import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.domain.person.Team;
-import net.ljcomputing.ecsr.service.OrganizationService;
-import net.ljcomputing.ecsr.service.PersonService;
-import net.ljcomputing.ecsr.service.TeamService;
+import net.ljcomputing.ecsr.service.person.OrganizationService;
+import net.ljcomputing.ecsr.service.person.PersonService;
+import net.ljcomputing.ecsr.service.person.TeamService;
 
 /**
  * @author James G. Willmore

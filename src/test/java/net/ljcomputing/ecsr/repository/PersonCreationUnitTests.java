@@ -30,15 +30,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ljcomputing.ecsr.configuration.EcsrNeo4JConfiguration;
 import net.ljcomputing.ecsr.domain.person.Organization;
-import net.ljcomputing.ecsr.domain.person.OrganizationalMember;
-import net.ljcomputing.ecsr.domain.person.OrganizationalTeam;
 import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.domain.person.Team;
-import net.ljcomputing.ecsr.domain.person.TeamMember;
-import net.ljcomputing.ecsr.repository.person.OrganizationalMemberRepository;
-import net.ljcomputing.ecsr.repository.person.OrganizationalTeamRepository;
-import net.ljcomputing.ecsr.repository.person.TeamMemberRepository;
-import net.ljcomputing.ecsr.service.PersonalityService;
+import net.ljcomputing.ecsr.service.person.OrganizationalMemberService;
+import net.ljcomputing.ecsr.service.person.OrganizationalTeamService;
+import net.ljcomputing.ecsr.service.person.PersonalityService;
+import net.ljcomputing.ecsr.service.person.TeamMemberService;
 
 /**
  * @author James G. Willmore
@@ -68,15 +65,15 @@ public class PersonCreationUnitTests {
 
   /** The team member repository. */
   @Autowired
-  private transient TeamMemberRepository teamMemberRepos;
+  private transient TeamMemberService teamMemberService;
   
   /** The org member repos. */
   @Autowired
-  private transient OrganizationalMemberRepository orgMemberRepos;
+  private transient OrganizationalMemberService orgMemberService;
   
   /** The org team repos. */
   @Autowired
-  private transient OrganizationalTeamRepository orgTeamRepos;
+  private transient OrganizationalTeamService orgTeamService;
 
   /**
    * Test 01.
@@ -128,12 +125,7 @@ public class PersonCreationUnitTests {
     
     for (final Person person : people) {
       for (final Team team : teams) {
-        final TeamMember teamMember = new TeamMember(); //NOPMD
-
-        teamMember.setMember(person);
-        teamMember.setMemberOf(team);
-
-        teamMemberRepos.save(teamMember);
+        teamMemberService.addMember(person, team);
       }
     }
   }
@@ -166,12 +158,7 @@ public class PersonCreationUnitTests {
     
     for (final Person person : people) {
       for (final Organization org : orgs) {
-        final OrganizationalMember orgMember = new OrganizationalMember(); //NOPMD
-
-        orgMember.setMember(person);
-        orgMember.setMemberOf(org);
-
-        orgMemberRepos.save(orgMember);
+        orgMemberService.addMember(person, org);
       }
     }
   }
@@ -187,12 +174,7 @@ public class PersonCreationUnitTests {
     
     for (final Team team : teams) {
       for (final Organization org : orgs) {
-        final OrganizationalTeam orgTeamMember = new OrganizationalTeam(); //NOPMD
-
-        orgTeamMember.setMember(team);
-        orgTeamMember.setMemberOf(org);
-
-        orgTeamRepos.save(orgTeamMember);
+        orgTeamService.addMember(team, org);
       }
     }
   }

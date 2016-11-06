@@ -35,12 +35,12 @@ import net.ljcomputing.ecsr.domain.person.OrganizationalTeam;
 import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.domain.person.Team;
 import net.ljcomputing.ecsr.domain.person.TeamMember;
-import net.ljcomputing.ecsr.repository.person.OrganizationRepository;
-import net.ljcomputing.ecsr.repository.person.OrganizationalMemberRepository;
-import net.ljcomputing.ecsr.repository.person.OrganizationalTeamRepository;
-import net.ljcomputing.ecsr.repository.person.PersonRepository;
-import net.ljcomputing.ecsr.repository.person.TeamMemberRepository;
-import net.ljcomputing.ecsr.repository.person.TeamRepository;
+import net.ljcomputing.ecsr.service.person.OrganizationService;
+import net.ljcomputing.ecsr.service.person.OrganizationalMemberService;
+import net.ljcomputing.ecsr.service.person.OrganizationalTeamService;
+import net.ljcomputing.ecsr.service.person.PersonService;
+import net.ljcomputing.ecsr.service.person.TeamMemberService;
+import net.ljcomputing.ecsr.service.person.TeamService;
 
 /**
  * @author James G. Willmore
@@ -58,27 +58,27 @@ public class PersonDeletionUnitTests {
 
   /** The person repository. */
   @Autowired
-  private transient PersonRepository personRepos;
+  private transient PersonService personService;
 
   /** The team repository. */
   @Autowired
-  private transient TeamRepository teamRepos;
+  private transient TeamService teamService;
 
   /** The team member repository. */
   @Autowired
-  private transient TeamMemberRepository teamMemberRepos;
+  private transient TeamMemberService teamMemberService;
   
   /** The organization repos. */
   @Autowired
-  private transient OrganizationRepository organizationRepos;
+  private transient OrganizationService organizationService;
   
   /** The org member repos. */
   @Autowired
-  private transient OrganizationalMemberRepository orgMemberRepos;
+  private transient OrganizationalMemberService orgMemberService;
   
   /** The org team repos. */
   @Autowired
-  private transient OrganizationalTeamRepository orgTeamRepos;
+  private transient OrganizationalTeamService orgTeamService;
 
   /**
    * Test 01.
@@ -86,46 +86,46 @@ public class PersonDeletionUnitTests {
   @Test
   @Rollback(false)
   public void test01() {
-    final Iterable<OrganizationalTeam> orgTeams = orgTeamRepos.findAll();
+    final Iterable<OrganizationalTeam> orgTeams = orgTeamService.findAll();
     
     for (final OrganizationalTeam orgTeam : orgTeams) {
       orgTeam.delete();
-      orgTeamRepos.delete(orgTeam);
+      orgTeamService.delete(orgTeam);
     }
     
-    final Iterable<OrganizationalMember> orgMembers = orgMemberRepos.findAll();
+    final Iterable<OrganizationalMember> orgMembers = orgMemberService.findAll();
     
     for (final OrganizationalMember orgMember : orgMembers) {
       orgMember.delete();
-      orgMemberRepos.delete(orgMember);
+      orgMemberService.delete(orgMember);
     }
     
-    final Iterable<Organization> orgs = organizationRepos.findAll();
+    final Iterable<Organization> orgs = organizationService.findAll();
     
     for (final Organization org : orgs) {
       org.delete();
-      organizationRepos.delete(org);
+      organizationService.delete(org);
     }
     
-    final Iterable<TeamMember> teamMembers = teamMemberRepos.findAll();
+    final Iterable<TeamMember> teamMembers = teamMemberService.findAll();
     
     for (final TeamMember teamMember : teamMembers) {
       teamMember.delete();
-      teamMemberRepos.delete(teamMember);
+      teamMemberService.delete(teamMember);
     }
     
-    final Iterable<Team> teams = teamRepos.findAll();
+    final Iterable<Team> teams = teamService.findAll();
     
     for (final Team team : teams) {
       team.delete();
-      teamRepos.delete(team);
+      teamService.delete(team);
     }
     
-    final Iterable<Person> people = personRepos.findAll();
+    final Iterable<Person> people = personService.findAll();
     
     for (final Person person : people) {
       person.delete();
-      personRepos.delete(person);
+      personService.delete(person);
     }
   }
 }

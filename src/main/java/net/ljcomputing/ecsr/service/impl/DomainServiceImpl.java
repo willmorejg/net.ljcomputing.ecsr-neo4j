@@ -67,7 +67,7 @@ public abstract class DomainServiceImpl<T extends Domain, R extends DomainReposi
    * @see net.ljcomputing.ecsr.service.DomainService#delete(java.lang.Long)
    */
   @Override
-  public void delete(Long id) {
+  public void delete(final Long id) {
     repository.delete(id);
   }
 

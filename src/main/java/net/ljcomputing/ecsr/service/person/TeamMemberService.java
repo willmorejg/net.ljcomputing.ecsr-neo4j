@@ -14,18 +14,17 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.service.impl;
+package net.ljcomputing.ecsr.service.person;
 
-import net.ljcomputing.ecsr.domain.person.Personality;
-import net.ljcomputing.ecsr.repository.person.PersonalityRepository;
-import net.ljcomputing.ecsr.service.PersonalityService;
+import net.ljcomputing.ecsr.domain.person.Person;
+import net.ljcomputing.ecsr.domain.person.Team;
+import net.ljcomputing.ecsr.domain.person.TeamMember;
 
 /**
- * Personality service implementation.
+ * Team member service.
  * 
  * @author James G. Willmore
  *
  */
-public abstract class PersonalityServiceImpl<T extends Personality, R extends PersonalityRepository<T>>
-    extends DomainServiceImpl<T, R> implements PersonalityService<T> {
+public interface TeamMemberService extends MembershipService<Person, Team, TeamMember> {
 }

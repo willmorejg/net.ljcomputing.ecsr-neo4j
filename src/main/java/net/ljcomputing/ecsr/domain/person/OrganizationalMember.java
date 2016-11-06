@@ -18,8 +18,6 @@ package net.ljcomputing.ecsr.domain.person;
 
 import org.neo4j.ogm.annotation.RelationshipEntity;
 
-import net.ljcomputing.ecsr.domain.Domain;
-
 /**
  * Organizational member domain.
  * 
@@ -28,7 +26,7 @@ import net.ljcomputing.ecsr.domain.Domain;
  */
 @RelationshipEntity(type = "ORGANIZATIONAL_MEMBER")
 public class OrganizationalMember extends AbstractMembership<Person, Organization>
-    implements Membership<Person, Organization>, Domain {
+    implements Membership<Person, Organization> {
 
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = -2031960267699122231L;
