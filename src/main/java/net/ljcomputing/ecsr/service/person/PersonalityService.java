@@ -26,5 +26,6 @@ import net.ljcomputing.ecsr.service.DomainService;
  * @author James G. Willmore
  *
  */
-public interface PersonalityService<T extends Personality, R extends DomainRepository<T>> extends DomainService<T> {
+public interface PersonalityService<T extends Personality, R extends DomainRepository<T>>
+    extends DomainService<T> {
 }

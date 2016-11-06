@@ -16,7 +16,8 @@
 
 /**
  * Package containing management domain classes. Management in this case 
- * is related to domain specific areas of management (incident, service, problem, etc.).
+ * is related to domain specific areas of management 
+ * (incident, service, problem, etc.).
  * 
  * @author James G. Willmore
  *

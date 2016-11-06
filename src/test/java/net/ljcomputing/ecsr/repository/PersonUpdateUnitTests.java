@@ -62,8 +62,9 @@ public class PersonUpdateUnitTests {
   @Autowired
   private transient TeamService teamService;
 
+  /** The organization service. */
   @Autowired
-  private transient OrganizationService organizationService;
+  private transient OrganizationService orgService;
 
   /**
    * Test 01.
@@ -71,12 +72,12 @@ public class PersonUpdateUnitTests {
   @Test
   @Rollback(false)
   public void test01() {
-    final Iterable<Organization> orgs = organizationService.findAll();
+    final Iterable<Organization> orgs = orgService.findAll();
 
     for (final Organization org : orgs) {
       org.setName(org.getName() + ": " + new Date()); //NOPMD
-      organizationService.save(org);
-      final Organization newOrg = organizationService.findByUuid(org.getUuid());
+      orgService.save(org);
+      final Organization newOrg = orgService.findByUuid(org.getUuid());
       final String json = ToStringBuilder.reflectionToString(newOrg,
           ToStringStyle.JSON_STYLE);
       LOGGER.debug("updated to: {}", json);

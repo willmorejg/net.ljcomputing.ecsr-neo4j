@@ -30,7 +30,7 @@ import net.ljcomputing.ecsr.service.DomainService;
  * @author James G. Willmore
  * @param <T> the domain type
  */
-public abstract class DomainServiceImpl<T extends Domain, R extends DomainRepository<T>>
+public abstract class AbstractDomainServiceImpl<T extends Domain, R extends DomainRepository<T>>
     implements DomainService<T> {
 
   /** The repository. */
@@ -43,23 +43,25 @@ public abstract class DomainServiceImpl<T extends Domain, R extends DomainReposi
    * @param iterable the iterable
    * @return the list
    */
-  protected List<T> asList(Iterable<T> iterable) {
+  protected List<T> asList(final Iterable<T> iterable) {
     return (List<T>) iterable;
   }
 
   /**
-   * @see net.ljcomputing.ecsr.service.DomainService#save(net.ljcomputing.ecsr.domain.Domain)
+   * @see net.ljcomputing.ecsr.service.DomainService
+   *    #save(net.ljcomputing.ecsr.domain.Domain)
    */
   @Override
-  public T save(T domain) {
+  public T save(final T domain) {
     return repository.save(domain);
   }
 
   /**
-   * @see net.ljcomputing.ecsr.service.DomainService#delete(net.ljcomputing.ecsr.domain.Domain)
+   * @see net.ljcomputing.ecsr.service.DomainService
+   *    #delete(net.ljcomputing.ecsr.domain.Domain)
    */
   @Override
-  public void delete(T domain) {
+  public void delete(final T domain) {
     repository.delete(domain);
   }
 

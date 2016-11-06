@@ -25,5 +25,6 @@ import net.ljcomputing.ecsr.repository.person.OrganizationRepository;
  * @author James G. Willmore
  *
  */
-public interface OrganizationService extends PersonalityService<Organization, OrganizationRepository> {
+public interface OrganizationService
+    extends PersonalityService<Organization, OrganizationRepository> {
 }

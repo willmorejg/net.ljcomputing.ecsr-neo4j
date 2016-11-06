@@ -36,11 +36,11 @@ import net.ljcomputing.ecsr.service.person.TeamMemberService;
 @Service
 @Transactional
 public class TeamMemberServiceImpl
-    extends MembershipServiceImpl<Person, Team, TeamMember, TeamMemberRepository>
+    extends AbstractMembershipServiceImpl<Person, Team, TeamMember, TeamMemberRepository>
     implements TeamMemberService {
 
   /**
-   * @see net.ljcomputing.ecsr.service.person.impl.MembershipServiceImpl
+   * @see net.ljcomputing.ecsr.service.person.impl.AbstractMembershipServiceImpl
    *    #addMember(
    *        net.ljcomputing.ecsr.domain.person.Personality, 
    *        net.ljcomputing.ecsr.domain.person.Personality)
@@ -63,7 +63,8 @@ public class TeamMemberServiceImpl
   }
 
   /**
-   * @see net.ljcomputing.ecsr.service.person.impl.MembershipServiceImpl#memberOf(java.lang.String)
+   * @see net.ljcomputing.ecsr.service.person.impl.AbstractMembershipServiceImpl
+   *    #memberOf(java.lang.String)
    */
   @Override
   public List<Team> memberOf(final String memberUuid) {
@@ -71,7 +72,7 @@ public class TeamMemberServiceImpl
   }
 
   /** (non-Javadoc)
-   * @see net.ljcomputing.ecsr.service.person.impl.MembershipServiceImpl
+   * @see net.ljcomputing.ecsr.service.person.impl.AbstractMembershipServiceImpl
    *    #membershipRoster(net.ljcomputing.ecsr.domain.person.Personality)
    */
   @Override
@@ -80,7 +81,8 @@ public class TeamMemberServiceImpl
   }
 
   /**
-   * @see net.ljcomputing.ecsr.service.person.impl.MembershipServiceImpl#membershipRoster(java.lang.String)
+   * @see net.ljcomputing.ecsr.service.person.impl.AbstractMembershipServiceImpl
+   *    #membershipRoster(java.lang.String)
    */
   @Override
   public List<Person> membershipRoster(final String membershipName) {
@@ -88,7 +90,7 @@ public class TeamMemberServiceImpl
   }
 
   /**
-   * @see net.ljcomputing.ecsr.service.person.impl.MembershipServiceImpl
+   * @see net.ljcomputing.ecsr.service.person.impl.AbstractMembershipServiceImpl
    *    #removeMember(
    *        net.ljcomputing.ecsr.domain.person.Personality, 
    *        net.ljcomputing.ecsr.domain.person.Personality)
@@ -99,12 +101,12 @@ public class TeamMemberServiceImpl
   }
 
   /**
-   * @see net.ljcomputing.ecsr.service.person.impl.MembershipServiceImpl
+   * @see net.ljcomputing.ecsr.service.person.impl.AbstractMembershipServiceImpl
    *    #removeMember(java.lang.String, java.lang.String)
    */
   @Override
   public void removeMember(final String memberUuid, final String membershipUuid) {
-    final TeamMember memberRelationship = repository.findTeamMembership(memberUuid, membershipUuid);
-    repository.delete(memberRelationship);
+    final TeamMember relationship = repository.findTeamMembership(memberUuid, membershipUuid);
+    repository.delete(relationship);
   }
 }

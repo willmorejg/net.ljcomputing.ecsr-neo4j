@@ -69,7 +69,7 @@ public class CiCreationUnitTests {
   private transient PersonRepository personRepos;
 
   /** The version. */
-  final String[] version = {"1", "2", "3"};
+  private static final String[] VERSION = {"1", "2", "3"};
 
   /**
    * Test 01.
@@ -96,9 +96,9 @@ public class CiCreationUnitTests {
   public void test02() {
     final String[] names = { "x86", "amd64", "apple" };
 
-    int inc = 0;
+    int inc = 0; //NOPMD
     for (final String name : names) {
-      final String iVersion = version[inc];
+      final String iVersion = VERSION[inc];
       final Hardware hardware = new Hardware(); //NOPMD
 
       hardware.setName(name);
@@ -106,7 +106,7 @@ public class CiCreationUnitTests {
 
       hardwareRepos.save(hardware);
       
-      inc++;
+      inc++; //NOPMD
     }
   }
   

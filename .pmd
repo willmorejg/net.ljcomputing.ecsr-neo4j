@@ -206,24 +206,8 @@
             <ruleset>Basic POM</ruleset>
         </rule>
         <rule>
-            <name>AvoidDeeplyNestedIfStmts</name>
-            <ruleset>Design</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidReassigningParameters</name>
-            <ruleset>Design</ruleset>
-        </rule>
-        <rule>
-            <name>CollapsibleIfStatements</name>
-            <ruleset>Basic</ruleset>
-        </rule>
-        <rule>
             <name>EmptyForeachStmt</name>
             <ruleset>Basic Velocity</ruleset>
-        </rule>
-        <rule>
-            <name>EmptyIfStmt</name>
-            <ruleset>Empty Code</ruleset>
         </rule>
         <rule>
             <name>ExcessiveTemplateLength</name>
@@ -250,27 +234,11 @@
             <ruleset>Braces</ruleset>
         </rule>
         <rule>
-            <name>ForLoopsMustUseBraces</name>
-            <ruleset>Braces</ruleset>
-        </rule>
-        <rule>
-            <name>IfElseStmtsMustUseBraces</name>
-            <ruleset>Braces</ruleset>
-        </rule>
-        <rule>
             <name>IfElseStmtsMustUseBraces</name>
             <ruleset>Braces</ruleset>
         </rule>
         <rule>
             <name>IfStmtsMustUseBraces</name>
-            <ruleset>Braces</ruleset>
-        </rule>
-        <rule>
-            <name>IfStmtsMustUseBraces</name>
-            <ruleset>Braces</ruleset>
-        </rule>
-        <rule>
-            <name>WhileLoopsMustUseBraces</name>
             <ruleset>Braces</ruleset>
         </rule>
         <rule>
@@ -302,15 +270,7 @@
             <ruleset>Code Size</ruleset>
         </rule>
         <rule>
-            <name>CyclomaticComplexity</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
             <name>ExcessiveClassLength</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>ExcessiveMethodLength</name>
             <ruleset>Code Size</ruleset>
         </rule>
         <rule>
@@ -327,10 +287,6 @@
         </rule>
         <rule>
             <name>ExcessivePackageSpecificationLength</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>ExcessiveParameterList</name>
             <ruleset>Code Size</ruleset>
         </rule>
         <rule>
@@ -358,10 +314,6 @@
             <ruleset>Code Size</ruleset>
         </rule>
         <rule>
-            <name>NcssMethodCount</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
             <name>NcssObjectCount</name>
             <ruleset>Code Size</ruleset>
         </rule>
@@ -374,23 +326,11 @@
             <ruleset>Code Size</ruleset>
         </rule>
         <rule>
-            <name>NPathComplexity</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
             <name>StdCyclomaticComplexity</name>
             <ruleset>Code Size</ruleset>
         </rule>
         <rule>
             <name>TooManyFields</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>TooManyFields</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>TooManyMethods</name>
             <ruleset>Code Size</ruleset>
         </rule>
         <rule>
@@ -412,46 +352,6 @@
         <rule>
             <name>CommentSize</name>
             <ruleset>Comments</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidDeeplyNestedIfStmts</name>
-            <ruleset>Design</ruleset>
-        </rule>
-        <rule>
-            <name>ExcessiveClassLength</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>ExcessiveParameterList</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>ExcessivePublicCount</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>NcssConstructorCount</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>NcssMethodCount</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>NcssTypeCount</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>StdCyclomaticComplexity</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>TooManyFields</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>AssignmentInOperand</name>
-            <ruleset>Basic Ecmascript</ruleset>
         </rule>
         <rule>
             <name>AtLeastOneConstructor</name>
@@ -524,10 +424,6 @@
         <rule>
             <name>UnnecessaryConstructor</name>
             <ruleset>Controversial</ruleset>
-        </rule>
-        <rule>
-            <name>UnnecessaryParentheses</name>
-            <ruleset>Unnecessary</ruleset>
         </rule>
         <rule>
             <name>UseConcurrentHashMap</name>
@@ -1340,22 +1236,6 @@
         <rule>
             <name>AvoidLogicInTrigger</name>
             <ruleset>Style</ruleset>
-        </rule>
-        <rule>
-            <name>ClassNamingConventions</name>
-            <ruleset>Naming</ruleset>
-        </rule>
-        <rule>
-            <name>MethodNamingConventions</name>
-            <ruleset>Naming</ruleset>
-        </rule>
-        <rule>
-            <name>MethodWithSameNameAsEnclosingClass</name>
-            <ruleset>Naming</ruleset>
-        </rule>
-        <rule>
-            <name>VariableNamingConventions</name>
-            <ruleset>Naming</ruleset>
         </rule>
         <rule>
             <name>TomKytesDespair</name>

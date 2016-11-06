@@ -33,13 +33,15 @@ import net.ljcomputing.ecsr.service.person.PersonService;
  */
 @Service
 @Transactional
-public class PersonServiceImpl extends PersonalityServiceImpl<Person, PersonRepository> implements PersonService {
+public class PersonServiceImpl extends AbstractPersonalityServiceImpl<Person, PersonRepository>
+    implements PersonService {
 
   /**
-   * @see net.ljcomputing.ecsr.service.person.PersonService#locateByName(java.lang.String, java.lang.String)
+   * @see net.ljcomputing.ecsr.service.person.PersonService
+   *    #locateByName(java.lang.String, java.lang.String)
    */
   @Override
-  public List<Person> locateByName(String firstName, String lastName) {
+  public List<Person> locateByName(final String firstName, final String lastName) {
     return (List<Person>) repository.locateByFirstLast(firstName, lastName);
   }
 }

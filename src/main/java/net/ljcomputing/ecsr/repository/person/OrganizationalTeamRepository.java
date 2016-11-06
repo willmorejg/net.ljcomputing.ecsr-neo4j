@@ -39,7 +39,7 @@ public interface OrganizationalTeamRepository extends DomainRepository<Organizat
    */
   @Query("START n=node(*) MATCH (o:Organization)-[:ORGANIZATIONAL_TEAM]-(t:Team) "
       + "WHERE t.uuid={0} " + "RETURN DISTINCT o")
-  Iterable<Organization> findByMemberUuid(final String uuid);
+  Iterable<Organization> findByMemberUuid(String uuid);
 
   /**
    * Find by organization name.
@@ -49,7 +49,7 @@ public interface OrganizationalTeamRepository extends DomainRepository<Organizat
    */
   @Query("START n=node(*) MATCH (t:Team)-[:ORGANIZATIONAL_TEAM]-(o:Organization) "
       + "WHERE o.name={0} " + "RETURN DISTINCT t")
-  Iterable<Team> findByOrganizationName(final String name);
+  Iterable<Team> findByOrganizationName(String name);
 
   /**
    * Find organizational membership.
@@ -60,5 +60,6 @@ public interface OrganizationalTeamRepository extends DomainRepository<Organizat
    */
   @Query("START n=node(*) OPTIONAL MATCH (t:Team)-[r:ORGANIZATIONAL_TEAM]-(o:Organization) "
       + "WHERE t.uuid = {0} and o.uuid = {1} RETURN DISTINCT r")
-  OrganizationalTeam findOrganizationalTeamMembership(final String memberUuid, final String membershipUuid);
+  OrganizationalTeam findOrganizationalTeamMembership(String memberUuid,
+      String membershipUuid);
 }

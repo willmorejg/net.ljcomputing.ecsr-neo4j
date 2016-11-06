@@ -21,7 +21,7 @@ import java.util.List;
 import net.ljcomputing.ecsr.domain.person.Membership;
 import net.ljcomputing.ecsr.domain.person.Personality;
 import net.ljcomputing.ecsr.repository.DomainRepository;
-import net.ljcomputing.ecsr.service.impl.DomainServiceImpl;
+import net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl;
 import net.ljcomputing.ecsr.service.person.MembershipService;
 
 /**
@@ -30,34 +30,10 @@ import net.ljcomputing.ecsr.service.person.MembershipService;
  * @author James G. Willmore
  *
  */
-public abstract class MembershipServiceImpl<T extends Personality, S extends Personality, M extends Membership<T, S>, R extends DomainRepository<M>>
-    extends DomainServiceImpl<M, R> implements MembershipService<T, S, M> {
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.DomainServiceImpl
-   *    #save(net.ljcomputing.ecsr.domain.Domain)
-   */
-  @Override
-  public M save(M domain) {
-    return super.save(domain);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.DomainServiceImpl
-   *    #delete(net.ljcomputing.ecsr.domain.Domain)
-   */
-  @Override
-  public void delete(M domain) {
-    super.delete(domain);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.DomainServiceImpl#findByUuid(java.lang.String)
-   */
-  @Override
-  public M findByUuid(final String uuid) {
-    return super.findByUuid(uuid);
-  }
+public abstract class AbstractMembershipServiceImpl
+    <T extends Personality, S extends Personality, 
+    M extends Membership<T, S>, R extends DomainRepository<M>>
+    extends AbstractDomainServiceImpl<M, R> implements MembershipService<T, S, M> {
 
   /**
    * @see net.ljcomputing.ecsr.service.person.MembershipService
@@ -76,7 +52,8 @@ public abstract class MembershipServiceImpl<T extends Personality, S extends Per
   public abstract List<S> memberOf(T member);
 
   /**
-   * @see net.ljcomputing.ecsr.service.person.MembershipService#memberOf(java.lang.String)
+   * @see net.ljcomputing.ecsr.service.person.MembershipService
+   *    #memberOf(java.lang.String)
    */
   @Override
   public abstract List<S> memberOf(String memberUuid);
@@ -89,7 +66,8 @@ public abstract class MembershipServiceImpl<T extends Personality, S extends Per
   public abstract List<T> membershipRoster(S membership);
 
   /**
-   * @see net.ljcomputing.ecsr.service.person.MembershipService#membershipRoster(java.lang.String)
+   * @see net.ljcomputing.ecsr.service.person.MembershipService
+   *    #membershipRoster(java.lang.String)
    */
   @Override
   public abstract List<T> membershipRoster(String membershipName);

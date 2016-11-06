@@ -14,19 +14,20 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.service.person.impl;
+package net.ljcomputing.ecsr.service.contact;
 
+import net.ljcomputing.ecsr.domain.contact.ContactInformation;
+import net.ljcomputing.ecsr.domain.contact.PersonalityContact;
 import net.ljcomputing.ecsr.domain.person.Personality;
-import net.ljcomputing.ecsr.repository.person.PersonalityRepository;
-import net.ljcomputing.ecsr.service.impl.DomainServiceImpl;
-import net.ljcomputing.ecsr.service.person.PersonalityService;
+import net.ljcomputing.ecsr.service.DomainService;
 
 /**
- * Personality service implementation.
+ * Interface shared by all personality contact services.
  * 
  * @author James G. Willmore
  *
  */
-public abstract class PersonalityServiceImpl<T extends Personality, R extends PersonalityRepository<T>>
-    extends DomainServiceImpl<T, R> implements PersonalityService<T, R> {
+public interface PersonalityContactService
+    <T extends Personality, S extends ContactInformation, E extends PersonalityContact<T, S>>
+    extends DomainService<E> {
 }

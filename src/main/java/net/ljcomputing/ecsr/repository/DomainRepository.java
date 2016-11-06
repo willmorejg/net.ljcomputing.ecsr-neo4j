@@ -36,7 +36,7 @@ public interface DomainRepository<T extends Domain> extends GraphRepository<T> {
    * @return the t
    */
   @Query("MATCH (n) WHERE n.uuid = {0} RETURN n")
-  T findByUuid(final String uuid);
+  T findByUuid(String uuid);
   
   /**
    * Delete by uuid.
@@ -44,5 +44,5 @@ public interface DomainRepository<T extends Domain> extends GraphRepository<T> {
    * @param uuid the uuid
    */
   @Query("MATCH (n) WHERE n.uuid = {0} DELETE n")
-  void deleteByUuid(final String uuid);
+  void deleteByUuid(String uuid);
 }

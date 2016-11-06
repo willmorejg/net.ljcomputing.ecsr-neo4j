@@ -39,7 +39,7 @@ public interface TeamMemberRepository extends DomainRepository<TeamMember> {
    */
   @Query("START n=node(*) MATCH (t:Team)-[:TEAM_MEMBER]-(p:Person) "
       + "WHERE p.uuid={0} RETURN DISTINCT t")
-  Iterable<Team> findByMemberUuid(final String uuid);
+  Iterable<Team> findByMemberUuid(String uuid);
 
   /**
    * Find by team name.
@@ -49,7 +49,7 @@ public interface TeamMemberRepository extends DomainRepository<TeamMember> {
    */
   @Query("START n=node(*) MATCH (p:Person)-[:TEAM_MEMBER]-(t:Team) "
       + "WHERE t.name={0} RETURN DISTINCT p")
-  Iterable<Person> findByTeamName(final String name);
+  Iterable<Person> findByTeamName(String name);
   
   /**
    * Find the team membership for the given person and team UUIDs.
@@ -60,5 +60,5 @@ public interface TeamMemberRepository extends DomainRepository<TeamMember> {
    */
   @Query("START n=node(*) OPTIONAL MATCH (p:Person)-[r:TEAM_MEMBER]-(t:Team) "
       + "WHERE p.uuid = {0} and t.uuid = {1} RETURN DISTINCT r")
-  TeamMember findTeamMembership(final String memberUuid, final String membershipUuid);
+  TeamMember findTeamMembership(String memberUuid, String membershipUuid);
 }

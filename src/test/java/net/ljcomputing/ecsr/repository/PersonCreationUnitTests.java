@@ -63,7 +63,7 @@ public class PersonCreationUnitTests {
 
   /** The organization service. */
   @Autowired
-  private transient OrganizationService organizationService;
+  private transient OrganizationService orgService;
 
   /** The team member repository. */
   @Autowired
@@ -145,7 +145,7 @@ public class PersonCreationUnitTests {
 
       org.setName(name);
 
-      organizationService.save(org);
+      orgService.save(org);
     }
   }
 
@@ -156,7 +156,7 @@ public class PersonCreationUnitTests {
   @Rollback(false)
   public void test05() {
     final Iterable<Person> people = personService.findAll();
-    final Iterable<Organization> orgs = organizationService.findAll(); //NOPMD
+    final Iterable<Organization> orgs = orgService.findAll(); //NOPMD
     
     for (final Person person : people) {
       for (final Organization org : orgs) {
@@ -172,7 +172,7 @@ public class PersonCreationUnitTests {
   @Rollback(false)
   public void test06() {
     final Iterable<Team> teams = teamService.findAll();
-    final Iterable<Organization> orgs = organizationService.findAll(); //NOPMD
+    final Iterable<Organization> orgs = orgService.findAll(); //NOPMD
     
     for (final Team team : teams) {
       for (final Organization org : orgs) {

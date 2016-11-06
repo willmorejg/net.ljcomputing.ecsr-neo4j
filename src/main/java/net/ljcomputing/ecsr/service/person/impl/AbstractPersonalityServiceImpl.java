@@ -16,21 +16,25 @@
 
 package net.ljcomputing.ecsr.service.person.impl;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import net.ljcomputing.ecsr.domain.person.Team;
-import net.ljcomputing.ecsr.repository.person.TeamRepository;
-import net.ljcomputing.ecsr.service.person.TeamService;
+import net.ljcomputing.ecsr.domain.person.Personality;
+import net.ljcomputing.ecsr.repository.person.PersonalityRepository;
+import net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl;
+import net.ljcomputing.ecsr.service.person.PersonalityService;
 
 /**
- * Team service implementation.
+ * Personality service implementation.
  * 
  * @author James G. Willmore
  *
  */
-@Service
-@Transactional
-public class TeamServiceImpl extends AbstractPersonalityServiceImpl<Team, TeamRepository>
-    implements TeamService {
+public abstract class AbstractPersonalityServiceImpl
+    <T extends Personality, R extends PersonalityRepository<T>>
+    extends AbstractDomainServiceImpl<T, R> implements PersonalityService<T, R> {
+  
+  /**
+   * Instantiates a new abstract personality service impl.
+   */
+  protected AbstractPersonalityServiceImpl() {
+    super();
+  }
 }

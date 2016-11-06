@@ -70,7 +70,7 @@ public class PersonDeletionUnitTests {
   
   /** The organization repos. */
   @Autowired
-  private transient OrganizationService organizationService;
+  private transient OrganizationService orgService;
   
   /** The org member repos. */
   @Autowired
@@ -100,11 +100,11 @@ public class PersonDeletionUnitTests {
       orgMemberService.delete(orgMember);
     }
     
-    final Iterable<Organization> orgs = organizationService.findAll();
+    final Iterable<Organization> orgs = orgService.findAll();
     
     for (final Organization org : orgs) {
       org.delete();
-      organizationService.delete(org);
+      orgService.delete(org);
     }
     
     final Iterable<TeamMember> teamMembers = teamMemberService.findAll();

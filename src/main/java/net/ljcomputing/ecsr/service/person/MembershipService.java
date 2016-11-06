@@ -28,7 +28,8 @@ import net.ljcomputing.ecsr.service.DomainService;
  * @author James G. Willmore
  *
  */
-public interface MembershipService<T extends Personality, S extends Personality, M extends Membership<T, S>>
+public interface MembershipService
+    <T extends Personality, S extends Personality, M extends Membership<T, S>>
     extends DomainService<M> {
 
   /**

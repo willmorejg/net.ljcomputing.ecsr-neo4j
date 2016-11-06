@@ -31,6 +31,7 @@ import net.ljcomputing.ecsr.service.person.OrganizationService;
  */
 @Service
 @Transactional
-public class OrganizationServiceImpl extends
-    PersonalityServiceImpl<Organization, OrganizationRepository> implements OrganizationService {
+public class OrganizationServiceImpl
+    extends AbstractPersonalityServiceImpl<Organization, OrganizationRepository>
+    implements OrganizationService {
 }
