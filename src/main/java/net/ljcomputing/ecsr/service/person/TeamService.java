@@ -17,6 +17,7 @@
 package net.ljcomputing.ecsr.service.person;
 
 import net.ljcomputing.ecsr.domain.person.Team;
+import net.ljcomputing.ecsr.repository.person.TeamRepository;
 
 /**
  * Team service.
@@ -24,5 +25,5 @@ import net.ljcomputing.ecsr.domain.person.Team;
  * @author James G. Willmore
  *
  */
-public interface TeamService extends PersonalityService<Team> {
+public interface TeamService extends PersonalityService<Team, TeamRepository> {
 }

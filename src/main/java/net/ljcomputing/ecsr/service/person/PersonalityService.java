@@ -17,6 +17,7 @@
 package net.ljcomputing.ecsr.service.person;
 
 import net.ljcomputing.ecsr.domain.person.Personality;
+import net.ljcomputing.ecsr.repository.DomainRepository;
 import net.ljcomputing.ecsr.service.DomainService;
 
 /**
@@ -25,5 +26,5 @@ import net.ljcomputing.ecsr.service.DomainService;
  * @author James G. Willmore
  *
  */
-public interface PersonalityService<T extends Personality> extends DomainService<T> {
+public interface PersonalityService<T extends Personality, R extends DomainRepository<T>> extends DomainService<T> {
 }

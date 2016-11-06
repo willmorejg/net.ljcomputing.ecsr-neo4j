@@ -18,7 +18,6 @@ package net.ljcomputing.ecsr.service.person.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,15 +35,11 @@ import net.ljcomputing.ecsr.service.person.PersonService;
 @Transactional
 public class PersonServiceImpl extends PersonalityServiceImpl<Person, PersonRepository> implements PersonService {
 
-  /** The person repository. */
-  @Autowired
-  private transient PersonRepository repository;
-
   /**
    * @see net.ljcomputing.ecsr.service.person.PersonService#locateByName(java.lang.String, java.lang.String)
    */
   @Override
   public List<Person> locateByName(String firstName, String lastName) {
-    return asList(repository.locateByFirstLast(firstName, lastName));
+    return (List<Person>) repository.locateByFirstLast(firstName, lastName);
   }
 }

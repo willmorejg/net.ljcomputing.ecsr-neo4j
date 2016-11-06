@@ -32,10 +32,12 @@ import net.ljcomputing.ecsr.configuration.EcsrNeo4JConfiguration;
 import net.ljcomputing.ecsr.domain.person.Organization;
 import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.domain.person.Team;
+import net.ljcomputing.ecsr.service.person.OrganizationService;
 import net.ljcomputing.ecsr.service.person.OrganizationalMemberService;
 import net.ljcomputing.ecsr.service.person.OrganizationalTeamService;
-import net.ljcomputing.ecsr.service.person.PersonalityService;
+import net.ljcomputing.ecsr.service.person.PersonService;
 import net.ljcomputing.ecsr.service.person.TeamMemberService;
+import net.ljcomputing.ecsr.service.person.TeamService;
 
 /**
  * @author James G. Willmore
@@ -53,15 +55,15 @@ public class PersonCreationUnitTests {
   
   /** The person service. */
   @Autowired
-  private transient PersonalityService<Person> personService;
+  private transient PersonService personService;
   
   /** The team service. */
   @Autowired
-  private transient PersonalityService<Team> teamService;
+  private transient TeamService teamService;
 
   /** The organization service. */
   @Autowired
-  private transient PersonalityService<Organization> organizationService;
+  private transient OrganizationService organizationService;
 
   /** The team member repository. */
   @Autowired

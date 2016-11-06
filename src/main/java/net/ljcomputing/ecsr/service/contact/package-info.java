@@ -14,16 +14,10 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.service.person;
-
-import net.ljcomputing.ecsr.domain.person.Organization;
-import net.ljcomputing.ecsr.repository.person.OrganizationRepository;
-
 /**
- * Organization service.
+ * Package containing ECSR contact service classes.
  * 
  * @author James G. Willmore
  *
  */
-public interface OrganizationService extends PersonalityService<Organization, OrganizationRepository> {
-}
+package net.ljcomputing.ecsr.service.contact;

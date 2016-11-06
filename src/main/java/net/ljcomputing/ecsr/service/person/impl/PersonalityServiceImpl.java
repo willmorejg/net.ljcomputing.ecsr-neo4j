@@ -28,5 +28,5 @@ import net.ljcomputing.ecsr.service.person.PersonalityService;
  *
  */
 public abstract class PersonalityServiceImpl<T extends Personality, R extends PersonalityRepository<T>>
-    extends DomainServiceImpl<T, R> implements PersonalityService<T> {
+    extends DomainServiceImpl<T, R> implements PersonalityService<T, R> {
 }
