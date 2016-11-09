@@ -18,6 +18,7 @@ package net.ljcomputing.ecsr.service.person.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,8 +37,56 @@ import net.ljcomputing.ecsr.service.person.TeamMemberService;
 @Service
 @Transactional
 public class TeamMemberServiceImpl
-    extends AbstractMembershipServiceImpl<Person, Team, TeamMember, TeamMemberRepository>
+    extends AbstractMembershipServiceImpl<Person, Team, TeamMember>
     implements TeamMemberService {
+  
+  /** The team member repository. */
+  @Autowired
+  protected transient TeamMemberRepository teamMemberRepos;
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #save(net.ljcomputing.ecsr.domain.Domain)
+   */
+  @Override
+  public TeamMember save(final TeamMember domain) {
+    return teamMemberRepos.save(domain);
+  }
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #delete(java.lang.Long)
+   */
+  @Override
+  public void delete(final Long id) {
+    teamMemberRepos.delete(id);
+  }
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl#findAll()
+   */
+  @Override
+  public List<TeamMember> findAll() {
+    return (List<TeamMember>) teamMemberRepos.findAll();
+  }
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #findByUuid(java.lang.String)
+   */
+  @Override
+  public TeamMember findByUuid(final String uuid) {
+    return teamMemberRepos.findByUuid(uuid);
+  }
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #deleteByUuid(java.lang.String)
+   */
+  @Override
+  public void deleteByUuid(final String uuid) {
+    teamMemberRepos.deleteByUuid(uuid);
+  }
 
   /**
    * @see net.ljcomputing.ecsr.service.person.impl.AbstractMembershipServiceImpl
@@ -50,7 +99,7 @@ public class TeamMemberServiceImpl
     final TeamMember teamMembership = new TeamMember();
     teamMembership.setMember(member);
     teamMembership.setMemberOf(membership);
-    repository.save(teamMembership);
+    teamMemberRepos.save(teamMembership);
   }
 
   /**
@@ -68,7 +117,7 @@ public class TeamMemberServiceImpl
    */
   @Override
   public List<Team> memberOf(final String memberUuid) {
-    return (List<Team>) repository.findByMemberUuid(memberUuid);
+    return (List<Team>) teamMemberRepos.findByMemberUuid(memberUuid);
   }
 
   /** (non-Javadoc)
@@ -86,7 +135,7 @@ public class TeamMemberServiceImpl
    */
   @Override
   public List<Person> membershipRoster(final String membershipName) {
-    return (List<Person>) repository.findByTeamName(membershipName);
+    return (List<Person>) teamMemberRepos.findByTeamName(membershipName);
   }
 
   /**
@@ -106,7 +155,7 @@ public class TeamMemberServiceImpl
    */
   @Override
   public void removeMember(final String memberUuid, final String membershipUuid) {
-    final TeamMember relationship = repository.findTeamMembership(memberUuid, membershipUuid);
-    repository.delete(relationship);
+    final TeamMember relationship = teamMemberRepos.findTeamMembership(memberUuid, membershipUuid);
+    teamMemberRepos.delete(relationship);
   }
 }

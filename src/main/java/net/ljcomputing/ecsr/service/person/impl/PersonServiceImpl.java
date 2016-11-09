@@ -18,6 +18,7 @@ package net.ljcomputing.ecsr.service.person.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +34,56 @@ import net.ljcomputing.ecsr.service.person.PersonService;
  */
 @Service
 @Transactional
-public class PersonServiceImpl extends AbstractPersonalityServiceImpl<Person, PersonRepository>
+public class PersonServiceImpl extends AbstractPersonalityServiceImpl<Person>
     implements PersonService {
+
+  /** The person repository. */
+  @Autowired
+  protected transient PersonRepository personRepos;
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #save(net.ljcomputing.ecsr.domain.Domain)
+   */
+  @Override
+  public Person save(final Person domain) {
+    return personRepos.save(domain);
+  }
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #delete(java.lang.Long)
+   */
+  @Override
+  public void delete(final Long id) {
+    personRepos.delete(id);
+  }
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl#findAll()
+   */
+  @Override
+  public List<Person> findAll() {
+    return (List<Person>) personRepos.findAll();
+  }
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #findByUuid(java.lang.String)
+   */
+  @Override
+  public Person findByUuid(final String uuid) {
+    return personRepos.findByUuid(uuid);
+  }
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #deleteByUuid(java.lang.String)
+   */
+  @Override
+  public void deleteByUuid(final String uuid) {
+    personRepos.deleteByUuid(uuid);
+  }
 
   /**
    * @see net.ljcomputing.ecsr.service.person.PersonService
@@ -42,6 +91,6 @@ public class PersonServiceImpl extends AbstractPersonalityServiceImpl<Person, Pe
    */
   @Override
   public List<Person> locateByName(final String firstName, final String lastName) {
-    return (List<Person>) repository.locateByFirstLast(firstName, lastName);
+    return (List<Person>) personRepos.locateByFirstLast(firstName, lastName);
   }
 }

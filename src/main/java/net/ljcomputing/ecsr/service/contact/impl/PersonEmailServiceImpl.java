@@ -14,17 +14,24 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.service.person;
+package net.ljcomputing.ecsr.service.contact.impl;
 
-import net.ljcomputing.ecsr.domain.person.Personality;
-import net.ljcomputing.ecsr.service.DomainService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import net.ljcomputing.ecsr.domain.contact.EmailContact;
+import net.ljcomputing.ecsr.domain.contact.PersonalityContactImpl;
+import net.ljcomputing.ecsr.domain.person.Person;
+import net.ljcomputing.ecsr.service.contact.PersonEmailService;
 
 /**
- * Interface shared by all personality services.
- * 
  * @author James G. Willmore
  *
  */
-public interface PersonalityService<T extends Personality>
-    extends DomainService<T> {
+@Service
+@Transactional
+public class PersonEmailServiceImpl extends
+    AbstractPersonalityContactServiceImpl
+    <PersonalityContactImpl<Person, EmailContact>, Person, EmailContact>
+    implements PersonEmailService {
 }

@@ -60,21 +60,21 @@ public class MailCreationUnitTests extends AbstractContactCreationUnitTests {
   private 
       transient 
       PersonalityContactRepository
-      <PersonalityContactImpl<Person, MailContact>, Person, MailContact> personMailRepos;
+      <PersonalityContactImpl<Person, MailContact>> personMailRepos;
 
   /** The team mail repos. */
   @Autowired
   private 
       transient 
       PersonalityContactRepository
-      <PersonalityContactImpl<Team, MailContact>, Team, MailContact> teamMailRepos;
+      <PersonalityContactImpl<Team, MailContact>> teamMailRepos;
 
   /** The org mail repos. */
   @Autowired
   private 
       transient 
       PersonalityContactRepository
-      <PersonalityContactImpl<Organization, MailContact>, Organization, MailContact> 
+      <PersonalityContactImpl<Organization, MailContact>> 
       orgMailRepos;
 
   /**

@@ -20,7 +20,6 @@ import java.util.List;
 
 import net.ljcomputing.ecsr.domain.person.Membership;
 import net.ljcomputing.ecsr.domain.person.Personality;
-import net.ljcomputing.ecsr.repository.DomainRepository;
 import net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl;
 import net.ljcomputing.ecsr.service.person.MembershipService;
 
@@ -32,8 +31,8 @@ import net.ljcomputing.ecsr.service.person.MembershipService;
  */
 public abstract class AbstractMembershipServiceImpl
     <T extends Personality, S extends Personality, 
-    M extends Membership<T, S>, R extends DomainRepository<M>>
-    extends AbstractDomainServiceImpl<M, R> implements MembershipService<T, S, M> {
+    M extends Membership<T, S>>
+    extends AbstractDomainServiceImpl<M> implements MembershipService<T, S, M> {
 
   /**
    * @see net.ljcomputing.ecsr.service.person.MembershipService

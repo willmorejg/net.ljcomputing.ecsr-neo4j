@@ -18,6 +18,7 @@ package net.ljcomputing.ecsr.service.person.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,10 +36,57 @@ import net.ljcomputing.ecsr.service.person.OrganizationalTeamService;
  */
 @Service
 @Transactional
-public class OrganizationalTeamServiceImpl extends
-    AbstractMembershipServiceImpl
-    <Team, Organization, OrganizationalTeam, OrganizationalTeamRepository>
+public class OrganizationalTeamServiceImpl
+    extends AbstractMembershipServiceImpl<Team, Organization, OrganizationalTeam>
     implements OrganizationalTeamService {
+
+  /** The organizational member repository. */
+  @Autowired
+  protected transient OrganizationalTeamRepository orgTeamRepos;
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #save(net.ljcomputing.ecsr.domain.Domain)
+   */
+  @Override
+  public OrganizationalTeam save(final OrganizationalTeam domain) {
+    return orgTeamRepos.save(domain);
+  }
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #delete(java.lang.Long)
+   */
+  @Override
+  public void delete(final Long id) {
+    orgTeamRepos.delete(id);
+  }
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl#findAll()
+   */
+  @Override
+  public List<OrganizationalTeam> findAll() {
+    return (List<OrganizationalTeam>) orgTeamRepos.findAll();
+  }
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #findByUuid(java.lang.String)
+   */
+  @Override
+  public OrganizationalTeam findByUuid(final String uuid) {
+    return orgTeamRepos.findByUuid(uuid);
+  }
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #deleteByUuid(java.lang.String)
+   */
+  @Override
+  public void deleteByUuid(final String uuid) {
+    orgTeamRepos.deleteByUuid(uuid);
+  }
 
   /**
    * @see net.ljcomputing.ecsr.service.person.impl.AbstractMembershipServiceImpl
@@ -51,7 +99,7 @@ public class OrganizationalTeamServiceImpl extends
     final OrganizationalTeam teamMembership = new OrganizationalTeam();
     teamMembership.setMember(member);
     teamMembership.setMemberOf(membership);
-    repository.save(teamMembership);
+    orgTeamRepos.save(teamMembership);
   }
 
   /**
@@ -69,7 +117,7 @@ public class OrganizationalTeamServiceImpl extends
    */
   @Override
   public List<Organization> memberOf(final String memberUuid) {
-    return (List<Organization>) repository.findByMemberUuid(memberUuid);
+    return (List<Organization>) orgTeamRepos.findByMemberUuid(memberUuid);
   }
 
   /** (non-Javadoc)
@@ -87,7 +135,7 @@ public class OrganizationalTeamServiceImpl extends
    */
   @Override
   public List<Team> membershipRoster(final String membershipName) {
-    return (List<Team>) repository.findByOrganizationName(membershipName);
+    return (List<Team>) orgTeamRepos.findByOrganizationName(membershipName);
   }
 
   /**
@@ -107,9 +155,8 @@ public class OrganizationalTeamServiceImpl extends
    */
   @Override
   public void removeMember(final String memberUuid, final String membershipUuid) {
-    final OrganizationalTeam relationship = repository
+    final OrganizationalTeam relationship = orgTeamRepos
         .findOrganizationalTeamMembership(memberUuid, membershipUuid);
-
-    repository.delete(relationship);
+    orgTeamRepos.delete(relationship);
   }
 }

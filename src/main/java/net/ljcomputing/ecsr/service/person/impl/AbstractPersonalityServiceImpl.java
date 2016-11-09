@@ -17,7 +17,6 @@
 package net.ljcomputing.ecsr.service.person.impl;
 
 import net.ljcomputing.ecsr.domain.person.Personality;
-import net.ljcomputing.ecsr.repository.person.PersonalityRepository;
 import net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl;
 import net.ljcomputing.ecsr.service.person.PersonalityService;
 
@@ -28,8 +27,8 @@ import net.ljcomputing.ecsr.service.person.PersonalityService;
  *
  */
 public abstract class AbstractPersonalityServiceImpl
-    <T extends Personality, R extends PersonalityRepository<T>>
-    extends AbstractDomainServiceImpl<T, R> implements PersonalityService<T, R> {
+    <T extends Personality>
+    extends AbstractDomainServiceImpl<T> implements PersonalityService<T> {
   
   /**
    * Instantiates a new abstract personality service impl.

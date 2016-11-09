@@ -28,6 +28,31 @@ import net.ljcomputing.ecsr.service.DomainService;
  *
  */
 public interface PersonalityContactService
-    <T extends Personality, S extends ContactInformation, E extends PersonalityContact<T, S>>
+    <E extends PersonalityContact<T, S>, T extends Personality, S extends ContactInformation>
     extends DomainService<E> {
+  
+  /**
+   * Adds the contact.
+   *
+   * @param personality the personality
+   * @param contact the contact
+   * @return the e
+   */
+  E addContact(T personality, S contact);
+  
+  /**
+   * Removes the contact.
+   *
+   * @param personality the personality
+   * @param contact the contact
+   */
+  void removeContact(T personality, S contact);
+  
+  /**
+   * Removes the contact.
+   *
+   * @param personalityUuid the personality uuid
+   * @param contactUuid the contact uuid
+   */
+  void removeContact(String personalityUuid, String contactUuid);
 }

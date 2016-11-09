@@ -14,15 +14,24 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.service.person;
+package net.ljcomputing.ecsr.service.contact.impl;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import net.ljcomputing.ecsr.domain.contact.EmailContact;
+import net.ljcomputing.ecsr.domain.contact.PersonalityContactImpl;
 import net.ljcomputing.ecsr.domain.person.Organization;
+import net.ljcomputing.ecsr.service.contact.OrganizationEmailService;
 
 /**
- * Organization service.
- * 
  * @author James G. Willmore
  *
  */
-public interface OrganizationService extends PersonalityService<Organization> {
+@Service
+@Transactional
+public class OrganizationEmailServiceImpl extends
+    AbstractPersonalityContactServiceImpl
+    <PersonalityContactImpl<Organization, EmailContact>, Organization, EmailContact>
+    implements OrganizationEmailService {
 }

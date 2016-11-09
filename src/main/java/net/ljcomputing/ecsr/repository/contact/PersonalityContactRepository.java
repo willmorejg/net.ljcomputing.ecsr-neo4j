@@ -16,6 +16,8 @@
 
 package net.ljcomputing.ecsr.repository.contact;
 
+import org.springframework.data.neo4j.annotation.Query;
+
 import net.ljcomputing.ecsr.domain.contact.ContactInformation;
 import net.ljcomputing.ecsr.domain.contact.PersonalityContact;
 import net.ljcomputing.ecsr.domain.person.Personality;
@@ -28,8 +30,17 @@ import net.ljcomputing.ecsr.repository.DomainRepository;
  *
  */
 public interface PersonalityContactRepository
-    <E extends PersonalityContact<T, S>, 
-    T extends Personality, 
-    S extends ContactInformation>
+    <E extends PersonalityContact<? extends Personality, ? extends ContactInformation>>
     extends DomainRepository<E> {
+  
+  /**
+   * Find personality contact.
+   *
+   * @param leftUuid the left uuid
+   * @param rightUuid the right uuid
+   * @return the t
+   */
+  @Query("START r=node(*) MATCH (r)-[e]-(l) "
+      + "WHERE r.uuid = {0} AND  l.uuid = {1} RETURN DISTINCT e")
+  E findPersonalityContact(String leftUuid, String rightUuid);
 }

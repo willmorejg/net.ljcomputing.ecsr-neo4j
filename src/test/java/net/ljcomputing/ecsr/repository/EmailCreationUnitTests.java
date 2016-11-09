@@ -30,12 +30,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ljcomputing.ecsr.configuration.EcsrNeo4JConfiguration;
 import net.ljcomputing.ecsr.domain.contact.EmailContact;
-import net.ljcomputing.ecsr.domain.contact.PersonalityContactImpl;
 import net.ljcomputing.ecsr.domain.person.Organization;
 import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.domain.person.Team;
 import net.ljcomputing.ecsr.repository.contact.EmailRepository;
-import net.ljcomputing.ecsr.repository.contact.PersonalityContactRepository;
+import net.ljcomputing.ecsr.service.contact.OrganizationEmailService;
+import net.ljcomputing.ecsr.service.contact.PersonEmailService;
+import net.ljcomputing.ecsr.service.contact.TeamEmailService;
 
 /**
  * @author James G. Willmore
@@ -55,27 +56,17 @@ public class EmailCreationUnitTests extends AbstractContactCreationUnitTests {
   @Autowired
   private transient EmailRepository emailRepos;
 
-  /** The person email repos. */
+  /** The person email contact service. */
   @Autowired
-  private 
-      transient 
-      PersonalityContactRepository
-      <PersonalityContactImpl<Person, EmailContact>, Person, EmailContact> personEmailRepos;
+  private transient PersonEmailService personEmailSrv;
 
-  /** The team email repos. */
+  /** The team email contact service. */
   @Autowired
-  private 
-      transient 
-      PersonalityContactRepository
-      <PersonalityContactImpl<Team, EmailContact>, Team, EmailContact> teamEmailRepos;
+  private transient TeamEmailService teamEmailSrv;
 
-  /** The org email repos. */
+  /** The organization email contact service. */
   @Autowired
-  private 
-      transient 
-      PersonalityContactRepository
-      <PersonalityContactImpl<Organization, EmailContact>, Organization, EmailContact> 
-      orgEmailRepos;
+  private transient OrganizationEmailService orgEmailSrv;
 
   /**
    * Test 01.
@@ -103,12 +94,7 @@ public class EmailCreationUnitTests extends AbstractContactCreationUnitTests {
       final Iterable<EmailContact> emails = emailRepos.findAll();
 
       for (final EmailContact email : emails) {
-        final PersonalityContactImpl<Person, EmailContact> personContact = 
-            new PersonalityContactImpl<Person, EmailContact>(); //NOPMD
-        personContact.setPersonality(person);
-        personContact.setContact(email);
-
-        personEmailRepos.save(personContact);
+        personEmailSrv.addContact(person, email);
       }
     }
   }
@@ -125,12 +111,7 @@ public class EmailCreationUnitTests extends AbstractContactCreationUnitTests {
       final Iterable<EmailContact> emails = emailRepos.findAll();
 
       for (final EmailContact email : emails) {
-        final PersonalityContactImpl<Team, EmailContact> personContact = 
-            new PersonalityContactImpl<Team, EmailContact>(); //NOPMD
-        personContact.setPersonality(team);
-        personContact.setContact(email);
-
-        teamEmailRepos.save(personContact);
+        teamEmailSrv.addContact(team, email);
       }
     }
   }
@@ -147,12 +128,7 @@ public class EmailCreationUnitTests extends AbstractContactCreationUnitTests {
       final Iterable<EmailContact> emails = emailRepos.findAll();
 
       for (final EmailContact email : emails) {
-        final PersonalityContactImpl<Organization, EmailContact> personContact = 
-            new PersonalityContactImpl<Organization, EmailContact>(); //NOPMD
-        personContact.setPersonality(org);
-        personContact.setContact(email);
-
-        orgEmailRepos.save(personContact);
+        orgEmailSrv.addContact(org, email);
       }
     }
   }

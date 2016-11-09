@@ -83,7 +83,7 @@ public class PersonCreationUnitTests {
   @Test
   @Rollback(false)
   public void test01() {
-    final String[] names = { "Jim", "Willmore", "Alice", "Conner", "Bob", "Smith", "Charlie",
+    final String[] names = { "Jim", "Willmore" , "Alice", "Conner", "Bob", "Smith", "Charlie",
         "Pace" };
 
     for (int n = 0; n < names.length; n++) {
@@ -105,7 +105,7 @@ public class PersonCreationUnitTests {
   @Test
   @Rollback(false)
   public void test02() {
-    final String[] names = { "A-Team", "B-Team", "C-Team" };
+    final String[] names = { "A-Team" , "B-Team", "C-Team" };
 
     for (final String name : names) {
       final Team team = new Team(); //NOPMD
@@ -138,7 +138,7 @@ public class PersonCreationUnitTests {
   @Test
   @Rollback(false)
   public void test04() {
-    final String[] names = { "AlphaCorp", "BravoCorp", "CharlieCorp" };
+    final String[] names = { "AlphaCorp" , "BravoCorp", "CharlieCorp" };
 
     for (final String name : names) {
       final Organization org = new Organization(); //NOPMD

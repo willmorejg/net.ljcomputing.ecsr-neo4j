@@ -60,21 +60,21 @@ public class PhoneCreationUnitTests extends AbstractContactCreationUnitTests {
   private 
       transient 
       PersonalityContactRepository
-      <PersonalityContactImpl<Person, PhoneContact>, Person, PhoneContact> personPhoneRepos;
+      <PersonalityContactImpl<Person, PhoneContact>> personPhoneRepos;
 
   /** The team phone repos. */
   @Autowired
   private 
       transient 
       PersonalityContactRepository
-      <PersonalityContactImpl<Team, PhoneContact>, Team, PhoneContact> teamPhoneRepos;
+      <PersonalityContactImpl<Team, PhoneContact>> teamPhoneRepos;
 
   /** The org phone repos. */
   @Autowired
   private 
       transient 
       PersonalityContactRepository
-      <PersonalityContactImpl<Organization, PhoneContact>, Organization, PhoneContact> 
+      <PersonalityContactImpl<Organization, PhoneContact>> 
       orgPhoneRepos;
 
   /**
