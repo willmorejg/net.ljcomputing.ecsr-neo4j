@@ -35,7 +35,9 @@ import net.ljcomputing.ecsr.domain.person.Organization;
 import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.domain.person.Team;
 import net.ljcomputing.ecsr.repository.contact.MailRepository;
-import net.ljcomputing.ecsr.repository.contact.PersonalityContactRepository;
+import net.ljcomputing.ecsr.service.contact.OrganizationMailService;
+import net.ljcomputing.ecsr.service.contact.PersonMailService;
+import net.ljcomputing.ecsr.service.contact.TeamMailService;
 
 /**
  * @author James G. Willmore
@@ -55,27 +57,17 @@ public class MailCreationUnitTests extends AbstractContactCreationUnitTests {
   @Autowired
   private transient MailRepository mailRepos;
 
-  /** The person mail repos. */
+  /** The person mail service. */
   @Autowired
-  private 
-      transient 
-      PersonalityContactRepository
-      <PersonalityContactImpl<Person, MailContact>> personMailRepos;
+  private transient PersonMailService personMailService;
 
-  /** The team mail repos. */
+  /** The team mail service. */
   @Autowired
-  private 
-      transient 
-      PersonalityContactRepository
-      <PersonalityContactImpl<Team, MailContact>> teamMailRepos;
+  private transient TeamMailService teamMailService;
 
-  /** The org mail repos. */
+  /** The org mail service. */
   @Autowired
-  private 
-      transient 
-      PersonalityContactRepository
-      <PersonalityContactImpl<Organization, MailContact>> 
-      orgMailRepos;
+  private transient OrganizationMailService orgMailService;
 
   /**
    * Test 01.
@@ -110,7 +102,7 @@ public class MailCreationUnitTests extends AbstractContactCreationUnitTests {
         personContact.setPersonality(person);
         personContact.setContact(mail);
 
-        personMailRepos.save(personContact);
+        personMailService.save(personContact);
       }
     }
   }
@@ -132,7 +124,7 @@ public class MailCreationUnitTests extends AbstractContactCreationUnitTests {
         personContact.setPersonality(team);
         personContact.setContact(mail);
 
-        teamMailRepos.save(personContact);
+        teamMailService.save(personContact);
       }
     }
   }
@@ -154,7 +146,7 @@ public class MailCreationUnitTests extends AbstractContactCreationUnitTests {
         personContact.setPersonality(org);
         personContact.setContact(mail);
 
-        orgMailRepos.save(personContact);
+        orgMailService.save(personContact);
       }
     }
   }
