@@ -34,8 +34,10 @@ import net.ljcomputing.ecsr.domain.contact.PhoneContact;
 import net.ljcomputing.ecsr.domain.person.Organization;
 import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.domain.person.Team;
-import net.ljcomputing.ecsr.repository.contact.PersonalityContactRepository;
 import net.ljcomputing.ecsr.repository.contact.PhoneRepository;
+import net.ljcomputing.ecsr.service.contact.OrganizationPhoneService;
+import net.ljcomputing.ecsr.service.contact.PersonPhoneService;
+import net.ljcomputing.ecsr.service.contact.TeamPhoneService;
 
 /**
  * @author James G. Willmore
@@ -57,25 +59,15 @@ public class PhoneCreationUnitTests extends AbstractContactCreationUnitTests {
 
   /** The person phone repos. */
   @Autowired
-  private 
-      transient 
-      PersonalityContactRepository
-      <PersonalityContactImpl<Person, PhoneContact>> personPhoneRepos;
+  private transient PersonPhoneService personPhoneSrv;
 
   /** The team phone repos. */
   @Autowired
-  private 
-      transient 
-      PersonalityContactRepository
-      <PersonalityContactImpl<Team, PhoneContact>> teamPhoneRepos;
+  private transient TeamPhoneService teamPhoneService;
 
   /** The org phone repos. */
   @Autowired
-  private 
-      transient 
-      PersonalityContactRepository
-      <PersonalityContactImpl<Organization, PhoneContact>> 
-      orgPhoneRepos;
+  private transient OrganizationPhoneService orgPhoneService;
 
   /**
    * Test 01.
@@ -109,7 +101,7 @@ public class PhoneCreationUnitTests extends AbstractContactCreationUnitTests {
         personContact.setPersonality(person);
         personContact.setContact(phone);
 
-        personPhoneRepos.save(personContact);
+        personPhoneSrv.save(personContact);
       }
     }
   }
@@ -131,7 +123,7 @@ public class PhoneCreationUnitTests extends AbstractContactCreationUnitTests {
         personContact.setPersonality(team);
         personContact.setContact(phone);
 
-        teamPhoneRepos.save(personContact);
+        teamPhoneService.save(personContact);
       }
     }
   }
@@ -153,7 +145,7 @@ public class PhoneCreationUnitTests extends AbstractContactCreationUnitTests {
         personContact.setPersonality(org);
         personContact.setContact(phone);
 
-        orgPhoneRepos.save(personContact);
+        orgPhoneService.save(personContact);
       }
     }
   }
