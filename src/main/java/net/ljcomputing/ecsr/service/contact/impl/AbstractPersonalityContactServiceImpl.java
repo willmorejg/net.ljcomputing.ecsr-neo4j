@@ -16,10 +16,6 @@
 
 package net.ljcomputing.ecsr.service.contact.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import net.ljcomputing.ecsr.domain.contact.ContactInformation;
 import net.ljcomputing.ecsr.domain.contact.PersonalityContact;
 import net.ljcomputing.ecsr.domain.contact.PersonalityContactImpl;
@@ -35,58 +31,10 @@ import net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl;
  *
  */
 public abstract class AbstractPersonalityContactServiceImpl
-    <E extends PersonalityContact<T, S>, T extends Personality, S extends ContactInformation>
-    extends AbstractDomainServiceImpl<E> 
-    implements PersonalityContactService<E, T, S> {
+    <E extends PersonalityContact<T, S>, T extends Personality, 
+    S extends ContactInformation, R extends PersonalityContactRepository<E>>
+    extends AbstractDomainServiceImpl<E, R> implements PersonalityContactService<E, T, S, R> {
 
-  /** The personality contact repository. */
-  @Autowired
-  protected transient PersonalityContactRepository<E> perConRepos;
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #save(net.ljcomputing.ecsr.domain.Domain)
-   */
-  @Override
-  public E save(final E domain) {
-    return perConRepos.save(domain);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #delete(java.lang.Long)
-   */
-  @Override
-  public void delete(final Long id) {
-    perConRepos.delete(id);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl#findAll()
-   */
-  @Override
-  public List<E> findAll() {
-    return (List<E>) perConRepos.findAll();
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #findByUuid(java.lang.String)
-   */
-  @Override
-  public E findByUuid(final String uuid) {
-    return perConRepos.findByUuid(uuid);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #deleteByUuid(java.lang.String)
-   */
-  @Override
-  public void deleteByUuid(final String uuid) {
-    perConRepos.deleteByUuid(uuid);
-  }
-  
   /**
    * @see net.ljcomputing.ecsr.service.contact.PersonalityContactService
    *    #addContact(
@@ -99,7 +47,7 @@ public abstract class AbstractPersonalityContactServiceImpl
     final E relationship = (E) new PersonalityContactImpl<T, S>();
     relationship.setPersonality(personality);
     relationship.setContact(contact);
-    return perConRepos.save(relationship);
+    return getRepository().save(relationship); //NOPMD
   }
 
   /**
@@ -119,7 +67,8 @@ public abstract class AbstractPersonalityContactServiceImpl
    */
   @Override
   public void removeContact(final String personalityUuid, final String contactUuid) {
-    final E relationship = perConRepos.findPersonalityContact(personalityUuid, contactUuid);
-    perConRepos.delete(relationship);
+    final E relationship = ((PersonalityContactRepository<E>) getRepository()) //NOPMD
+        .findPersonalityContact(personalityUuid, contactUuid);
+    getRepository().delete(relationship); //NOPMD
   }
 }

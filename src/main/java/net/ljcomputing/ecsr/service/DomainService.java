@@ -19,6 +19,7 @@ package net.ljcomputing.ecsr.service;
 import java.util.List;
 
 import net.ljcomputing.ecsr.domain.Domain;
+import net.ljcomputing.ecsr.repository.DomainRepository;
 
 /**
  * Interface shared by all domain services.
@@ -26,7 +27,21 @@ import net.ljcomputing.ecsr.domain.Domain;
  * @author James G. Willmore
  * @param <T> the domain type
  */
-public interface DomainService<T extends Domain> {
+public interface DomainService<T extends Domain, R extends DomainRepository<T>> {
+  
+  /**
+   * Gets the repository.
+   *
+   * @return the repository
+   */
+  R getRepository();
+  
+  /**
+   * Sets the repository.
+   *
+   * @param repository the new repository
+   */
+  void setRepository(R repository);
   
   /**
    * Save the doamin.

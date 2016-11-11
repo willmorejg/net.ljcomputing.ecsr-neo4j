@@ -20,6 +20,7 @@ import java.util.List;
 
 import net.ljcomputing.ecsr.domain.person.Membership;
 import net.ljcomputing.ecsr.domain.person.Personality;
+import net.ljcomputing.ecsr.repository.DomainRepository;
 import net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl;
 import net.ljcomputing.ecsr.service.person.MembershipService;
 
@@ -31,8 +32,8 @@ import net.ljcomputing.ecsr.service.person.MembershipService;
  */
 public abstract class AbstractMembershipServiceImpl
     <T extends Personality, S extends Personality, 
-    M extends Membership<T, S>>
-    extends AbstractDomainServiceImpl<M> implements MembershipService<T, S, M> {
+    M extends Membership<T, S>, R extends DomainRepository<M>>
+    extends AbstractDomainServiceImpl<M, R> implements MembershipService<T, S, M, R> {
 
   /**
    * @see net.ljcomputing.ecsr.service.person.MembershipService
@@ -48,7 +49,9 @@ public abstract class AbstractMembershipServiceImpl
    *    #memberOf(net.ljcomputing.ecsr.domain.person.Personality)
    */
   @Override
-  public abstract List<S> memberOf(T member);
+  public List<S> memberOf(final T member) {
+    return memberOf(member.getUuid());
+  }
 
   /**
    * @see net.ljcomputing.ecsr.service.person.MembershipService
@@ -78,7 +81,9 @@ public abstract class AbstractMembershipServiceImpl
    *        net.ljcomputing.ecsr.domain.person.Personality)
    */
   @Override
-  public abstract void removeMember(T member, S membership);
+  public void removeMember(final T member, final S membership) {
+    removeMember(member.getUuid(), membership.getUuid());
+  }
 
   /**
    * @see net.ljcomputing.ecsr.service.person.MembershipService

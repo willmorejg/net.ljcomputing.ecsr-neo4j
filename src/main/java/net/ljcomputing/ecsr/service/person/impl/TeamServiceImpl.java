@@ -16,8 +16,6 @@
 
 package net.ljcomputing.ecsr.service.person.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,53 +32,16 @@ import net.ljcomputing.ecsr.service.person.TeamService;
  */
 @Service
 @Transactional
-public class TeamServiceImpl extends AbstractPersonalityServiceImpl<Team> implements TeamService {
+public class TeamServiceImpl extends AbstractPersonalityServiceImpl<Team, TeamRepository>
+    implements TeamService {
 
-  /** The person repository. */
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #setRepository(net.ljcomputing.ecsr.repository.DomainRepository)
+   */
   @Autowired
-  protected transient TeamRepository teamRepos;
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #save(net.ljcomputing.ecsr.domain.Domain)
-   */
   @Override
-  public Team save(final Team domain) {
-    return teamRepos.save(domain);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #delete(java.lang.Long)
-   */
-  @Override
-  public void delete(final Long id) {
-    teamRepos.delete(id);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl#findAll()
-   */
-  @Override
-  public List<Team> findAll() {
-    return (List<Team>) teamRepos.findAll();
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #findByUuid(java.lang.String)
-   */
-  @Override
-  public Team findByUuid(final String uuid) {
-    return teamRepos.findByUuid(uuid);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #deleteByUuid(java.lang.String)
-   */
-  @Override
-  public void deleteByUuid(final String uuid) {
-    teamRepos.deleteByUuid(uuid);
+  public void setRepository(final TeamRepository repository) {
+    this.repository = repository;
   }
 }

@@ -19,6 +19,7 @@ package net.ljcomputing.ecsr.service.contact;
 import net.ljcomputing.ecsr.domain.contact.ContactInformation;
 import net.ljcomputing.ecsr.domain.contact.PersonalityContact;
 import net.ljcomputing.ecsr.domain.person.Personality;
+import net.ljcomputing.ecsr.repository.DomainRepository;
 import net.ljcomputing.ecsr.service.DomainService;
 
 /**
@@ -28,9 +29,10 @@ import net.ljcomputing.ecsr.service.DomainService;
  *
  */
 public interface PersonalityContactService
-    <E extends PersonalityContact<T, S>, T extends Personality, S extends ContactInformation>
-    extends DomainService<E> {
-  
+    <E extends PersonalityContact<T, S>, T extends Personality, 
+    S extends ContactInformation, R extends DomainRepository<E>>
+    extends DomainService<E, R> {
+
   /**
    * Adds the contact.
    *
@@ -39,7 +41,7 @@ public interface PersonalityContactService
    * @return the e
    */
   E addContact(T personality, S contact);
-  
+
   /**
    * Removes the contact.
    *
@@ -47,7 +49,7 @@ public interface PersonalityContactService
    * @param contact the contact
    */
   void removeContact(T personality, S contact);
-  
+
   /**
    * Removes the contact.
    *

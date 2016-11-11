@@ -19,6 +19,7 @@ package net.ljcomputing.ecsr.service.person;
 import java.util.List;
 
 import net.ljcomputing.ecsr.domain.person.Person;
+import net.ljcomputing.ecsr.repository.person.PersonRepository;
 
 /**
  * Person service.
@@ -26,7 +27,7 @@ import net.ljcomputing.ecsr.domain.person.Person;
  * @author James G. Willmore
  *
  */
-public interface PersonService extends PersonalityService<Person> {
+public interface PersonService extends PersonalityService<Person, PersonRepository> {
 
   /**
    * Locate by name.

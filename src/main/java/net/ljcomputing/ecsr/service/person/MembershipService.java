@@ -20,6 +20,7 @@ import java.util.List;
 
 import net.ljcomputing.ecsr.domain.person.Membership;
 import net.ljcomputing.ecsr.domain.person.Personality;
+import net.ljcomputing.ecsr.repository.DomainRepository;
 import net.ljcomputing.ecsr.service.DomainService;
 
 /**
@@ -28,9 +29,9 @@ import net.ljcomputing.ecsr.service.DomainService;
  * @author James G. Willmore
  *
  */
-public interface MembershipService
-    <T extends Personality, S extends Personality, M extends Membership<T, S>>
-    extends DomainService<M> {
+public interface MembershipService<T extends Personality, S extends Personality, 
+    M extends Membership<T, S>, R extends DomainRepository<M>>
+    extends DomainService<M, R> {
 
   /**
    * Adds the member.

@@ -36,56 +36,19 @@ import net.ljcomputing.ecsr.service.person.OrganizationalMemberService;
  */
 @Service
 @Transactional
-public class OrganizationalMemberServiceImpl
-    extends AbstractMembershipServiceImpl<Person, Organization, OrganizationalMember>
+public class OrganizationalMemberServiceImpl extends
+    AbstractMembershipServiceImpl<Person, Organization, 
+    OrganizationalMember, OrganizationalMemberRepository>
     implements OrganizationalMemberService {
 
-  /** The organizational member repository. */
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #setRepository(net.ljcomputing.ecsr.repository.DomainRepository)
+   */
   @Autowired
-  protected transient OrganizationalMemberRepository orgMemberRepos;
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #save(net.ljcomputing.ecsr.domain.Domain)
-   */
   @Override
-  public OrganizationalMember save(final OrganizationalMember domain) {
-    return orgMemberRepos.save(domain);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #delete(java.lang.Long)
-   */
-  @Override
-  public void delete(final Long id) {
-    orgMemberRepos.delete(id);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl#findAll()
-   */
-  @Override
-  public List<OrganizationalMember> findAll() {
-    return (List<OrganizationalMember>) orgMemberRepos.findAll();
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #findByUuid(java.lang.String)
-   */
-  @Override
-  public OrganizationalMember findByUuid(final String uuid) {
-    return orgMemberRepos.findByUuid(uuid);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #deleteByUuid(java.lang.String)
-   */
-  @Override
-  public void deleteByUuid(final String uuid) {
-    orgMemberRepos.deleteByUuid(uuid);
+  public void setRepository(OrganizationalMemberRepository repository) {
+    this.repository = repository;
   }
 
   /**
@@ -99,16 +62,7 @@ public class OrganizationalMemberServiceImpl
     final OrganizationalMember teamMembership = new OrganizationalMember();
     teamMembership.setMember(member);
     teamMembership.setMemberOf(membership);
-    orgMemberRepos.save(teamMembership);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.person.MembershipService
-   *    #memberOf(net.ljcomputing.ecsr.domain.person.Personality)
-   */
-  @Override
-  public List<Organization> memberOf(final Person member) {
-    return memberOf(member.getUuid());
+    getRepository().save(teamMembership); //NOPMD
   }
 
   /**
@@ -117,7 +71,7 @@ public class OrganizationalMemberServiceImpl
    */
   @Override
   public List<Organization> memberOf(final String memberUuid) {
-    return (List<Organization>) orgMemberRepos.findByMemberUuid(memberUuid);
+    return (List<Organization>) getRepository().findByMemberUuid(memberUuid); //NOPMD
   }
 
   /** (non-Javadoc)
@@ -135,18 +89,7 @@ public class OrganizationalMemberServiceImpl
    */
   @Override
   public List<Person> membershipRoster(final String membershipName) {
-    return (List<Person>) orgMemberRepos.findByOrganizationName(membershipName);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.person.impl.AbstractMembershipServiceImpl
-   *    #removeMember(
-   *        net.ljcomputing.ecsr.domain.person.Personality, 
-   *        net.ljcomputing.ecsr.domain.person.Personality)
-   */
-  @Override
-  public void removeMember(final Person member, final Organization membership) {
-    removeMember(member.getUuid(), membership.getUuid());
+    return (List<Person>) getRepository().findByOrganizationName(membershipName); //NOPMD
   }
 
   /**
@@ -155,8 +98,8 @@ public class OrganizationalMemberServiceImpl
    */
   @Override
   public void removeMember(final String memberUuid, final String membershipUuid) {
-    final OrganizationalMember relationship = orgMemberRepos.findOrganizationMembership(memberUuid,
-        membershipUuid);
-    orgMemberRepos.delete(relationship);
+    final OrganizationalMember relationship = 
+        getRepository().findOrganizationMembership(memberUuid, membershipUuid); //NOPMD
+    getRepository().delete(relationship); //NOPMD
   }
 }

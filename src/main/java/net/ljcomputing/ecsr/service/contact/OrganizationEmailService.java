@@ -19,12 +19,15 @@ package net.ljcomputing.ecsr.service.contact;
 import net.ljcomputing.ecsr.domain.contact.EmailContact;
 import net.ljcomputing.ecsr.domain.contact.PersonalityContactImpl;
 import net.ljcomputing.ecsr.domain.person.Organization;
+import net.ljcomputing.ecsr.repository.contact.PersonalityContactRepository;
 
 /**
  * @author James G. Willmore
  *
  */
 public interface OrganizationEmailService extends
-    PersonalityContactService<PersonalityContactImpl
-    <Organization, EmailContact>, Organization, EmailContact> {
+    PersonalityContactService
+    <PersonalityContactImpl<Organization, EmailContact>, Organization, 
+    EmailContact, 
+    PersonalityContactRepository<PersonalityContactImpl<Organization, EmailContact>>> {
 }

@@ -16,8 +16,6 @@
 
 package net.ljcomputing.ecsr.service.person.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,54 +32,17 @@ import net.ljcomputing.ecsr.service.person.OrganizationService;
  */
 @Service
 @Transactional
-public class OrganizationServiceImpl extends AbstractPersonalityServiceImpl<Organization>
+public class OrganizationServiceImpl
+    extends AbstractPersonalityServiceImpl<Organization, OrganizationRepository>
     implements OrganizationService {
 
-  /** The person repository. */
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #setRepository(net.ljcomputing.ecsr.repository.DomainRepository)
+   */
   @Autowired
-  protected transient OrganizationRepository orgRepos;
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #save(net.ljcomputing.ecsr.domain.Domain)
-   */
   @Override
-  public Organization save(final Organization domain) {
-    return orgRepos.save(domain);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #delete(java.lang.Long)
-   */
-  @Override
-  public void delete(final Long id) {
-    orgRepos.delete(id);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl#findAll()
-   */
-  @Override
-  public List<Organization> findAll() {
-    return (List<Organization>) orgRepos.findAll();
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #findByUuid(java.lang.String)
-   */
-  @Override
-  public Organization findByUuid(final String uuid) {
-    return orgRepos.findByUuid(uuid);
-  }
-
-  /**
-   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
-   *    #deleteByUuid(java.lang.String)
-   */
-  @Override
-  public void deleteByUuid(final String uuid) {
-    orgRepos.deleteByUuid(uuid);
+  public void setRepository(final OrganizationRepository repository) {
+    this.repository = repository;
   }
 }

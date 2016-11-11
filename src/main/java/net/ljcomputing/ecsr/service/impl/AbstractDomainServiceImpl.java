@@ -19,6 +19,7 @@ package net.ljcomputing.ecsr.service.impl;
 import java.util.List;
 
 import net.ljcomputing.ecsr.domain.Domain;
+import net.ljcomputing.ecsr.repository.DomainRepository;
 import net.ljcomputing.ecsr.service.DomainService;
 
 /**
@@ -27,15 +28,35 @@ import net.ljcomputing.ecsr.service.DomainService;
  * @author James G. Willmore
  * @param <T> the domain type
  */
-public abstract class AbstractDomainServiceImpl<T extends Domain>
-    implements DomainService<T> {
+public abstract class AbstractDomainServiceImpl<T extends Domain, R extends DomainRepository<T>>
+    implements DomainService<T, R> {
 
+  /** The repository for the entities related to the service. */
+  protected R repository;
+  
+  /**
+   * @see net.ljcomputing.ecsr.service.DomainService#getRepository()
+   */
+  @Override
+  public R getRepository() {
+    return repository;
+  }
+
+  /**
+   * @see net.ljcomputing.ecsr.service.DomainService
+   *    #setRepository(net.ljcomputing.ecsr.repository.DomainRepository)
+   */
+  @Override
+  public abstract void setRepository(R repository);
+  
   /**
    * @see net.ljcomputing.ecsr.service.DomainService
    *    #save(net.ljcomputing.ecsr.domain.Domain)
    */
   @Override
-  public abstract T save(final T domain);
+  public T save(final T domain) {
+    return getRepository().save(domain); //NOPMD
+  }
 
   /**
    * @see net.ljcomputing.ecsr.service.DomainService
@@ -50,23 +71,31 @@ public abstract class AbstractDomainServiceImpl<T extends Domain>
    * @see net.ljcomputing.ecsr.service.DomainService#delete(java.lang.Long)
    */
   @Override
-  public abstract void delete(final Long id);
+  public void delete(final Long id) {
+    getRepository().delete(id); //NOPMD
+  }
 
   /**
    * @see net.ljcomputing.ecsr.service.DomainService#findAll()
    */
   @Override
-  public abstract List<T> findAll();
+  public List<T> findAll() {
+    return (List<T>) getRepository().findAll(); //NOPMD
+  }
 
   /**
    * @see net.ljcomputing.ecsr.service.DomainService#findByUuid(java.lang.String)
    */
   @Override
-  public abstract T findByUuid(final String uuid);
+  public T findByUuid(final String uuid) {
+    return getRepository().findByUuid(uuid); //NOPMD
+  }
 
   /**
    * @see net.ljcomputing.ecsr.service.DomainService#deleteByUuid(java.lang.String)
    */
   @Override
-  public abstract void deleteByUuid(final String uuid);
+  public void deleteByUuid(final String uuid) {
+    getRepository().deleteByUuid(uuid); //NOPMD
+  }
 }

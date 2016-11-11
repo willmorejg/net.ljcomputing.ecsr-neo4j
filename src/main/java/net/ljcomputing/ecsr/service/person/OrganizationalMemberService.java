@@ -19,6 +19,7 @@ package net.ljcomputing.ecsr.service.person;
 import net.ljcomputing.ecsr.domain.person.Organization;
 import net.ljcomputing.ecsr.domain.person.OrganizationalMember;
 import net.ljcomputing.ecsr.domain.person.Person;
+import net.ljcomputing.ecsr.repository.person.OrganizationalMemberRepository;
 
 /**
  * Organizational member service.
@@ -27,5 +28,6 @@ import net.ljcomputing.ecsr.domain.person.Person;
  *
  */
 public interface OrganizationalMemberService
-    extends MembershipService<Person, Organization, OrganizationalMember> {
+    extends
+    MembershipService<Person, Organization, OrganizationalMember, OrganizationalMemberRepository> {
 }

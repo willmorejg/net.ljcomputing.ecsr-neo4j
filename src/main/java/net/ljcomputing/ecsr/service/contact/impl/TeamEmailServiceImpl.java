@@ -16,12 +16,14 @@
 
 package net.ljcomputing.ecsr.service.contact.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ljcomputing.ecsr.domain.contact.EmailContact;
 import net.ljcomputing.ecsr.domain.contact.PersonalityContactImpl;
 import net.ljcomputing.ecsr.domain.person.Team;
+import net.ljcomputing.ecsr.repository.contact.PersonalityContactRepository;
 import net.ljcomputing.ecsr.service.contact.TeamEmailService;
 
 /**
@@ -32,6 +34,19 @@ import net.ljcomputing.ecsr.service.contact.TeamEmailService;
 @Transactional
 public class TeamEmailServiceImpl extends
     AbstractPersonalityContactServiceImpl
-    <PersonalityContactImpl<Team, EmailContact>, Team, EmailContact>
+    <PersonalityContactImpl<Team, EmailContact>, Team, 
+    EmailContact,
+    PersonalityContactRepository<PersonalityContactImpl<Team, EmailContact>>>
     implements TeamEmailService {
+
+  /**
+   * @see net.ljcomputing.ecsr.service.impl.AbstractDomainServiceImpl
+   *    #setRepository(net.ljcomputing.ecsr.repository.DomainRepository)
+   */
+  @Autowired
+  @Override
+  public void setRepository(
+      final PersonalityContactRepository<PersonalityContactImpl<Team, EmailContact>> repository) {
+    this.repository = repository;
+  }
 }
