@@ -33,7 +33,7 @@ public enum OrderType {
   /**
    * Instantiates a new contact order type.
    *
-   * @param displayedAs the displayed as
+   * @param displayValue the display value
    */
   private OrderType(final String displayValue) {
     this.displayValue = displayValue;

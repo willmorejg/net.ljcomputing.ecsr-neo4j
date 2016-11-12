@@ -44,11 +44,11 @@ public class DeletionAspect {
    * Delete method.
    *
    * @param point the point
+   * @param entity the entity
    * @throws Throwable the throwable
    */
   @Around("execution(* org.springframework.data.repository.*.delete(Object)) && args(entity)")
   public void deleteMethod(final ProceedingJoinPoint point, final Object entity) throws Throwable {
-
     if (entity instanceof Domain) {
       final Domain domain = (Domain) entity;
       final String entityClassName = entity.getClass().getName(); //NOPMD

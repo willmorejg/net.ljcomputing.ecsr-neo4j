@@ -15,7 +15,7 @@
  */
 
 /**
- * Package containing contact information domain classes.
+ * Package containing ECSR contact information domain classes.
  * 
  * @author James G. Willmore
  *

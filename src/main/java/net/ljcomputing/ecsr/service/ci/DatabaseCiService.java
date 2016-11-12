@@ -14,10 +14,17 @@
    limitations under the License.
  */
 
+package net.ljcomputing.ecsr.service.ci;
+
+import net.ljcomputing.ecsr.domain.ci.Database;
+import net.ljcomputing.ecsr.repository.ci.DatabaseRepository;
+
 /**
- * Package containing ECSR person domain classes.
+ * Database configuration item service.
  * 
  * @author James G. Willmore
  *
  */
-package net.ljcomputing.ecsr.domain.person;
+public interface DatabaseCiService
+    extends ConfigurationItemService<Database, DatabaseRepository> {
+}

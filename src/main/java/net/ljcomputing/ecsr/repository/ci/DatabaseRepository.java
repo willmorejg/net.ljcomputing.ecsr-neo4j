@@ -17,7 +17,6 @@
 package net.ljcomputing.ecsr.repository.ci;
 
 import net.ljcomputing.ecsr.domain.ci.Database;
-import net.ljcomputing.ecsr.repository.DomainRepository;
 
 /**
  * Database repository.
@@ -25,7 +24,7 @@ import net.ljcomputing.ecsr.repository.DomainRepository;
  * @author James G. Willmore
  *
  */
-public interface DatabaseRepository extends DomainRepository<Database> {
+public interface DatabaseRepository extends ConfigurationItemRepository<Database> {
 
   /**
    * Find by name.
@@ -33,5 +32,6 @@ public interface DatabaseRepository extends DomainRepository<Database> {
    * @param name the name
    * @return the team
    */
+  @Override
   Database findByName(String name);
 }

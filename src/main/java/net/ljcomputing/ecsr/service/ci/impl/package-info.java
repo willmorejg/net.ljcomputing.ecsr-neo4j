@@ -15,9 +15,9 @@
  */
 
 /**
- * Package containing ECSR person domain classes.
+ * Package containing ECSR configuration item service implementations.
  * 
  * @author James G. Willmore
  *
  */
-package net.ljcomputing.ecsr.domain.person;
+package net.ljcomputing.ecsr.service.ci.impl;

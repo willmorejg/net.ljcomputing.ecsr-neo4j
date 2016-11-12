@@ -33,10 +33,10 @@ import net.ljcomputing.ecsr.domain.ci.Database;
 import net.ljcomputing.ecsr.domain.ci.Hardware;
 import net.ljcomputing.ecsr.domain.ci.Software;
 import net.ljcomputing.ecsr.domain.person.Person;
-import net.ljcomputing.ecsr.repository.ci.DatabaseRepository;
-import net.ljcomputing.ecsr.repository.ci.HardwareRepository;
-import net.ljcomputing.ecsr.repository.ci.SoftwareRepository;
-import net.ljcomputing.ecsr.repository.person.PersonRepository;
+import net.ljcomputing.ecsr.service.ci.DatabaseCiService;
+import net.ljcomputing.ecsr.service.ci.HardwareCiService;
+import net.ljcomputing.ecsr.service.ci.SoftwareCiService;
+import net.ljcomputing.ecsr.service.person.PersonService;
 
 /**
  * @author James G. Willmore
@@ -54,19 +54,19 @@ public class CiCreationUnitTests {
   
   /** The software repos. */
   @Autowired
-  private transient SoftwareRepository softwareRepos;
+  private transient SoftwareCiService softwareService;
   
   /** The hardware repos. */
   @Autowired
-  private transient HardwareRepository hardwareRepos;
+  private transient HardwareCiService hardwareService;
 
   /** The database repos. */
   @Autowired
-  private transient DatabaseRepository databaseRepos;
+  private transient DatabaseCiService databaseService;
   
   /** The person repos. */
   @Autowired
-  private transient PersonRepository personRepos;
+  private transient PersonService personService;
 
   /** The version. */
   private static final String[] VERSION = {"1", "2", "3"};
@@ -84,7 +84,7 @@ public class CiCreationUnitTests {
 
       software.setName(name);
 
-      softwareRepos.save(software);
+      softwareService.save(software);
     }
   }
 
@@ -104,7 +104,7 @@ public class CiCreationUnitTests {
       hardware.setName(name);
       hardware.setVersion(iVersion);
 
-      hardwareRepos.save(hardware);
+      hardwareService.save(hardware);
       
       inc++; //NOPMD
     }
@@ -123,7 +123,7 @@ public class CiCreationUnitTests {
 
       database.setName(name);
 
-      databaseRepos.save(database);
+      databaseService.save(database);
     }
   }
   
@@ -133,24 +133,24 @@ public class CiCreationUnitTests {
   @Test
   @Rollback(false)
   public void test04() {
-    final Iterable<Software> softwares = softwareRepos.findAll();
+    final Iterable<Software> softwares = softwareService.findAll();
     
     for (final Software software : softwares) {
-      final Iterable<Person> people = personRepos.findAll();
+      final Iterable<Person> people = personService.findAll();
       
       for (final Person person : people) {
         software.addOwner(person);
       }
       
-      softwareRepos.save(software);
+      softwareService.save(software);
     }
     
-    final Software apple = softwareRepos.findByName("Mac OS X"); //NOPMD
-    final Iterable<Person> people = personRepos.findAll();
+    final Software apple = softwareService.findByName("Mac OS X"); //NOPMD
+    final Iterable<Person> people = personService.findAll();
     
     for (final Person person : people) {
       apple.removeOwner(person); //NOPMD
-      softwareRepos.save(apple);
+      softwareService.save(apple);
     }
   }
 }

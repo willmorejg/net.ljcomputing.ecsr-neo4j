@@ -14,10 +14,27 @@
    limitations under the License.
  */
 
+package net.ljcomputing.ecsr.service.ci;
+
+import net.ljcomputing.ecsr.domain.ci.ConfigurationItem;
+import net.ljcomputing.ecsr.repository.ci.ConfigurationItemRepository;
+import net.ljcomputing.ecsr.service.DomainService;
+
 /**
- * Package containing ECSR person domain classes.
+ * Interface shared by all configuration items services.
  * 
  * @author James G. Willmore
  *
  */
-package net.ljcomputing.ecsr.domain.person;
+public interface ConfigurationItemService
+    <T extends ConfigurationItem, R extends ConfigurationItemRepository<T>>
+    extends DomainService<T, R> {
+
+  /**
+   * Find by name.
+   *
+   * @param name the name
+   * @return the database
+   */
+  T findByName(String name);
+}

@@ -17,7 +17,6 @@
 package net.ljcomputing.ecsr.repository.ci;
 
 import net.ljcomputing.ecsr.domain.ci.Software;
-import net.ljcomputing.ecsr.repository.DomainRepository;
 
 /**
  * Software repository.
@@ -25,7 +24,7 @@ import net.ljcomputing.ecsr.repository.DomainRepository;
  * @author James G. Willmore
  *
  */
-public interface SoftwareRepository extends DomainRepository<Software> {
+public interface SoftwareRepository extends ConfigurationItemRepository<Software> {
 
   /**
    * Find by name.
@@ -33,5 +32,6 @@ public interface SoftwareRepository extends DomainRepository<Software> {
    * @param name the name
    * @return the team
    */
+  @Override
   Software findByName(String name);
 }

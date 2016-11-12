@@ -18,6 +18,7 @@ package net.ljcomputing.ecsr.domain.ci;
 
 import java.util.List;
 
+import net.ljcomputing.ecsr.domain.Domain;
 import net.ljcomputing.ecsr.domain.person.Organization;
 import net.ljcomputing.ecsr.domain.person.Personality;
 
@@ -27,7 +28,7 @@ import net.ljcomputing.ecsr.domain.person.Personality;
  * @author James G. Willmore
  *
  */
-public interface ConfigurationItem {
+public interface ConfigurationItem extends Domain {
 
   /**
    * Gets the name.

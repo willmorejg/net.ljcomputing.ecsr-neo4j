@@ -15,7 +15,7 @@
  */
 
 /**
- * Package containing AspectJ classes.
+ * Package containing ECSR AspectJ classes.
  * 
  * @author James G. Willmore
  *

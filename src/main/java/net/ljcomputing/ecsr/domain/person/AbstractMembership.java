@@ -43,29 +43,36 @@ public abstract class AbstractMembership<T extends Domain, S extends Domain>
   private S memberOf;
 
   /**
-   * @see net.ljcomputing.ecsr.domain.person.Membership#getMember()
+   * Gets the member.
+   *
+   * @return the member
    */
   public T getMember() {
     return member;
   }
 
   /**
-   * @see net.ljcomputing.ecsr.domain.person.Membership#setMember(java.lang.Object)
+   * Sets the member.
+   *
+   * @param member the new member
    */
   public void setMember(final T member) {
     this.member = member;
   }
 
   /**
-   * @see net.ljcomputing.ecsr.domain.person.Membership#getMemberOf()
+   * Gets the member of.
+   *
+   * @return the member of
    */
   public S getMemberOf() {
     return memberOf;
   }
 
   /**
-   * @see net.ljcomputing.ecsr.domain.person.Membership
-   *    #setMemberOf(java.lang.Object)
+   * Sets the member of.
+   *
+   * @param memberOf the new member of
    */
   public void setMemberOf(final S memberOf) {
     this.memberOf = memberOf;

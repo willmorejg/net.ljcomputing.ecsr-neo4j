@@ -15,7 +15,7 @@
  */
 
 /**
- * Package containing configuration item domain classes.
+ * Package containing ECSR configuration item domain classes.
  * 
  * @author James G. Willmore
  *

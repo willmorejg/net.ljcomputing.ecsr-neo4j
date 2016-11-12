@@ -14,10 +14,17 @@
    limitations under the License.
  */
 
+package net.ljcomputing.ecsr.service.ci;
+
+import net.ljcomputing.ecsr.domain.ci.Software;
+import net.ljcomputing.ecsr.repository.ci.SoftwareRepository;
+
 /**
- * Package containing ECSR person domain classes.
+ * Software configuration item service.
  * 
  * @author James G. Willmore
  *
  */
-package net.ljcomputing.ecsr.domain.person;
+public interface SoftwareCiService
+    extends ConfigurationItemService<Software, SoftwareRepository> {
+}

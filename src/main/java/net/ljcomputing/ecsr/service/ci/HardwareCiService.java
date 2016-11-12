@@ -14,10 +14,17 @@
    limitations under the License.
  */
 
+package net.ljcomputing.ecsr.service.ci;
+
+import net.ljcomputing.ecsr.domain.ci.Hardware;
+import net.ljcomputing.ecsr.repository.ci.HardwareRepository;
+
 /**
- * Package containing ECSR person domain classes.
+ * Hardware configuration item service.
  * 
  * @author James G. Willmore
  *
  */
-package net.ljcomputing.ecsr.domain.person;
+public interface HardwareCiService
+    extends ConfigurationItemService<Hardware, HardwareRepository> {
+}

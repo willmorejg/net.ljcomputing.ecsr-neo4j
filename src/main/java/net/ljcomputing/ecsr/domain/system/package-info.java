@@ -15,6 +15,8 @@
  */
 
 /**
+ * Package containing ECSR system-related domain classes.
+ * 
  * @author James G. Willmore
  *
  */

@@ -15,7 +15,7 @@
  */
 
 /**
- * Package containing incident management domain classes.
+ * Package containing ECSR incident management domain classes.
  * 
  * @author James G. Willmore
  *

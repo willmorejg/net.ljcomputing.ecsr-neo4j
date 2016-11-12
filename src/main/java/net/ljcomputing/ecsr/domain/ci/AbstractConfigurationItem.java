@@ -27,7 +27,7 @@ import net.ljcomputing.ecsr.domain.person.Organization;
 import net.ljcomputing.ecsr.domain.person.Personality;
 
 /**
- * The Class AbstractConfigurationItem.
+ * Abstract implementation of a configuration item.
  *
  * @author James G. Willmore
  */

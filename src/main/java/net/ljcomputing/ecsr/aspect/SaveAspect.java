@@ -44,11 +44,11 @@ public class SaveAspect {
    * Update method.
    *
    * @param point the point
+   * @param entity the entity
    * @throws Throwable the throwable
    */
   @Around("execution(* org.springframework.data.repository.*.save(Object)) && args(entity)")
   public void updateMethod(final ProceedingJoinPoint point, final Object entity) throws Throwable {
-
     if (entity instanceof Domain) {
       final Domain domain = (Domain) entity;
       final String entityClassName = entity.getClass().getName(); //NOPMD
