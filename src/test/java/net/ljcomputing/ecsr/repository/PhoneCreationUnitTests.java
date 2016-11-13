@@ -34,9 +34,9 @@ import net.ljcomputing.ecsr.domain.contact.PhoneContact;
 import net.ljcomputing.ecsr.domain.person.Organization;
 import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.domain.person.Team;
-import net.ljcomputing.ecsr.repository.contact.PhoneRepository;
 import net.ljcomputing.ecsr.service.contact.OrganizationPhoneService;
 import net.ljcomputing.ecsr.service.contact.PersonPhoneService;
+import net.ljcomputing.ecsr.service.contact.PhoneService;
 import net.ljcomputing.ecsr.service.contact.TeamPhoneService;
 
 /**
@@ -53,9 +53,9 @@ public class PhoneCreationUnitTests extends AbstractContactCreationUnitTests {
   @SuppressWarnings("unused")
   private static final Logger LOGGER = LoggerFactory.getLogger(PhoneCreationUnitTests.class);
 
-  /** The phone repos. */
+  /** The phone service. */
   @Autowired
-  private transient PhoneRepository phoneRepos;
+  private transient PhoneService phoneSrv;
 
   /** The person phone repos. */
   @Autowired
@@ -81,7 +81,7 @@ public class PhoneCreationUnitTests extends AbstractContactCreationUnitTests {
     phone.setPrefix("555");
     phone.setNumber("5555");
     
-    phoneRepos.save(phone);
+    phoneSrv.save(phone);
   }
 
   /**
@@ -93,7 +93,7 @@ public class PhoneCreationUnitTests extends AbstractContactCreationUnitTests {
     final Iterable<Person> people = personRepos.findAll();
 
     for (final Person person : people) {
-      final Iterable<PhoneContact> phones = phoneRepos.findAll();
+      final Iterable<PhoneContact> phones = phoneSrv.findAll();
 
       for (final PhoneContact phone : phones) {
         final PersonalityContactImpl<Person, PhoneContact> personContact = 
@@ -115,7 +115,7 @@ public class PhoneCreationUnitTests extends AbstractContactCreationUnitTests {
     final Iterable<Team> teams = teamRepos.findAll();
 
     for (final Team team : teams) {
-      final Iterable<PhoneContact> phones = phoneRepos.findAll();
+      final Iterable<PhoneContact> phones = phoneSrv.findAll();
 
       for (final PhoneContact phone : phones) {
         final PersonalityContactImpl<Team, PhoneContact> personContact = 
@@ -137,7 +137,7 @@ public class PhoneCreationUnitTests extends AbstractContactCreationUnitTests {
     final Iterable<Organization> orgs = organizationRepos.findAll();
 
     for (final Organization org : orgs) {
-      final Iterable<PhoneContact> phones = phoneRepos.findAll();
+      final Iterable<PhoneContact> phones = phoneSrv.findAll();
 
       for (final PhoneContact phone : phones) {
         final PersonalityContactImpl<Organization, PhoneContact> personContact = 

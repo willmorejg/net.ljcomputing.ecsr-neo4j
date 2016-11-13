@@ -17,7 +17,6 @@
 package net.ljcomputing.ecsr.repository.contact;
 
 import net.ljcomputing.ecsr.domain.contact.PhoneContact;
-import net.ljcomputing.ecsr.repository.DomainRepository;
 
 /**
  * Phone repository.
@@ -25,5 +24,5 @@ import net.ljcomputing.ecsr.repository.DomainRepository;
  * @author James G. Willmore
  *
  */
-public interface PhoneRepository extends DomainRepository<PhoneContact> {
+public interface PhoneRepository extends ContactInformationRepository<PhoneContact> {
 }

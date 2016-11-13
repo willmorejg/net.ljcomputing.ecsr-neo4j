@@ -17,7 +17,6 @@
 package net.ljcomputing.ecsr.repository.contact;
 
 import net.ljcomputing.ecsr.domain.contact.MailContact;
-import net.ljcomputing.ecsr.repository.DomainRepository;
 
 /**
  * Mail repository.
@@ -25,5 +24,5 @@ import net.ljcomputing.ecsr.repository.DomainRepository;
  * @author James G. Willmore
  *
  */
-public interface MailRepository extends DomainRepository<MailContact> {
+public interface MailRepository extends ContactInformationRepository<MailContact> {
 }

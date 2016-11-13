@@ -14,17 +14,19 @@
    limitations under the License.
  */
 
-package net.ljcomputing.ecsr.repository.contact;
+package net.ljcomputing.ecsr.service.contact;
 
 import net.ljcomputing.ecsr.domain.contact.AbstractContactInformation;
-import net.ljcomputing.ecsr.repository.DomainRepository;
+import net.ljcomputing.ecsr.repository.contact.ContactInformationRepository;
+import net.ljcomputing.ecsr.service.DomainService;
 
 /**
- * Contact information repository.
+ * Contact information service.
  * 
  * @author James G. Willmore
  *
  */
-public interface ContactInformationRepository<E extends AbstractContactInformation>
-    extends DomainRepository<E> {
+public interface ContactInformationService
+    <T extends AbstractContactInformation, R extends ContactInformationRepository<T>>
+    extends DomainService<T, R> {
 }

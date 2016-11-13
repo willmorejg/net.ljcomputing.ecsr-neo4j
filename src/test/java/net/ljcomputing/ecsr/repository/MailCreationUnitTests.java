@@ -34,7 +34,7 @@ import net.ljcomputing.ecsr.domain.contact.PersonalityContactImpl;
 import net.ljcomputing.ecsr.domain.person.Organization;
 import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.domain.person.Team;
-import net.ljcomputing.ecsr.repository.contact.MailRepository;
+import net.ljcomputing.ecsr.service.contact.MailService;
 import net.ljcomputing.ecsr.service.contact.OrganizationMailService;
 import net.ljcomputing.ecsr.service.contact.PersonMailService;
 import net.ljcomputing.ecsr.service.contact.TeamMailService;
@@ -53,9 +53,9 @@ public class MailCreationUnitTests extends AbstractContactCreationUnitTests {
   @SuppressWarnings("unused")
   private static final Logger LOGGER = LoggerFactory.getLogger(MailCreationUnitTests.class);
 
-  /** The mail repos. */
+  /** The mail service. */
   @Autowired
-  private transient MailRepository mailRepos;
+  private transient MailService mailSrv;
 
   /** The person mail service. */
   @Autowired
@@ -82,7 +82,7 @@ public class MailCreationUnitTests extends AbstractContactCreationUnitTests {
     mail.setState("PA");
     mail.setZipCode("17401");
     
-    mailRepos.save(mail);
+    mailSrv.save(mail);
   }
 
   /**
@@ -94,7 +94,7 @@ public class MailCreationUnitTests extends AbstractContactCreationUnitTests {
     final Iterable<Person> people = personRepos.findAll();
 
     for (final Person person : people) {
-      final Iterable<MailContact> mails = mailRepos.findAll();
+      final Iterable<MailContact> mails = mailSrv.findAll();
 
       for (final MailContact mail : mails) {
         final PersonalityContactImpl<Person, MailContact> personContact = 
@@ -116,7 +116,7 @@ public class MailCreationUnitTests extends AbstractContactCreationUnitTests {
     final Iterable<Team> teams = teamRepos.findAll();
 
     for (final Team team : teams) {
-      final Iterable<MailContact> mails = mailRepos.findAll();
+      final Iterable<MailContact> mails = mailSrv.findAll();
 
       for (final MailContact mail : mails) {
         final PersonalityContactImpl<Team, MailContact> personContact = 
@@ -138,7 +138,7 @@ public class MailCreationUnitTests extends AbstractContactCreationUnitTests {
     final Iterable<Organization> orgs = organizationRepos.findAll();
 
     for (final Organization org : orgs) {
-      final Iterable<MailContact> mails = mailRepos.findAll();
+      final Iterable<MailContact> mails = mailSrv.findAll();
 
       for (final MailContact mail : mails) {
         final PersonalityContactImpl<Organization, MailContact> personContact = 

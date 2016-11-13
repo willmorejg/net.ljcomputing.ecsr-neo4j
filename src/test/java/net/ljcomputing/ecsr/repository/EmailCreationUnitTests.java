@@ -33,7 +33,7 @@ import net.ljcomputing.ecsr.domain.contact.EmailContact;
 import net.ljcomputing.ecsr.domain.person.Organization;
 import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.domain.person.Team;
-import net.ljcomputing.ecsr.repository.contact.EmailRepository;
+import net.ljcomputing.ecsr.service.contact.EmailService;
 import net.ljcomputing.ecsr.service.contact.OrganizationEmailService;
 import net.ljcomputing.ecsr.service.contact.PersonEmailService;
 import net.ljcomputing.ecsr.service.contact.TeamEmailService;
@@ -52,9 +52,9 @@ public class EmailCreationUnitTests extends AbstractContactCreationUnitTests {
   @SuppressWarnings("unused")
   private static final Logger LOGGER = LoggerFactory.getLogger(EmailCreationUnitTests.class);
 
-  /** The email repos. */
+  /** The email service. */
   @Autowired
-  private transient EmailRepository emailRepos;
+  private transient EmailService emailSrv;
 
   /** The person email contact service. */
   @Autowired
@@ -78,9 +78,8 @@ public class EmailCreationUnitTests extends AbstractContactCreationUnitTests {
 
     email.setLocalPart("localPart");
     email.setDomain("localhost");
-    email.setAlias("localhost email");
 
-    emailRepos.save(email);
+    emailSrv.save(email);
   }
 
   /**
@@ -92,8 +91,7 @@ public class EmailCreationUnitTests extends AbstractContactCreationUnitTests {
     final Iterable<Person> people = personRepos.findAll();
 
     for (final Person person : people) {
-      final Iterable<EmailContact> emails = 
-          emailRepos.findByAlias("localhost email");
+      final Iterable<EmailContact> emails = emailSrv.findAll();
 
       for (final EmailContact email : emails) {
         personEmailSrv.addContact(person, email);
@@ -110,7 +108,7 @@ public class EmailCreationUnitTests extends AbstractContactCreationUnitTests {
     final Iterable<Team> teams = teamRepos.findAll();
 
     for (final Team team : teams) {
-      final Iterable<EmailContact> emails = emailRepos.findAll();
+      final Iterable<EmailContact> emails = emailSrv.findAll();
 
       for (final EmailContact email : emails) {
         teamEmailSrv.addContact(team, email);
@@ -127,7 +125,7 @@ public class EmailCreationUnitTests extends AbstractContactCreationUnitTests {
     final Iterable<Organization> orgs = organizationRepos.findAll();
 
     for (final Organization org : orgs) {
-      final Iterable<EmailContact> emails = emailRepos.findAll();
+      final Iterable<EmailContact> emails = emailSrv.findAll();
 
       for (final EmailContact email : emails) {
         orgEmailSrv.addContact(org, email);
