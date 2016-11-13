@@ -78,6 +78,7 @@ public class EmailCreationUnitTests extends AbstractContactCreationUnitTests {
 
     email.setLocalPart("localPart");
     email.setDomain("localhost");
+    email.setAlias("localhost email");
 
     emailRepos.save(email);
   }
@@ -91,7 +92,8 @@ public class EmailCreationUnitTests extends AbstractContactCreationUnitTests {
     final Iterable<Person> people = personRepos.findAll();
 
     for (final Person person : people) {
-      final Iterable<EmailContact> emails = emailRepos.findAll();
+      final Iterable<EmailContact> emails = 
+          emailRepos.findByAlias("localhost email");
 
       for (final EmailContact email : emails) {
         personEmailSrv.addContact(person, email);

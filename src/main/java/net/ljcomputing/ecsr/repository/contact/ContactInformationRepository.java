@@ -16,13 +16,23 @@
 
 package net.ljcomputing.ecsr.repository.contact;
 
-import net.ljcomputing.ecsr.domain.contact.EmailContact;
+import net.ljcomputing.ecsr.domain.contact.AbstractContactInformation;
+import net.ljcomputing.ecsr.repository.DomainRepository;
 
 /**
- * Email repository.
+ * Contact information repository.
  * 
  * @author James G. Willmore
  *
  */
-public interface EmailRepository extends ContactInformationRepository<EmailContact> {
+public interface ContactInformationRepository<E extends AbstractContactInformation>
+    extends DomainRepository<E> {
+
+  /**
+   * Find by alias.
+   *
+   * @param alias the alias
+   * @return the e
+   */
+  Iterable<E> findByAlias(String alias);
 }

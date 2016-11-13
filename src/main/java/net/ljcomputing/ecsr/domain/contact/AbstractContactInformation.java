@@ -16,6 +16,8 @@
 
 package net.ljcomputing.ecsr.domain.contact;
 
+import org.neo4j.ogm.annotation.NodeEntity;
+
 import net.ljcomputing.ecsr.domain.AbstractDomain;
 import net.ljcomputing.ecsr.domain.Domain;
 import net.ljcomputing.ecsr.domain.OrderType;
@@ -26,6 +28,7 @@ import net.ljcomputing.ecsr.domain.OrderType;
  * @author James G. Willmore
  *
  */
+@NodeEntity
 public abstract class AbstractContactInformation extends AbstractDomain
     implements ContactInformation, Domain {
 
