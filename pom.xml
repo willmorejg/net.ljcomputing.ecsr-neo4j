@@ -23,8 +23,17 @@
 		<target.version>1.8</target.version>
 
 		<github.username>willmorejg</github.username>
+
+		<start-class>net.ljcomputing.ecsr.EcsrApplication</start-class>
+
 		<neo4j.ogm.version>2.0.5</neo4j.ogm.version>
 		<neo4j.kernel.version>3.0.6</neo4j.kernel.version>
+
+		<!-- webjar version -->
+		<webjars-jquery.version>3.1.1</webjars-jquery.version>
+		<webjars-bootstrap.version>3.3.7-1</webjars-bootstrap.version>
+		<webjars-font-awesome.version>4.6.3</webjars-font-awesome.version>
+		<webjars-angularjs.version>1.5.8</webjars-angularjs.version>
 	</properties>
 
 	<!-- Contact and License Information -->
@@ -145,6 +154,34 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-hateoas</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>webjars-locator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>${webjars-jquery.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>${webjars-bootstrap.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>font-awesome</artifactId>
+			<version>${webjars-font-awesome.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>angularjs</artifactId>
+			<version>${webjars-angularjs.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -221,7 +258,7 @@
 				<configuration>
 					<reportOutputDirectory>${basedir}/docs/javadoc</reportOutputDirectory>
 					<detectLinks>false</detectLinks>
-                    <detectJavaApiLink>true</detectJavaApiLink>
+					<detectJavaApiLink>true</detectJavaApiLink>
 					<show>private</show>
 					<doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
 					<docletArtifact>
@@ -263,6 +300,34 @@
 						License.&lt;/p&gt;
 						&lt;/div&gt;</top>
 					<linksource>true</linksource>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warName>ecsr</warName>
+					<!--packagingExcludes>**/*mysql*.jar,**/*log4j*.jar,**/*slf4j*.jar</packagingExcludes -->
+					<packagingIncludes>**/*.jar,**/*.xml,**/*.properties,**/*.index,**/*.class,**/*.png,**/*.css,**/*.js,**/*.jsp,**/*.jpg,**/*.htm*</packagingIncludes>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>${start-class}</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>${start-class}</mainClass>
+					<classifier>exec</classifier>
+					<addResources>true</addResources>
 				</configuration>
 			</plugin>
 
