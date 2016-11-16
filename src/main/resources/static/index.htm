@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.flex-container {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-flow: row wrap;
+	flex-flow: row wrap;
+	text-align: center;
+}
+
+.flex-container>* {
+	padding: 15px;
+	-webkit-flex: 1 100%;
+	flex: 1 100%;
+}
+
+.article {
+	text-align: left;
+}
+
+header {
+	background: #99c9ff;
+	color: white;
+}
+
+footer {
+	background: #b3b3b3;
+	color: white;
+}
+
+a{
+    color: #e6ecff;
+}
+
+.nav {
+	background: #a6a6a6;
+}
+
+.nav ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+.nav ul a {
+	text-decoration: none;
+}
+
+@media all and (min-width: 768px) {
+	.nav {
+		text-align: left;
+		-webkit-flex: 1 auto;
+		flex: 1 auto;
+		-webkit-order: 1;
+		order: 1;
+	}
+	.article {
+		-webkit-flex: 5 0px;
+		flex: 5 0px;
+		-webkit-order: 2;
+		order: 2;
+	}
+	footer {
+		-webkit-order: 3;
+		order: 3;
+	}
+}
+</style>
+<script src="webjars/jquery/3.1.1/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
+<script src="webjars/mustachejs/2.2.1/mustache.min.js"></script>
+</head>
+<body>
+
+	<div class="flex-container">
+		<header>
+			<h1>Index</h1>
+		</header>
+
+		<nav class="nav">
+			<ul>
+				<li><a href="#">ECSR</a></li>
+			</ul>
+		</nav>
+
+		<article class="article">
+			<h1>Electronic Customer Service Representative</h1>
+			<p>Electronic Customer Service Representative</p>
+			<div id="target">
+				<script id="template" type="x-tmpl-mustache">
+    Hello there {{ name }} - welcome!
+  </script>
+			</div>
+		</article>
+
+		<footer>
+			<a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache
+				License</a>
+		</footer>
+	</div>
+	<div id="dialog">
+		<p>Hello</p>
+	</div>
+	<script>
+$( function() {
+    //$( "#dialog" ).dialog();
+    var template = $('#template').html();
+    Mustache.parse(template);   // optional, speeds up future uses
+    var rendered = Mustache.render(template, {name: "Jimmy"});
+    $('#target').html(rendered);
+  } );
+</script>
+</body>
+</html>
+

@@ -26,11 +26,14 @@
 
 		<start-class>net.ljcomputing.ecsr.EcsrApplication</start-class>
 
+		<net-ljcomputing-gson.version>gson-1.1.1</net-ljcomputing-gson.version>
+
 		<neo4j.ogm.version>2.0.5</neo4j.ogm.version>
 		<neo4j.kernel.version>3.0.6</neo4j.kernel.version>
 
 		<!-- webjar version -->
 		<webjars-jquery.version>3.1.1</webjars-jquery.version>
+		<webjars-jquery-ui.version>1.12.1</webjars-jquery-ui.version>
 		<webjars-bootstrap.version>3.3.7-1</webjars-bootstrap.version>
 		<webjars-font-awesome.version>4.6.3</webjars-font-awesome.version>
 		<webjars-angularjs.version>1.5.8</webjars-angularjs.version>
@@ -74,6 +77,13 @@
 		</snapshotRepository>
 
 	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -156,7 +166,21 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-hateoas</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.willmorejg</groupId>
+			<artifactId>net.ljcomputing.gson</artifactId>
+			<version>${net-ljcomputing-gson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -166,6 +190,11 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery</artifactId>
 			<version>${webjars-jquery.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery-ui</artifactId>
+			<version>${webjars-jquery-ui.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -181,6 +210,17 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>angularjs</artifactId>
 			<version>${webjars-angularjs.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.webjars/mustachejs -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>mustachejs</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.9</version>
 		</dependency>
 	</dependencies>
 

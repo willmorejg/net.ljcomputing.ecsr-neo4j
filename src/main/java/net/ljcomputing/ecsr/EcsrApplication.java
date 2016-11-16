@@ -19,6 +19,9 @@ package net.ljcomputing.ecsr;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.Import;
+
+import net.ljcomputing.gson.config.GsonWebMvcConfigurerAdapter;
 
 /**
  * ECSR application classes.
@@ -28,6 +31,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  */
 @SpringBootApplication
 @EnableAspectJAutoProxy
+@Import({ GsonWebMvcConfigurerAdapter.class })
 public class EcsrApplication { //NOPMD
 
   /**

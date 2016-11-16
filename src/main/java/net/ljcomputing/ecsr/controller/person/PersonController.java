@@ -19,7 +19,9 @@ package net.ljcomputing.ecsr.controller.person;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,7 +50,8 @@ public class PersonController {
    * @return the response entity
    * @throws NoRecordsFoundException the no records found exception
    */
-  @RequestMapping(method = RequestMethod.GET, value = "/")
+  @RequestMapping(method = RequestMethod.GET, value = "/", produces = {
+      MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE })
   public List<Person> allPeople() {
     return personSrv.findAll();
   }
@@ -59,8 +62,22 @@ public class PersonController {
    * @param uuid the uuid
    * @return the person
    */
-  @RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
+  @RequestMapping(method = RequestMethod.GET, value = "/{uuid}", produces = {
+      MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE })
   public Person personByUuid(@PathVariable("uuid") final String uuid) {
     return personSrv.findByUuid(uuid);
+  }
+
+  /**
+   * Save.
+   *
+   * @param person the person
+   * @return the person
+   */
+  @RequestMapping(method = RequestMethod.POST, value = "/", produces = {
+      MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = {
+          MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE })
+  public Person save(@RequestBody final Person person) {
+    return personSrv.save(person);
   }
 }

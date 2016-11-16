@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ljcomputing.ecsr.configuration.EcsrNeo4JConfiguration;
@@ -47,6 +48,7 @@ import net.ljcomputing.ecsr.service.person.TeamService;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = EcsrNeo4JConfiguration.class)
+@WebAppConfiguration
 @Transactional
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PersonUpdateUnitTests {
