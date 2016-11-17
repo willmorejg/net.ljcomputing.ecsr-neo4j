@@ -55,6 +55,14 @@ public abstract class AbstractDomainServiceImpl<T extends Domain, R extends Doma
    */
   @Override
   public T save(final T domain) {
+    // if the domain exists, and the save is actually an update, set the 
+    // createdTs to what is already persisted; this removes the need to 
+    // always make sure the createdTs is set after the update
+    if (domain.getId() != null && domain.getUuid() != null) {
+      final Domain old = getRepository().findByUuid(domain.getUuid()); //NOPMD
+      domain.setCreatedTs(old.getCreatedTs()); //NOPMD
+    }
+    
     return getRepository().save(domain); //NOPMD
   }
 
