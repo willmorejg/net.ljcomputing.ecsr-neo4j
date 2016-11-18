@@ -19,9 +19,16 @@ package net.ljcomputing.ecsr.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
+import org.springframework.http.converter.xml.MarshallingHttpMessageConverter;
+import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
@@ -40,8 +47,13 @@ import org.springframework.web.servlet.view.JstlView;
  *
  */
 @Configuration
+@ComponentScan(basePackages = { "net.ljcomputing.ecsr" })
 @EnableWebMvc
 public class EcsrMvcConfiguration extends WebMvcConfigurerAdapter {
+
+  /** The logger. */
+  private static final Logger LOGGER = LoggerFactory.getLogger(EcsrMvcConfiguration.class);
+
   /**
    * The Constant CLASSPATH_RESOURCE_LOCATIONS - defines where static
    * resources are located.
@@ -60,7 +72,7 @@ public class EcsrMvcConfiguration extends WebMvcConfigurerAdapter {
       registry.addResourceHandler("/webjars/**") //NOPMD
           .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
-    
+
     if (!registry.hasMappingForPattern("/**")) {
       registry.addResourceHandler("/**").addResourceLocations(RES_LOCATIONS); //NOPMD
     }
@@ -78,6 +90,47 @@ public class EcsrMvcConfiguration extends WebMvcConfigurerAdapter {
     resolver.setPrefix("/WEB-INF/pages/");
     resolver.setSuffix(".jsp");
     return resolver;
+  }
+
+  /**
+   * Xml converter.
+   *
+   * @return the marshalling http message converter
+   */
+  @Bean
+  public MarshallingHttpMessageConverter xmlConverter() {
+    final XStreamMarshaller xstreamMarshaller = new XStreamMarshaller();
+    final MarshallingHttpMessageConverter xmlConverter = new MarshallingHttpMessageConverter();
+    final List<MediaType> mediaType = new ArrayList<>();
+
+    mediaType.add(MediaType.APPLICATION_XML);
+
+    xmlConverter.setSupportedMediaTypes(mediaType);
+    xmlConverter.setMarshaller(xstreamMarshaller);
+    xmlConverter.setUnmarshaller(xstreamMarshaller);
+
+    LOGGER.info(" ... Adding XML converter.");
+
+    return xmlConverter;
+  }
+
+  /**
+   * GSON converter.
+   *
+   * @return the gson http message converter
+   */
+  @Bean
+  public GsonHttpMessageConverter gsonConverter() {
+    final List<MediaType> mediaType = new ArrayList<>();
+    mediaType.add(MediaType.APPLICATION_JSON);
+    mediaType.add(MediaType.APPLICATION_JSON_UTF8);
+
+    final GsonHttpMessageConverter gsonConverter = new GsonHttpMessageConverter();
+    gsonConverter.setSupportedMediaTypes(mediaType);
+
+    LOGGER.info(" ... Adding GSON converter.");
+
+    return gsonConverter;
   }
 
   /**
@@ -100,9 +153,9 @@ public class EcsrMvcConfiguration extends WebMvcConfigurerAdapter {
   @Override
   public void configureContentNegotiation(final ContentNegotiationConfigurer configurer) {
     configurer
-      .favorParameter(true)
-      .ignoreAcceptHeader(true)
+      .favorPathExtension(true)
       .defaultContentType(MediaType.APPLICATION_JSON_UTF8)
+      .mediaType("jsonx", MediaType.APPLICATION_JSON)
       .mediaType("xml", MediaType.APPLICATION_XML);
   }
 
@@ -123,5 +176,18 @@ public class EcsrMvcConfiguration extends WebMvcConfigurerAdapter {
     resolver.setViewResolvers(resolvers);
 
     return resolver;
+  }
+
+  /**
+   * Configure message converters.
+   *
+   * @param converters the converters
+   */
+  @Override
+  public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+    converters.add(xmlConverter());
+    converters.add(gsonConverter());
+    LOGGER.debug("converters: {}", converters);
+    super.configureMessageConverters(converters);
   }
 }

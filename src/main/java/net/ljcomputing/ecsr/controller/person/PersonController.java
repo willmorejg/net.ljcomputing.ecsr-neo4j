@@ -50,8 +50,9 @@ public class PersonController {
    * @return the response entity
    * @throws NoRecordsFoundException the no records found exception
    */
-  @RequestMapping(method = RequestMethod.GET, value = "/", produces = {
-      MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE })
+  @RequestMapping(method = RequestMethod.GET, value = "/all", produces = {
+      MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE,
+      MediaType.APPLICATION_XML_VALUE })
   public List<Person> allPeople() {
     return personSrv.findAll();
   }
@@ -62,8 +63,9 @@ public class PersonController {
    * @param uuid the uuid
    * @return the person
    */
-  @RequestMapping(method = RequestMethod.GET, value = "/{uuid}", produces = {
-      MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE })
+  @RequestMapping(method = RequestMethod.GET, value = "/uuid/{uuid}", produces = {
+      MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE,
+      MediaType.APPLICATION_XML_VALUE })
   public Person personByUuid(@PathVariable("uuid") final String uuid) {
     return personSrv.findByUuid(uuid);
   }
@@ -74,8 +76,9 @@ public class PersonController {
    * @param person the person
    * @return the person
    */
-  @RequestMapping(method = RequestMethod.POST, value = "/", produces = {
-      MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = {
+  @RequestMapping(method = RequestMethod.POST, value = "/save", produces = {
+      MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE,
+      MediaType.APPLICATION_XML_VALUE }, consumes = { MediaType.APPLICATION_JSON_VALUE,
           MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE })
   public Person save(@RequestBody final Person person) {
     return personSrv.save(person);
