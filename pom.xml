@@ -30,13 +30,20 @@
 
 		<neo4j.ogm.version>2.0.5</neo4j.ogm.version>
 		<neo4j.kernel.version>3.0.6</neo4j.kernel.version>
+		
+		<xstream.version>1.4.9</xstream.version>
 
 		<!-- webjar version -->
 		<webjars-jquery.version>3.1.1</webjars-jquery.version>
 		<webjars-jquery-ui.version>1.12.1</webjars-jquery-ui.version>
-		<webjars-bootstrap.version>3.3.7-1</webjars-bootstrap.version>
+        <webjars-bootstrap.version>3.3.7-1</webjars-bootstrap.version>
+        <webjars-bootstrap-material.version>0.5.9</webjars-bootstrap-material.version>
 		<webjars-font-awesome.version>4.6.3</webjars-font-awesome.version>
-		<webjars-angularjs.version>1.5.8</webjars-angularjs.version>
+        <webjars-vue.version>2.0.0</webjars-vue.version>
+        <webjars-vue-resource.version>0.9.3</webjars-vue-resource.version>
+        <webjars-axios.version>0.13.1</webjars-axios.version>
+        <webjars-lodash.version>3.10.1</webjars-lodash.version>
+        <webjars-moment.version>2.16.0</webjars-moment.version>
 	</properties>
 
 	<!-- Contact and License Information -->
@@ -172,6 +179,18 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-oxm</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-csv</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
@@ -181,6 +200,11 @@
 			<artifactId>net.ljcomputing.gson</artifactId>
 			<version>${net-ljcomputing-gson.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>${xstream.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
@@ -200,44 +224,46 @@
 			<artifactId>jquery-ui</artifactId>
 			<version>${webjars-jquery-ui.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>${webjars-bootstrap.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${webjars-bootstrap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap-material-design</artifactId>
+            <version>${webjars-bootstrap-material.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>font-awesome</artifactId>
 			<version>${webjars-font-awesome.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>angularjs</artifactId>
-			<version>${webjars-angularjs.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.webjars/mustachejs -->
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>mustachejs</artifactId>
-			<version>2.2.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
-			<version>1.4.9</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-csv</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>vue</artifactId>
+            <version>${webjars-vue.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>vue-resource</artifactId>
+            <version>${webjars-vue-resource.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>axios</artifactId>
+            <version>${webjars-axios.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>lodash</artifactId>
+            <version>${webjars-lodash.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>momentjs</artifactId>
+            <version>${webjars-moment.version}</version>
+        </dependency>
 	</dependencies>
 
 	<build>

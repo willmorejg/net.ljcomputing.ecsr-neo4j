@@ -50,7 +50,7 @@ public class PersonController {
    * @return the response entity
    * @throws NoRecordsFoundException the no records found exception
    */
-  @RequestMapping(method = RequestMethod.GET, value = "/all", produces = {
+  @RequestMapping(method = RequestMethod.GET, value = "/findAll", produces = {
       MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE,
       MediaType.APPLICATION_XML_VALUE })
   public List<Person> allPeople() {
@@ -63,7 +63,7 @@ public class PersonController {
    * @param uuid the uuid
    * @return the person
    */
-  @RequestMapping(method = RequestMethod.GET, value = "/uuid/{uuid}", produces = {
+  @RequestMapping(method = RequestMethod.GET, value = "/findByUuid/{uuid}", produces = {
       MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE,
       MediaType.APPLICATION_XML_VALUE })
   public Person personByUuid(@PathVariable("uuid") final String uuid) {
