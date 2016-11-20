@@ -6,6 +6,15 @@ const routes = {
   '/about': About
 }
 
+var restApiPeople = {
+	findAll: {
+		method: 'GET', 
+		url:'people/findAll'
+	}
+};
+
+var restResourcePeople = Vue.resource('people', {}, restApiPeople);
+
 Vue.component('demo-grid', {
   template: '#grid-template',
   replace: true,
@@ -60,7 +69,6 @@ Vue.component('demo-grid', {
   }
 })
 
-// bootstrap the demo
 var demo = new Vue({
   el: '#demo',
   data: {
@@ -68,23 +76,20 @@ var demo = new Vue({
     gridColumns: ['uuid', 'firstName', 'middleName', 'lastName'],
     gridData: []
   },
-  created: function() {
-	  var result = [];
-	  var promise = $.ajax({
-		  url: '/people/findAll',
-		  method: 'GET',
-		  async: false
-	  });
-  
-	  promise.done(function(response){
-		  console.log('response: ', response);
-		  result = response;
-	  });
-	  
-	  promise.fail(function(jqXHR, textStatus, errorThrown){
-		  console.log('response: ', jqXHR.statusText, jqXHR.status);
-	  });
-	  
-	  this.gridData = result;
+  methods: {
+	  findAll: function() {
+		  restResourcePeople.findAll().then(
+			  (response) => {
+				  this.gridData = response.data;
+				  console.log('response: ', response.data);
+			  },
+			  (response) => {
+				  console.log('error: ', response);
+			  }
+		  );
+  	}
+  },
+  mounted: function() {
+	  this.findAll();
   }
 })
