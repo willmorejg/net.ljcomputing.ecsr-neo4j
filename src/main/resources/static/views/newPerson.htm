@@ -1,0 +1,82 @@
+<div class="container">
+    <div class="row">
+	    <div class="col-md-6 col-md-offset-3">
+		    <div class="well well-sm">
+			    <form class="form-horizontal">
+			        <fieldset>
+				        <legend class="text-center">{{headingTitle}}</legend>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="name">Prefix:</label>
+                            <div class="col-md-9">
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="prefix" 
+                                ng-model="person.prefix"
+                                maxlength="40"
+                                placeholder="Please enter your name prefix">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="name">First Name:</label>
+                            <div class="col-md-9">
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="firstName" 
+                                ng-model="person.firstName"
+                                maxlength="40"
+                                placeholder="Please enter your first name *" 
+                                required="required" 
+                                data-error="First name is required.">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="name">Middle Name:</label>
+                            <div class="col-md-9">
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="middleName" 
+                                ng-model="person.middleName"
+                                maxlength="40"
+                                placeholder="Please enter your middle name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="name">Last Name (Surname):</label>
+                            <div class="col-md-9">
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="lastName" 
+                                ng-model="person.lastName"
+                                maxlength="40"
+                                placeholder="Please enter your last name (surname) *" 
+                                required="required" 
+                                data-error="Last name (Surname) is required.">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="name">Suffix:</label>
+                            <div class="col-md-9">
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="suffix" 
+                                ng-model="person.suffix"
+                                maxlength="40"
+                                placeholder="Please enter your name suffix">
+                            </div>
+                        </div>
+				        <div class="form-group">
+					        <div class="col-md-12 text-right">
+					            <button type="button" class="btn btn-default" ng-click="savePerson(person);">Submit</button>
+					        </div>
+				        </div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
