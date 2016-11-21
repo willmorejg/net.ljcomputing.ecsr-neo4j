@@ -40,6 +40,7 @@ public class DeletionAspect {
   /** The Constant LOGGER. */
   private static final Logger LOGGER = LoggerFactory.getLogger(DeletionAspect.class);
 
+  //TODO - account for String (example: deleteByUuid)
   /**
    * Delete method.
    *

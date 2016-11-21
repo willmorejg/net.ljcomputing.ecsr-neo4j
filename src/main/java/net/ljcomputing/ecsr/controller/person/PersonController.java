@@ -83,4 +83,14 @@ public class PersonController {
   public Person save(@RequestBody final Person person) {
     return personSrv.save(person);
   }
+
+  /**
+   * Delete by uuid.
+   *
+   * @param uuid the uuid
+   */
+  @RequestMapping(method = RequestMethod.DELETE, value = "/deleteByUuid/{uuid}")
+  public void deleteByUuid(@PathVariable("uuid") final String uuid) {
+    personSrv.deleteByUuid(uuid);
+  }
 }

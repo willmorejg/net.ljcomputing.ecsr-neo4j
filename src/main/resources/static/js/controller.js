@@ -19,6 +19,10 @@ app.controller('findPeopleController', function($scope, personfactory) {
 	$scope.getPeople = function() {
 		$scope.people = personfactory.getPeople($scope);
 	};
+	
+	$scope.deletePerson = function(uuid) {
+		personfactory.deletePerson(uuid, $scope);
+	};
 });
 
 app.controller('newPersonController', function($scope, personfactory, toastr) {

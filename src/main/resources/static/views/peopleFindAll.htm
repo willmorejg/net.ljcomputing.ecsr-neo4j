@@ -38,6 +38,7 @@
 	                          </a>
 	                      </th>
 	                      <th>Suffix</th>
+	                      <th>&nbsp;</th>
 	                  </tr>
 		          </thead>
 		          <tr ng-repeat="person in people | orderBy:sortType:sortReverse | filter:search">
@@ -47,6 +48,7 @@
                       <td>{{person.middleName}}</td>
                       <td>{{person.lastName}}</td>
                       <td>{{person.suffix}}</td>
+                      <td><a type="button" ng-click="deletePerson(person.uuid)">Delete</a></td>
 		          </tr>
 		      </table>
 			</div>

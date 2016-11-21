@@ -12,6 +12,16 @@ function Person(resource) {
 		});
 	}
 	
+	this.deletePerson = function(uuid, scope) {
+		var Person = resource('/people/deleteByUuid/:uuid', {
+			uuid : '@uuid'
+		});
+		
+		Person.delete({
+			uuid : uuid
+		});
+	}
+	
 	this.getPerson = function(uuid, scope) {
 		var Person = resource('/people/findByUuid/:uuid', {
 			uuid : '@uuid'
@@ -21,7 +31,7 @@ function Person(resource) {
 			uuid : uuid
 		}, function(person) {
 			scope.person = person;
-		})
+		});
 	}
 	
 	this.getPeople = function(scope) {
