@@ -59,6 +59,19 @@
                             <li><a href="#/peopleSave">Add New</a></li>
                         </ul>
                     </li>
+                    <li class="dropdown">
+                        <a 
+                            class="dropdown-toggle"
+                            data-toggle="dropdown" 
+                            role="button" 
+                            aria-expanded="false">
+                                Teams <span class="fa fa-caret-down"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#/teamFindAll">List / Find</a></li>
+                            <li><a href="#/teamSave">Add New</a></li>
+                        </ul>
+                    </li>
 				</ul>
 			</div>
 		</div>
@@ -66,35 +79,11 @@
 	
 	<div class="container-fluid" style="margin: 5%;">
 	   <div ng-view></div>
+       <footer>
+           <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache
+               License</a>
+       </footer>
 	</div>
-	
-	<!-- start -->
-<!-- 	<div class="container-fluid" style="margin: 5%;"> -->
-<!-- 		<div class="row"> -->
-<!-- 			<div class="col-sm-9"> -->
-<!--                 <div ng-view></div> -->
-<!-- 				<h1>Content</h1> -->
-<!-- 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed -->
-<!-- 					sed arcu ornare, faucibus arcu sit amet, venenatis odio. Curabitur -->
-<!-- 					ut rhoncus leo. Sed suscipit placerat ex, eget blandit erat -->
-<!-- 					pharetra et. Sed suscipit mollis placerat. Cras odio libero, -->
-<!-- 					pellentesque eget iaculis et, consectetur eu leo. Nullam a -->
-<!-- 					vestibulum quam, vel ultrices lectus. Maecenas finibus metus et -->
-<!-- 					dolor pretium, non ullamcorper mauris vehicula. Fusce id dignissim -->
-<!-- 					turpis. Vivamus malesuada blandit ante in porta. Sed euismod -->
-<!-- 					accumsan tristique. Proin ut ultricies justo. Ut vehicula accumsan -->
-<!-- 					pellentesque. Aenean eleifend pulvinar risus, a feugiat ligula -->
-<!-- 					viverra sed. Cras nisi dolor, lobortis sit amet aliquam dictum, -->
-<!-- 					rutrum et lacus.</p> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-
-<!-- 		<footer> -->
-<!-- 			<a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache -->
-<!-- 				License</a> -->
-<!-- 		</footer> -->
-<!-- 	</div> -->
-	<!--  end  -->
 
     <script src="webjars/lodash/3.10.1/lodash.min.js"></script>
     <script src="webjars/momentjs/2.16.0/min/moment.min.js"></script>
@@ -111,6 +100,7 @@
     <script src="js/app.js"></script>
     <script src="js/controller.js"></script>
     <script src="js/personFactory.js"></script>
+    <script src="js/teamFactory.js"></script>
 
 </body>
 </html>

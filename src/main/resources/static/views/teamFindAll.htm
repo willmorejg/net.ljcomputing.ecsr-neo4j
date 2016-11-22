@@ -1,0 +1,123 @@
+<div class="container">
+    <legend>{{headingTitle}}</legend>
+    <div class="row">
+	    <div class="col-md-12">
+		    <div class="well well-sm">
+			  <form>
+			    <div class="form-group">
+			      <div class="input-group">
+			        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+			        <input type="text" class="form-control" placeholder="Search" ng-model="search">
+			      </div>      
+			    </div>
+			  </form>
+		      <table class="table table-striped">
+		          <thead>
+	                  <tr>
+	                      <th>
+		                      <a ng-click="sortType = 'uuid'; sortReverse = !sortReverse">
+			                      UUID
+			                      <span ng-show="sortType == 'uuid' && !sortReverse" class="fa fa-caret-down"></span>
+		                          <span ng-show="sortType == 'uuid' && sortReverse" class="fa fa-caret-up"></span>
+		                      </a>
+	                      </th>
+	                      <th>
+	                          <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
+			                      Name
+		                          <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+		                          <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+	                          </a>
+	                      </th>
+	                      <th>Description</th>
+	                      <th>&nbsp;</th>
+	                  </tr>
+		          </thead>
+		          <tr ng-repeat="team in teams | orderBy:sortType:sortReverse | filter:search">
+                      <td>
+                        <a 
+                            type="button" 
+                            ng-click="getTeam(team.uuid)" 
+                            data-toggle="modal" 
+                            data-target="#team">
+                            {{team.uuid}}<span class="fa fa-pencil fa-1x fa-border">&nbsp;</span>
+                        </a>
+                      </td>
+                      <td>{{team.name}}</td>
+                      <td>{{team.description}}</td>
+                      <td>
+                        <a 
+                            type="button" 
+                            ng-click="deleteTeam(team.uuid)">
+                            Delete&nbsp;<span class="fa fa-trash fa-1x fa-border" style="color: #e27171;"></span>
+                        </a>
+                      </td>
+		          </tr>
+		      </table>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- line modal -->
+<div class="modal fade" id="team" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h3 class="modal-title" id="lineModalLabel">View / Modify Team</h3>
+        </div>
+        <div class="modal-body">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <legend class="text-center">Showing: {{team.name}}</legend>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="name">Name:</label>
+                            <div class="col-md-9">
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="name" 
+                                ng-model="team.name"
+                                maxlength="40"
+                                placeholder="Please enter the team name *" 
+                                required="required" 
+                                data-error="Team name is required.">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="description">Description:</label>
+                            <div class="col-md-9">
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="description" 
+                                ng-model="team.description"
+                                maxlength="40"
+                                placeholder="Please enter the team description">
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+        </div>
+        <div class="modal-footer">
+	        <div class="btn-group" role="group">
+                <button 
+                   type="button" 
+                   class="btn btn-default" 
+                   data-dismiss="modal"
+                   role="button">
+                       Close
+                </button>
+                <button 
+                   type="button" 
+                   class="btn btn-default" 
+                   role="button"
+                   ng-click="savePerson(person);getPeople();close();">
+                       Save
+                </button>
+	        </div>
+        </div>
+    </div>
+  </div>
+</div>

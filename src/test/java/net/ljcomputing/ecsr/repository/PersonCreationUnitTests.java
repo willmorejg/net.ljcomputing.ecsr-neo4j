@@ -17,6 +17,7 @@
 package net.ljcomputing.ecsr.repository;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -123,7 +124,7 @@ public class PersonCreationUnitTests {
    */
   @Test
   @Rollback(false)
-  //  @Ignore
+  @Ignore
   public void test03() {
     final Iterable<Person> people = personService.findAll();
     final Iterable<Team> teams = teamService.findAll(); //NOPMD
@@ -157,7 +158,7 @@ public class PersonCreationUnitTests {
    */
   @Test
   @Rollback(false)
-  //  @Ignore
+  @Ignore
   public void test05() {
     final Iterable<Person> people = personService.findAll();
     final Iterable<Organization> orgs = orgService.findAll(); //NOPMD
@@ -174,7 +175,7 @@ public class PersonCreationUnitTests {
    */
   @Test
   @Rollback(false)
-  //  @Ignore
+  @Ignore
   public void test06() {
     final Iterable<Team> teams = teamService.findAll();
     final Iterable<Organization> orgs = orgService.findAll(); //NOPMD

@@ -84,53 +84,67 @@
                     <fieldset>
                         <legend class="text-center">Showing: {{person.lastName}}, {{person.firstName}}</legend>
                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="name">Prefix:</label>
+                            <label class="col-md-3 control-label" for="prefix">Prefix:</label>
                             <div class="col-md-9">
                             <input 
                                 type="text" 
                                 class="form-control" 
-                                ng-model="person.prefix">
+                                id="prefix" 
+                                ng-model="person.prefix"
+                                maxlength="40"
+                                placeholder="Please enter your name prefix">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="name">First Name:</label>
+                            <label class="col-md-3 control-label" for="firstName">First Name:</label>
                             <div class="col-md-9">
                             <input 
                                 type="text" 
                                 class="form-control" 
+                                id="firstName" 
                                 ng-model="person.firstName"
+                                maxlength="40"
+                                placeholder="Please enter your first name *" 
                                 required="required" 
                                 data-error="First name is required.">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="name">Middle Name:</label>
+                            <label class="col-md-3 control-label" for="middleName">Middle Name:</label>
                             <div class="col-md-9">
                             <input 
                                 type="text" 
                                 class="form-control" 
-                                ng-model="person.middleName">
+                                id="middleName" 
+                                ng-model="person.middleName"
+                                maxlength="40"
+                                placeholder="Please enter your middle name">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="name">Last Name (Surname):</label>
+                            <label class="col-md-3 control-label" for="lastName">Last Name (Surname):</label>
                             <div class="col-md-9">
                             <input 
                                 type="text" 
                                 class="form-control" 
+                                id="lastName" 
                                 ng-model="person.lastName"
+                                maxlength="40"
                                 placeholder="Please enter your last name (surname) *" 
                                 required="required" 
                                 data-error="Last name (Surname) is required.">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="name">Suffix:</label>
+                            <label class="col-md-3 control-label" for="suffix">Suffix:</label>
                             <div class="col-md-9">
                             <input 
                                 type="text" 
                                 class="form-control" 
-                                ng-model="person.suffix">
+                                id="suffix" 
+                                ng-model="person.suffix"
+                                maxlength="40"
+                                placeholder="Please enter your name suffix">
                             </div>
                         </div>
 <!--                         <div class="form-group"> -->

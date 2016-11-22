@@ -20,6 +20,14 @@ app.config(function($routeProvider) {
 		templateUrl : 'views/newPerson.htm',
 		controller : 'newPersonController'
 	})
+	.when('/teamFindAll', {
+		templateUrl : 'views/teamFindAll.htm',
+		controller : 'findTeamController'
+	})
+	.when('/teamSave', {
+		templateUrl : 'views/newTeam.htm',
+		controller : 'newTeamController'
+	})
 	.otherwise({
 		redirectTo : '/'
 	});
