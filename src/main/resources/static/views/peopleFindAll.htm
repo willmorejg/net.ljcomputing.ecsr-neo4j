@@ -42,13 +42,27 @@
 	                  </tr>
 		          </thead>
 		          <tr ng-repeat="person in people | orderBy:sortType:sortReverse | filter:search">
-                      <td><a type="button" ng-click="getPerson(person.uuid)" data-toggle="modal" data-target="#person">{{person.uuid}}</a></td>
+                      <td>
+                        <a 
+                            type="button" 
+                            ng-click="getPerson(person.uuid)" 
+                            data-toggle="modal" 
+                            data-target="#person">
+                            {{person.uuid}}<span class="fa fa-pencil fa-1x fa-border">&nbsp;</span>
+                        </a>
+                      </td>
                       <td>{{person.prefix}}</td>
                       <td>{{person.firstName}}</td>
                       <td>{{person.middleName}}</td>
                       <td>{{person.lastName}}</td>
                       <td>{{person.suffix}}</td>
-                      <td><a type="button" ng-click="deletePerson(person.uuid)">Delete</a></td>
+                      <td>
+                        <a 
+                            type="button" 
+                            ng-click="deletePerson(person.uuid)">
+                            Delete&nbsp;<span class="fa fa-trash fa-1x fa-border" style="color: #e27171;"></span>
+                        </a>
+                      </td>
 		          </tr>
 		      </table>
 			</div>

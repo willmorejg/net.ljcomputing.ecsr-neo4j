@@ -30,6 +30,7 @@
 <body>
 	<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
 		<div class="container-fluid">
+		    <div id="toast-container"></div>
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
 					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
@@ -40,14 +41,14 @@
 				</button>
 				<a class="navbar-brand" href="#">ECSR</a>
 			</div>
-			<div id="navbar" class="collapse navbar-collapse">
+			<div id="navbar" ng-controller="navController" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Home</a></li>
-					<li><a href="#/about">About</a></li>
-                    <li><a href="#/contactus">Contact</a></li>
+					<li ng-class="{active: $location.path() === '/'}"><a href="#">Home</a></li>
+					<li><a href="#/about" ng-class="{active: $location.path() === '/about'}">About</a></li>
+                    <li><a href="#/contactus" ng-class="{active: $location.path() === '/contactus'}">Contact</a></li>
                     <li class="dropdown">
                         <a 
-                            class="dropdown-toggle" 
+                            class="dropdown-toggle"
                             data-toggle="dropdown" 
                             role="button" 
                             aria-expanded="false">

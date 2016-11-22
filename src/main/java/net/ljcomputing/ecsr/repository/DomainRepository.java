@@ -43,6 +43,7 @@ public interface DomainRepository<T extends Domain> extends GraphRepository<T> {
    *
    * @param uuid the uuid
    */
+  //  @Query("MATCH (n {uuid: {0}}) SET n.deleteIndicator=true")
   @Query("MATCH (n) WHERE n.uuid = {0} DELETE n")
   void deleteByUuid(String uuid);
 }
