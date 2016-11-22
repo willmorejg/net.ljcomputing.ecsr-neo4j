@@ -53,8 +53,44 @@ public class GlobalExceptionController {
    *
    * @return the current timestamp
    */
-  private String getCurrentTimestamp() {
+  private static String getCurrentTimestamp() {
     return FORMAT.format(LocalDateTime.now());
+  }
+  
+  /**
+   * Gets the request path.
+   *
+   * @param req the req
+   * @return the request path
+   */
+  private static String getRequestPath(final HttpServletRequest req) {
+    final StringBuffer reqPath = req.getRequestURL();
+    return reqPath.toString(); // NOPMD
+  }
+
+  /**
+   * Gets the default error info.
+   *
+   * @param req the req
+   * @param exception the exception
+   * @return the default error info
+   */
+  private static ErrorInfo getDefaultErrorInfo(final HttpServletRequest req,
+      final Exception exception) {
+    return getErrorInfo(req, exception, HttpStatus.BAD_REQUEST);
+  }
+
+  /**
+   * Gets the error info.
+   *
+   * @param req the req
+   * @param exception the exception
+   * @param status the status
+   * @return the error info
+   */
+  private static ErrorInfo getErrorInfo(final HttpServletRequest req, final Exception exception,
+      final HttpStatus status) {
+    return new ErrorInfo(getCurrentTimestamp(), status, getRequestPath(req), exception);
   }
 
   /**
@@ -71,10 +107,10 @@ public class GlobalExceptionController {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public @ResponseBody ErrorInfo handleAllExceptions(final HttpServletRequest req,
       final Exception exception) {
-    LOGGER.error("An error occured during the processing of {}:", req.getRequestURL().toString(),
+    LOGGER.error("An error occured during the processing of {}:", // NOPMD 
+        getRequestPath(req), 
         exception);
-    return new ErrorInfo(getCurrentTimestamp(), HttpStatus.BAD_REQUEST,
-        req.getRequestURL().toString(), exception);
+    return getDefaultErrorInfo(req, exception);
   }
 
   /**
@@ -89,10 +125,10 @@ public class GlobalExceptionController {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public @ResponseBody ErrorInfo handleAllNullPointerExceptions(final HttpServletRequest req,
       final Exception exception) {
-    LOGGER.error("The data sent for processing had errors {}:", req.getRequestURL().toString(),
+    LOGGER.error("The data sent for processing had errors {}:", // NOPMD
+        getRequestPath(req),
         exception);
-    return new ErrorInfo(getCurrentTimestamp(), HttpStatus.BAD_REQUEST,
-        req.getRequestURL().toString(), new Exception("An invalid value was sent or requested."));
+    return getDefaultErrorInfo(req, new Exception("An invalid value was sent or requested."));
   }
 
   /**
@@ -109,14 +145,19 @@ public class GlobalExceptionController {
   @ResponseStatus(HttpStatus.CONFLICT)
   public @ResponseBody ErrorInfo handleAllDataIntegrityViolationExceptions(
       final HttpServletRequest req, final Exception exception) {
-    LOGGER.error("The data sent for processing had errors {}:", req.getRequestURL().toString(),
+    LOGGER.error("The data sent for processing had errors {}:", // NOPMD 
+        getRequestPath(req),
         exception);
-    if (exception.getMessage().contains("Unique property")) {
-      return new ErrorInfo(getCurrentTimestamp(), HttpStatus.CONFLICT,
-          req.getRequestURL().toString(), new Exception("The saved value already exists."));
+
+    ErrorInfo errorInfo = getDefaultErrorInfo(req, exception);
+    final String message = exception.getMessage();
+    
+    if (message.contains("Unique property")) {
+      errorInfo = getErrorInfo(req, 
+          new Exception("The saved value already exists."), HttpStatus.CONFLICT);
     }
-    return new ErrorInfo(getCurrentTimestamp(), HttpStatus.CONFLICT, req.getRequestURL().toString(),
-        exception);
+
+    return errorInfo;
   }
 
   /**
@@ -131,17 +172,20 @@ public class GlobalExceptionController {
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public @ResponseBody ErrorInfo handleAllCypherExceptions(final HttpServletRequest req,
       final Exception exception) {
-    LOGGER.error("The data sent for processing had errors {}:", req.getRequestURL().toString(),
+    LOGGER.error("The data sent for processing had errors {}:", // NOPMD
+        getRequestPath(req),
         exception);
 
-    if (exception.getMessage().contains("Neo.ClientError.Schema.ConstraintValidationFailed")) {
+    ErrorInfo errorInfo = getDefaultErrorInfo(req, exception);
+    final String message = exception.getMessage();
+
+    if (message.contains("Neo.ClientError.Schema.ConstraintValidationFailed")) {
       LOGGER.info("Neo.ClientError.Schema.ConstraintValidationFailed: {}",
-          req.getRequestURL().toString());
-      return new ErrorInfo(getCurrentTimestamp(), HttpStatus.CONFLICT,
-          req.getRequestURL().toString(), new Exception("The modified data has dependences."));
+          getRequestPath(req));
+      errorInfo = getErrorInfo(req, 
+          new Exception("The modified data has dependences."), HttpStatus.CONFLICT);
     }
 
-    return new ErrorInfo(getCurrentTimestamp(), HttpStatus.BAD_REQUEST,
-        req.getRequestURL().toString(), new Exception("An invalid value was sent or requested."));
+    return errorInfo;
   }
 }

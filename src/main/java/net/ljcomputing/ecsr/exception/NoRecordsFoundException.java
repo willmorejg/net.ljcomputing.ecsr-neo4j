@@ -16,9 +16,8 @@
 
 package net.ljcomputing.ecsr.exception;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class NoRecordsFoundException.
+ * No Records Found Exception.
  *
  * @author James G. Willmore
  */
@@ -26,13 +25,12 @@ public class NoRecordsFoundException extends Exception {
 
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = -3619157200467813095L;
-  
+
   /**
    * Instantiates a new no records found exception.
    */
   public NoRecordsFoundException() {
     super();
-    // TODO Auto-generated constructor stub
   }
 
   /**
@@ -41,12 +39,11 @@ public class NoRecordsFoundException extends Exception {
    * @param message the message
    * @param cause the cause
    * @param enableSuppression the enable suppression
-   * @param writableStackTrace the writable stack trace
+   * @param writable the writable stack trace
    */
-  public NoRecordsFoundException(String message, Throwable cause, boolean enableSuppression,
-      boolean writableStackTrace) {
-    super(message, cause, enableSuppression, writableStackTrace);
-    // TODO Auto-generated constructor stub
+  public NoRecordsFoundException(final String message, final Throwable cause,
+      final boolean enableSuppression, final boolean writable) {
+    super(message, cause, enableSuppression, writable);
   }
 
   /**
@@ -55,9 +52,8 @@ public class NoRecordsFoundException extends Exception {
    * @param message the message
    * @param cause the cause
    */
-  public NoRecordsFoundException(String message, Throwable cause) {
+  public NoRecordsFoundException(final String message, final Throwable cause) {
     super(message, cause);
-    // TODO Auto-generated constructor stub
   }
 
   /**
@@ -65,9 +61,8 @@ public class NoRecordsFoundException extends Exception {
    *
    * @param message the message
    */
-  public NoRecordsFoundException(String message) {
+  public NoRecordsFoundException(final String message) {
     super(message);
-    // TODO Auto-generated constructor stub
   }
 
   /**
@@ -75,8 +70,7 @@ public class NoRecordsFoundException extends Exception {
    *
    * @param cause the cause
    */
-  public NoRecordsFoundException(Throwable cause) {
+  public NoRecordsFoundException(final Throwable cause) {
     super(cause);
-    // TODO Auto-generated constructor stub
   }
 }

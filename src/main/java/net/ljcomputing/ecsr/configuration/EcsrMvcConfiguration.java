@@ -152,7 +152,7 @@ public class EcsrMvcConfiguration extends WebMvcConfigurerAdapter {
    */
   @Override
   public void configureContentNegotiation(final ContentNegotiationConfigurer configurer) {
-    configurer
+    configurer // NOPMD
       .favorPathExtension(true)
       .defaultContentType(MediaType.APPLICATION_JSON_UTF8)
       .mediaType("jsonx", MediaType.APPLICATION_JSON)
@@ -184,7 +184,7 @@ public class EcsrMvcConfiguration extends WebMvcConfigurerAdapter {
    * @param converters the converters
    */
   @Override
-  public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+  public void configureMessageConverters(final List<HttpMessageConverter<?>> converters) {
     converters.add(xmlConverter());
     converters.add(gsonConverter());
     LOGGER.debug("converters: {}", converters);
