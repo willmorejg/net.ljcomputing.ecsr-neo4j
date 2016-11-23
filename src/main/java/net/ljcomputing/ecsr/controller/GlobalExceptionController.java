@@ -186,6 +186,13 @@ public class GlobalExceptionController {
           new Exception("The modified data has dependences."), HttpStatus.CONFLICT);
     }
 
+    if (exception instanceof org.neo4j.cypher.ConstraintValidationException) {
+      LOGGER.info("ConstraintValidationException: {}",
+          getRequestPath(req));
+      errorInfo = getErrorInfo(req, 
+          exception, HttpStatus.CONFLICT);
+    }
+
     return errorInfo;
   }
 }

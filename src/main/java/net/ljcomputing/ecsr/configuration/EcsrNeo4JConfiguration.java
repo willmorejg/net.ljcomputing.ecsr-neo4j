@@ -16,6 +16,8 @@
 
 package net.ljcomputing.ecsr.configuration;
 
+import javax.validation.Validator;
+
 import org.neo4j.ogm.session.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,6 +25,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.neo4j.config.Neo4jConfiguration;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  * ECSR Neo4J configuration.
@@ -45,5 +48,15 @@ public class EcsrNeo4JConfiguration extends Neo4jConfiguration {
   @Bean
   public SessionFactory getSessionFactory() {
     return new SessionFactory("net.ljcomputing.ecsr.domain");
+  }
+  
+  /**
+   * Bean validation.
+   *
+   * @return the validator
+   */
+  @Bean
+  public Validator beanValidation() {
+    return new LocalValidatorFactoryBean();
   }
 }

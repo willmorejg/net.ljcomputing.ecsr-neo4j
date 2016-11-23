@@ -29,7 +29,7 @@ public class ErrorInfo {
   private final String timestamp;
 
   /** The status. */
-  private final String status;
+  private final int status;
 
   /** The error. */
   private final String error;
@@ -56,7 +56,7 @@ public class ErrorInfo {
     final String message = exception.getMessage();
 
     this.timestamp = timestamp;
-    this.status = statusCodeObj.toString();
+    this.status = statusCodeObj;
     this.error = status.getReasonPhrase();
     this.path = path;
 
@@ -83,7 +83,7 @@ public class ErrorInfo {
    *
    * @return the status
    */
-  public String getStatus() {
+  public int getStatus() {
     return status;
   }
 

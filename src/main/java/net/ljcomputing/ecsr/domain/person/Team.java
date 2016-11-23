@@ -16,6 +16,8 @@
 
 package net.ljcomputing.ecsr.domain.person;
 
+import javax.validation.constraints.NotNull;
+
 import net.ljcomputing.ecsr.domain.AbstractDomain;
 
 /**
@@ -30,6 +32,7 @@ public class Team extends AbstractDomain implements Personality {
   private static final long serialVersionUID = -2966192617645982680L;
 
   /** The name. */
+  @NotNull(message = "Name may not be null or empty.")
   private String name;
 
   /** The description. */

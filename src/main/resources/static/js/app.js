@@ -46,7 +46,8 @@ app.config(function(toastrConfig) {
 		progressBar : true,
 		tapToDismiss : true,
 		timeOut : 10000,
-		extendedTimeOut: 60000
+		extendedTimeOut: 60000,
+		allowHtml: true
 	});
 });
 

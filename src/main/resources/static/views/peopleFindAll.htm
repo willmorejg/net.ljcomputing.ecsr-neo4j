@@ -71,7 +71,6 @@
 </div>
 
 
-<!-- line modal -->
 <div class="modal fade" id="person" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -80,9 +79,12 @@
             <h3 class="modal-title" id="lineModalLabel">View / Modify Person</h3>
         </div>
         <div class="modal-body">
-                <form class="form-horizontal">
+                <form name="form" class="form-horizontal" ng-submit="savePerson(person);" novalidate>
                     <fieldset>
                         <legend class="text-center">Showing: {{person.lastName}}, {{person.firstName}}</legend>
+                        <div ng-show="!form.$pristine && form.$invalid" class="alert alert-danger">
+                        Please enter values for the required fields.
+                        </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="prefix">Prefix:</label>
                             <div class="col-md-9">
@@ -101,12 +103,14 @@
                             <input 
                                 type="text" 
                                 class="form-control" 
-                                id="firstName" 
-                                ng-model="person.firstName"
+                                id="firstName"
+                                name="firstName" 
+                                ng-model="person.firstName" required
                                 maxlength="40"
-                                placeholder="Please enter your first name *" 
-                                required="required" 
-                                data-error="First name is required.">
+                                placeholder="Please enter your first name *">
+                                <span style="background-color: #ff9999;" ng-show="form.firstName.$invalid">
+                                * (required)
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -128,11 +132,13 @@
                                 type="text" 
                                 class="form-control" 
                                 id="lastName" 
-                                ng-model="person.lastName"
+                                name="lastName" 
+                                ng-model="person.lastName" required
                                 maxlength="40"
-                                placeholder="Please enter your last name (surname) *" 
-                                required="required" 
-                                data-error="Last name (Surname) is required.">
+                                placeholder="Please enter your last name (surname) *">
+                                <span style="background-color: #ff9999;" ng-show="form.lastName.$invalid">
+                                * (required)
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -147,45 +153,14 @@
                                 placeholder="Please enter your name suffix">
                             </div>
                         </div>
-<!--                         <div class="form-group"> -->
-<!--                             <div class="col-md-12 text-right"> -->
-<!--                                 <button type="submit" class="btn btn-default" data-dismiss="modal" ng-click="savePerson(person);getPeople();alert('ok')">Submit</button> -->
-<!--                             </div> -->
-<!--                         </div> -->
+                        <div class="form-group">
+                            <div class="col-md-12 text-right">
+                                <button type="submit" class="btn btn-default" ng-disabled="form.$invalid">Submit</button>
+                            </div>
+                        </div>
                     </fieldset>
                 </form>
         </div>
-        <div class="modal-footer">
-	        <div class="btn-group" role="group">
-                <button 
-                   type="button" 
-                   class="btn btn-default" 
-                   data-dismiss="modal"
-                   role="button">
-                       Close
-                </button>
-                <button 
-                   type="button" 
-                   class="btn btn-default" 
-                   role="button"
-                   ng-click="savePerson(person);getPeople();close();">
-                       Save
-                </button>
-	        </div>
-        </div>
-<!--         <div class="modal-footer"> -->
-<!--             <div class="btn-group btn-group-justified" role="group" aria-label="group button"> -->
-<!--                 <div class="btn-group" role="group"> -->
-<!--                     <button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Close</button> -->
-<!--                 </div> -->
-<!--                 <div class="btn-group btn-delete hidden" role="group"> -->
-<!--                     <button type="button" id="delImage" class="btn btn-default btn-hover-red" data-dismiss="modal"  role="button">Delete</button> -->
-<!--                 </div> -->
-<!--                 <div class="btn-group" role="group"> -->
-<!--                     <button type="button" id="saveImage" class="btn btn-default btn-hover-green" data-action="save" role="button">Save</button> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--         </div> -->
     </div>
   </div>
 </div>

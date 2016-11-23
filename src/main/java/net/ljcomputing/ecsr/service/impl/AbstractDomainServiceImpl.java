@@ -17,6 +17,13 @@
 package net.ljcomputing.ecsr.service.impl;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+
+import org.neo4j.cypher.ConstraintValidationException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import net.ljcomputing.ecsr.domain.Domain;
 import net.ljcomputing.ecsr.repository.DomainRepository;
@@ -34,6 +41,10 @@ public abstract class AbstractDomainServiceImpl<T extends Domain, R extends Doma
   /** The repository for the entities related to the service. */
   protected R repository;
   
+  /** The validator. */
+  @Autowired
+  protected transient Validator validator;
+  
   /**
    * @see net.ljcomputing.ecsr.service.DomainService#getRepository()
    */
@@ -48,6 +59,22 @@ public abstract class AbstractDomainServiceImpl<T extends Domain, R extends Doma
    */
   @Override
   public abstract void setRepository(R repository);
+
+  /**
+   * Gets the data violations.
+   *
+   * @param violations the violations
+   * @return the data violations
+   */
+  public final String getDataViolations(final Set<ConstraintViolation<T>> violations) {
+    final StringBuilder builder = new StringBuilder();
+    
+    for (final ConstraintViolation<T> violation : violations) {
+      builder.append("<li>" + violation.getMessage() + "</li>"); // NOPMD
+    }
+    
+    return builder.toString();
+  }
   
   /**
    * @see net.ljcomputing.ecsr.service.DomainService
@@ -59,6 +86,13 @@ public abstract class AbstractDomainServiceImpl<T extends Domain, R extends Doma
     // createdTs to what is already persisted; this removes the need to 
     // always make sure the createdTs is set after the update
     if (domain.getId() != null && domain.getUuid() != null) {
+      final Set<ConstraintViolation<T>> violations = validator.validate(domain);
+
+      if (violations != null && !violations.isEmpty()) { // NOPMD
+        throw new ConstraintValidationException(
+            "The values provided are invalid.<br/><ul>" + getDataViolations(violations) + "</ul>");
+      }
+      
       final Domain old = getRepository().findByUuid(domain.getUuid()); //NOPMD
       domain.setCreatedTs(old.getCreatedTs()); //NOPMD
     }

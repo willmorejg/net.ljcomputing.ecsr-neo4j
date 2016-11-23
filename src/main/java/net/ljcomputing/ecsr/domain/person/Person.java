@@ -16,6 +16,8 @@
 
 package net.ljcomputing.ecsr.domain.person;
 
+import javax.validation.constraints.NotNull;
+
 import net.ljcomputing.ecsr.domain.AbstractDomain;
 
 /**
@@ -33,12 +35,14 @@ public class Person extends AbstractDomain implements Personality {
   private String prefix;
 
   /** The first name. */
+  @NotNull(message = "First name may not be null or empty.")
   private String firstName;
 
   /** The middle name. */
   private String middleName;
 
   /** The last name. */
+  @NotNull(message = "Last name may not be null or empty.")
   private String lastName;
 
   /** The suffix. */
