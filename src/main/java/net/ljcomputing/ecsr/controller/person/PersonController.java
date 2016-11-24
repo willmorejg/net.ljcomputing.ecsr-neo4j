@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.ljcomputing.ecsr.controller.ControllerPath;
 import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.exception.NoRecordsFoundException;
 import net.ljcomputing.ecsr.service.person.PersonService;
@@ -37,7 +38,7 @@ import net.ljcomputing.ecsr.service.person.PersonService;
  *
  */
 @RestController
-@RequestMapping("/people")
+@RequestMapping(ControllerPath.PEOPLE)
 public class PersonController {
 
   /** The person service. */
@@ -50,7 +51,7 @@ public class PersonController {
    * @return the response entity
    * @throws NoRecordsFoundException the no records found exception
    */
-  @RequestMapping(method = RequestMethod.GET, value = "/findAll", produces = {
+  @RequestMapping(method = RequestMethod.GET, value = ControllerPath.FIND_ALL, produces = {
       MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE,
       MediaType.APPLICATION_XML_VALUE })
   public List<Person> allPeople() {
@@ -63,7 +64,7 @@ public class PersonController {
    * @param uuid the uuid
    * @return the person
    */
-  @RequestMapping(method = RequestMethod.GET, value = "/findByUuid/{uuid}", produces = {
+  @RequestMapping(method = RequestMethod.GET, value = ControllerPath.FIND_BY_UUID, produces = {
       MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE,
       MediaType.APPLICATION_XML_VALUE })
   public Person personByUuid(@PathVariable("uuid") final String uuid) {
@@ -76,7 +77,7 @@ public class PersonController {
    * @param person the person
    * @return the person
    */
-  @RequestMapping(method = RequestMethod.POST, value = "/save", produces = {
+  @RequestMapping(method = RequestMethod.POST, value = ControllerPath.SAVE, produces = {
       MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE,
       MediaType.APPLICATION_XML_VALUE }, consumes = { MediaType.APPLICATION_JSON_VALUE,
           MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE })
@@ -89,7 +90,7 @@ public class PersonController {
    *
    * @param uuid the uuid
    */
-  @RequestMapping(method = RequestMethod.DELETE, value = "/deleteByUuid/{uuid}")
+  @RequestMapping(method = RequestMethod.DELETE, value = ControllerPath.DELETE_BY_UUID)
   public void deleteByUuid(@PathVariable("uuid") final String uuid) {
     personSrv.deleteByUuid(uuid);
   }

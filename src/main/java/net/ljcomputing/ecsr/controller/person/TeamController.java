@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.ljcomputing.ecsr.controller.ControllerPath;
 import net.ljcomputing.ecsr.domain.person.Team;
 import net.ljcomputing.ecsr.service.person.TeamService;
 
@@ -36,7 +37,7 @@ import net.ljcomputing.ecsr.service.person.TeamService;
  *
  */
 @RestController
-@RequestMapping("/team")
+@RequestMapping(ControllerPath.TEAM)
 public class TeamController {
 
   /** The team service. */
@@ -48,7 +49,7 @@ public class TeamController {
    *
    * @return the list
    */
-  @RequestMapping(method = RequestMethod.GET, value = "/findAll", produces = {
+  @RequestMapping(method = RequestMethod.GET, value = ControllerPath.FIND_ALL, produces = {
       MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE,
       MediaType.APPLICATION_XML_VALUE })
   public List<Team> allTeams() {
@@ -61,7 +62,7 @@ public class TeamController {
    * @param uuid the uuid
    * @return the team
    */
-  @RequestMapping(method = RequestMethod.GET, value = "/findByUuid/{uuid}", produces = {
+  @RequestMapping(method = RequestMethod.GET, value = ControllerPath.FIND_BY_UUID, produces = {
       MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE,
       MediaType.APPLICATION_XML_VALUE })
   public Team teamByUuid(@PathVariable("uuid") final String uuid) {
@@ -74,7 +75,7 @@ public class TeamController {
    * @param team the team
    * @return the team
    */
-  @RequestMapping(method = RequestMethod.POST, value = "/save", produces = {
+  @RequestMapping(method = RequestMethod.POST, value = ControllerPath.SAVE, produces = {
       MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE,
       MediaType.APPLICATION_XML_VALUE }, consumes = { MediaType.APPLICATION_JSON_VALUE,
           MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE })
@@ -87,7 +88,7 @@ public class TeamController {
    *
    * @param uuid the uuid
    */
-  @RequestMapping(method = RequestMethod.DELETE, value = "/deleteByUuid/{uuid}")
+  @RequestMapping(method = RequestMethod.DELETE, value = ControllerPath.DELETE_BY_UUID)
   public void deleteByUuid(@PathVariable("uuid") final String uuid) {
     teamSrv.deleteByUuid(uuid);
   }

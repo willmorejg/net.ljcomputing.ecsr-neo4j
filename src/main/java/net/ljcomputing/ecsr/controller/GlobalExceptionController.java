@@ -148,16 +148,13 @@ public class GlobalExceptionController {
     LOGGER.error("The data sent for processing had errors {}:", // NOPMD 
         getRequestPath(req),
         exception);
-
-    ErrorInfo errorInfo = getDefaultErrorInfo(req, exception);
-    final String message = exception.getMessage();
     
-    if (message.contains("Unique property")) {
-      errorInfo = getErrorInfo(req, 
+    if (exception.getMessage().contains("Unique property")) { // NOPMD
+      return getErrorInfo(req, // NOPMD
           new Exception("The saved value already exists."), HttpStatus.CONFLICT);
     }
 
-    return errorInfo;
+    return getDefaultErrorInfo(req, exception);
   }
 
   /**
@@ -176,23 +173,20 @@ public class GlobalExceptionController {
         getRequestPath(req),
         exception);
 
-    ErrorInfo errorInfo = getDefaultErrorInfo(req, exception);
-    final String message = exception.getMessage();
-
-    if (message.contains("Neo.ClientError.Schema.ConstraintValidationFailed")) {
-      LOGGER.info("Neo.ClientError.Schema.ConstraintValidationFailed: {}",
-          getRequestPath(req));
-      errorInfo = getErrorInfo(req, 
-          new Exception("The modified data has dependences."), HttpStatus.CONFLICT);
-    }
-
     if (exception instanceof org.neo4j.cypher.ConstraintValidationException) {
       LOGGER.info("ConstraintValidationException: {}",
           getRequestPath(req));
-      errorInfo = getErrorInfo(req, 
-          exception, HttpStatus.CONFLICT);
+      return getErrorInfo(req, exception, HttpStatus.CONFLICT); // NOPMD
     }
 
-    return errorInfo;
+    if (exception.getMessage() // NOPMD
+        .contains("Neo.ClientError.Schema.ConstraintValidationFailed")) {
+      LOGGER.info("Neo.ClientError.Schema.ConstraintValidationFailed: {}",
+          getRequestPath(req));
+      return getErrorInfo(req, // NOPMD 
+          new Exception("The modified data has dependences."), HttpStatus.CONFLICT);
+    }
+
+    return getDefaultErrorInfo(req, exception);
   }
 }

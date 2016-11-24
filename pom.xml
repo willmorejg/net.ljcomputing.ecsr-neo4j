@@ -33,6 +33,8 @@
 
 		<xstream.version>1.4.9</xstream.version>
 
+		<jjwt.version>0.7.0</jjwt.version>
+
 		<!-- webjar version -->
 		<webjars-jquery.version>3.1.1</webjars-jquery.version>
 		<webjars-jquery-ui.version>1.12.1</webjars-jquery-ui.version>
@@ -40,10 +42,10 @@
 		<webjars-bootstrap-material.version>0.5.9</webjars-bootstrap-material.version>
 		<webjars-font-awesome.version>4.6.3</webjars-font-awesome.version>
 		<webjars-lodash.version>3.10.1</webjars-lodash.version>
-        <webjars-moment.version>2.16.0</webjars-moment.version>
-        <webjars-angularjs.version>1.5.8</webjars-angularjs.version>
-        <webjars-angularjs-toastr.version>2.1.1</webjars-angularjs-toastr.version>
-        <webjars-angularjs-ui-bootstrap.version>2.2.0</webjars-angularjs-ui-bootstrap.version>
+		<webjars-moment.version>2.16.0</webjars-moment.version>
+		<webjars-angularjs.version>1.5.8</webjars-angularjs.version>
+		<webjars-angularjs-toastr.version>2.1.1</webjars-angularjs-toastr.version>
+		<webjars-angularjs-ui-bootstrap.version>2.2.0</webjars-angularjs-ui-bootstrap.version>
 	</properties>
 
 	<!-- Contact and License Information -->
@@ -139,6 +141,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>org.neo4j</groupId> -->
 		<!-- <artifactId>neo4j-ogm-test</artifactId> -->
@@ -206,6 +212,11 @@
 			<version>${xstream.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${jjwt.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
 			<scope>test</scope>
@@ -244,26 +255,26 @@
 			<artifactId>lodash</artifactId>
 			<version>${webjars-lodash.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>momentjs</artifactId>
-            <version>${webjars-moment.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>angularjs</artifactId>
-            <version>${webjars-angularjs.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars.bower</groupId>
-            <artifactId>angular-toastr</artifactId>
-            <version>${webjars-angularjs-toastr.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars.bower</groupId>
-            <artifactId>angular-ui-bootstrap-bower</artifactId>
-            <version>${webjars-angularjs-ui-bootstrap.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>momentjs</artifactId>
+			<version>${webjars-moment.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>angularjs</artifactId>
+			<version>${webjars-angularjs.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>angular-toastr</artifactId>
+			<version>${webjars-angularjs-toastr.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>angular-ui-bootstrap-bower</artifactId>
+			<version>${webjars-angularjs-ui-bootstrap.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

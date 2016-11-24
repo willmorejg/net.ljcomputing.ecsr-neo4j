@@ -52,21 +52,30 @@ public class ErrorInfo {
       final Exception exception) {
     final int statusCode = status.value();
     final Integer statusCodeObj = Integer.valueOf(statusCode);
-    final String localizedMessage = exception.getLocalizedMessage();
-    final String message = exception.getMessage();
 
     this.timestamp = timestamp;
     this.status = statusCodeObj;
     this.error = status.getReasonPhrase();
     this.path = path;
-
-    if (localizedMessage != null) {
-      this.message = localizedMessage;
-    } else if (message != null) {
-      this.message = message;
-    } else {
-      this.message = "An error occured during processing: " + exception.toString();
+    this.message = determineMessage(exception);
+  }
+  
+  /**
+   * Determine message.
+   *
+   * @param exception the exception
+   * @return the string
+   */
+  private static String determineMessage(final Exception exception) {
+    if (exception.getLocalizedMessage() != null) {
+      return exception.getLocalizedMessage(); // NOPMD
     }
+    
+    if (exception.getMessage() != null) {
+      return exception.getMessage(); // NOPMD
+    }
+    
+    return "An error occured during processing: " + exception.toString();
   }
 
   /**
