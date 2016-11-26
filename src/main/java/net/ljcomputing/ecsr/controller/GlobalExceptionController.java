@@ -45,8 +45,8 @@ public class GlobalExceptionController {
   private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionController.class);
 
   /** The timestamp format. */
-  private static final DateTimeFormatter FORMAT = DateTimeFormatter
-      .ofPattern("MMM d, yyyy h:m:s a");
+  private static final DateTimeFormatter FORMAT = 
+      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // NOPMD
 
   /**
    * Gets the current timestamp.

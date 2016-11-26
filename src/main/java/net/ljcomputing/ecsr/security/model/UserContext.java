@@ -57,6 +57,7 @@ public final class UserContext {
     if (StringUtils.isBlank(username)) {
       throw new IllegalArgumentException("Username is blank: " + username);
     }
+    
     return new UserContext(username, authorities);
   }
 

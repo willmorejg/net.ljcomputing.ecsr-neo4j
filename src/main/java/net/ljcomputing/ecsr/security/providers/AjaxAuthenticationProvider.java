@@ -28,8 +28,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import net.ljcomputing.ecsr.domain.person.EcsrRole;
@@ -38,13 +38,16 @@ import net.ljcomputing.ecsr.security.model.UserContext;
 import net.ljcomputing.ecsr.security.service.UserService;
 
 /**
+ * AJAX authentication provider.
+ * 
  * @author James G. Willmore
  *
  */
+@Component
 public class AjaxAuthenticationProvider implements AuthenticationProvider {
 
-  /** The encoder. */
-  private final transient BCryptPasswordEncoder encoder;
+  /** The password encoder. */
+  private final transient PasswordEncoder passwordEncoder;
 
   /** The user service. */
   private final transient UserService userService;
@@ -57,9 +60,9 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
    */
   @Autowired
   public AjaxAuthenticationProvider(final UserService userService,
-      final BCryptPasswordEncoder encoder) {
+      final PasswordEncoder encoder) {
     this.userService = userService;
-    this.encoder = encoder;
+    this.passwordEncoder = encoder;
   }
 
   /**
@@ -73,30 +76,61 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
 
     final String username = (String) authentication.getPrincipal();
     final String password = (String) authentication.getCredentials();
-
-    final User user = userService.getByUsername(username)
-        .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
-
-    final String userPassword = userService.getPassword(user);
-
-    if (!encoder.matches(password, userPassword)) {
+    final User user = findUser(username);
+    
+    if (user == null) {
       throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
     }
 
+    validateCredentials(user, password);
+
+    final UserContext userContext = UserContext.create(user.getUsername(), // NOPMD
+        getGrantedAuthorities(user));
+
+    return new UsernamePasswordAuthenticationToken(userContext, 
+        null, userContext.getAuthorities()); // NOPMD
+  }
+
+  /**
+   * Find user.
+   *
+   * @param username the username
+   * @return the user
+   */
+  private User findUser(final String username) {
+    return userService.getByUsername(username);
+  }
+
+  /**
+   * Validate credentials.
+   *
+   * @param user the user
+   * @param password the password
+   * @return true, if successful
+   */
+  private void validateCredentials(final User user, final String password) {
+    final String userPassword = userService.getPassword(user);
+
+    if (!passwordEncoder.matches(password, userPassword)) {
+      throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
+    }
+  }
+
+  /**
+   * Gets the granted authorities.
+   *
+   * @param user the user
+   * @return the granted authorities
+   */
+  private List<GrantedAuthority> getGrantedAuthorities(final User user) {
     final List<EcsrRole> roles = userService.getUserRoles(user);
 
     if (roles == null) {
       throw new InsufficientAuthenticationException("User has no roles assigned");
     }
 
-    final List<GrantedAuthority> authorities = roles.stream()
-        .map(authority -> new SimpleGrantedAuthority(authority.getRoleName()))
+    return roles.stream().map(authority -> new SimpleGrantedAuthority(authority.getRoleName()))
         .collect(Collectors.toList());
-
-    final UserContext userContext = UserContext.create(user.getUsername(), authorities);
-
-    return new UsernamePasswordAuthenticationToken(
-        userContext, null, userContext.getAuthorities()); // NOPMD
   }
 
   /**

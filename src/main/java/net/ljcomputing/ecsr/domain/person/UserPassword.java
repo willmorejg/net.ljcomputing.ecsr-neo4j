@@ -29,7 +29,7 @@ public class UserPassword extends AbstractDomain implements Domain {
   
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = -6269260883748769879L;
-  
+
   /** The password. */
   private String password;
   

@@ -16,18 +16,19 @@
 
 package net.ljcomputing.ecsr.domain.person;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.ljcomputing.ecsr.domain.AbstractDomain;
 import net.ljcomputing.ecsr.domain.Domain;
 
 /**
- * ECSR user role.
+ * ECSR user roles.
  * 
  * @author James G. Willmore
  *
  */
-public class UserRole extends AbstractDomain implements Domain {
+public class UserRoles extends AbstractDomain implements Domain {
   
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 3553461161585342115L;
@@ -80,7 +81,11 @@ public class UserRole extends AbstractDomain implements Domain {
    * @param role the role
    */
   public void addRole(final EcsrRole role) {
-    this.roles.add(role);
+    if (roles == null) {
+      setRoles(new ArrayList<EcsrRole>());
+    }
+    
+    roles.add(role);
   }
 
   /**
