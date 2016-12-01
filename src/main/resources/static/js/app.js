@@ -51,3 +51,6 @@ app.config(function(toastrConfig) {
 	});
 });
 
+app.config(['$httpProvider', function ($httpProvider) {  
+	$httpProvider.interceptors.push('authHttpRequestInterceptor');
+}]);

@@ -73,6 +73,15 @@ public interface UserService {
   UserPassword changePassword(final User user, final String newPassword);
   
   /**
+   * Match password.
+   *
+   * @param user the user
+   * @param password the password
+   * @return true, if successful
+   */
+  boolean matchPassword(final User user, final String password);
+  
+  /**
    * Gets the user's roles.
    *
    * @param user the user

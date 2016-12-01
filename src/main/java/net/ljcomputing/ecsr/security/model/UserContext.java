@@ -79,4 +79,21 @@ public final class UserContext {
     return authorities;
   }
 
+  /**
+   * Checks if username is valid.
+   *
+   * @return true, if the username is valid
+   */
+  public boolean isUsernameValid() {
+    return !StringUtils.isBlank(getUsername());
+  }
+  
+  /**
+   * Checks if the authorities are valid.
+   *
+   * @return true, if successful
+   */
+  public boolean authoritiesAreValid() {
+    return getAuthorities() != null && !getAuthorities().isEmpty(); // NOPMD
+  }
 }

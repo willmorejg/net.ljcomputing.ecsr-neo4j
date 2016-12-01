@@ -1,10 +1,11 @@
-app.factory('personfactory', [ '$resource', '$q', function($resource, $q) {
-	return new Person($resource, $q);
+app.factory('personfactory', [ '$resource', '$q', '$http', function($resource, $q, $http) {
+	return new Person($resource, $q, $http);
 } ]);
 
-function Person(resource, q) {
+function Person(resource, q, http) {
 	this.resource = resource;
 	this.q = q;
+	this.http = http;
 
 	this.savePerson = function(person, scope) {
 		var Person = resource('/people/save');

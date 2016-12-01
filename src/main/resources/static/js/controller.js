@@ -1,5 +1,20 @@
 'use strict';
 
+app.controller('loginController', function($scope, $location, loginService) {
+	console.log('ok');
+    $scope.login = function() {
+        $scope.loading = true;
+        loginService.login($scope.username, $scope.password, function (result) {
+            if (result === true) {
+                $location.path('/');
+            } else {
+                $scope.error = 'Username or password is incorrect';
+                $scope.loading = false;
+            }
+        });
+    };
+});
+
 app.controller('navController', function($scope, $location) {
     $scope.$location = $location;
 });

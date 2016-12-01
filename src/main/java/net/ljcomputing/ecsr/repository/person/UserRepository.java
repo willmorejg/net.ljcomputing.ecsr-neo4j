@@ -16,6 +16,8 @@
 
 package net.ljcomputing.ecsr.repository.person;
 
+import org.springframework.data.neo4j.annotation.Query;
+
 import net.ljcomputing.ecsr.domain.person.User;
 import net.ljcomputing.ecsr.repository.DomainRepository;
 
@@ -33,5 +35,6 @@ public interface UserRepository extends DomainRepository<User> {
    * @param username the username
    * @return the user
    */
+  @Query("MATCH (n:User) WHERE n.username={0} RETURN DISTINCT n")
   User findByUsername(String username);
 }

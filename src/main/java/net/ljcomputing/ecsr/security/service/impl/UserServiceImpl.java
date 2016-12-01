@@ -128,6 +128,16 @@ public class UserServiceImpl implements UserService {
   }
   
   /**
+   * @see net.ljcomputing.ecsr.security.service.UserService
+   *    #matchPassword(net.ljcomputing.ecsr.domain.person.User, java.lang.String)
+   */
+  @Override
+  public boolean matchPassword(final User user, final String password) {
+    final String userPassword = getPassword(user);
+    return passwordEncoder.matches(password, userPassword);
+  }
+  
+  /**
    * Creates the password.
    *
    * @param password the password
@@ -148,18 +158,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public List<EcsrRole> getUserRoles(final User user) {
     final String username = user.getUsername();
-    final List<EcsrRole> roles = (List<EcsrRole>) ecsrRoleRepos.findByUsername(username);
-    return roles;
-//    
-//    final List<EcsrRole> result = new ArrayList<EcsrRole>();
-//    final String username = user.getUsername();
-//    final UserRoles roles = userRolesRepos.findByUsername(username);
-//    
-//    for (final EcsrRole role : roles.getRoles()) { // NOPMD
-//      result.add(role);
-//    }
-//    
-//    return result;
+    return (List<EcsrRole>) ecsrRoleRepos.findByUsername(username);
   }
   
   /**

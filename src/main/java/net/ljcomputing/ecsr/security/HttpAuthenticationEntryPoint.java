@@ -1,5 +1,5 @@
 /**
-           Copyright 2016, James G. Willmore
+           Copyright 2015, James G. Willmore
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -22,19 +22,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
+import net.ljcomputing.ecsr.configuration.WebSecurityConfiguration;
+
+// TODO: Auto-generated Javadoc
 /**
- * REST authentication entry point.
+ * HTTP authentication entry point.
  * 
  * @author James G. Willmore
  *
  */
 @Component
-public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class HttpAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
   /**
    * @see org.springframework.security.web.AuthenticationEntryPoint
@@ -45,7 +47,9 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
   @Override
   public void commence(final HttpServletRequest request, final HttpServletResponse response,
       final AuthenticationException authException) throws IOException, ServletException {
-    response.sendError(HttpStatus.UNAUTHORIZED.value(), "Unautorized"); // NOPMD
+    response.addHeader("WWW-Authenticate",
+        "Basic realm=\"" + WebSecurityConfiguration.REALM + "\"");
+    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
   }
 
 }

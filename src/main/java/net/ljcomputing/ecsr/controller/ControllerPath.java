@@ -23,6 +23,8 @@ package net.ljcomputing.ecsr.controller;
  *
  */
 public final class ControllerPath {
+  /** Path /login. */
+  public static final String LOGIN = "/auth/logon";
   
   /** Path /findAll. */
   public static final String FIND_ALL = "/findAll";

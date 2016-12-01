@@ -16,28 +16,24 @@
 
 package net.ljcomputing.ecsr.configuration;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
 
-import net.ljcomputing.ecsr.security.RestAuthenticationEntryPoint;
-import net.ljcomputing.ecsr.security.SkipPathRequestMatcher;
-import net.ljcomputing.ecsr.security.filter.AjaxLoginProcessingFilter;
-import net.ljcomputing.ecsr.security.filter.JwtTokenAuthenticationProcessingFilter;
-import net.ljcomputing.ecsr.security.providers.AjaxAuthenticationProvider;
+import net.ljcomputing.ecsr.security.filter.AuthFilter;
 import net.ljcomputing.ecsr.security.providers.JwtAuthenticationProvider;
+import net.ljcomputing.ecsr.security.service.JwtTokenService;
+import net.ljcomputing.ecsr.security.service.UserService;
 
 /**
  * Web security configuration.
@@ -46,78 +42,67 @@ import net.ljcomputing.ecsr.security.providers.JwtAuthenticationProvider;
  *
  */
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
+@EnableGlobalAuthentication
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+  /** The authorization header. */
+  public static final String AUTHORIZATION_HEADER = "Authorization"; // NOPMD
+
+  /** The authorization bearer header. */
+  public static final String BEARER_HEADER = "Bearer ";
+
+  /** The authorization bearer header length. */
+  public static final int BEARER_LENGTH = BEARER_HEADER.length();
+
+  /** The authorities key - the key to use when setting the JWT Claims. */
+  public static final String AUTHORITIES_KEY = "authorities";
   
-  /** The JWT token header param. */
-  public static final String JWT_TOKEN_HEADER = "X-Authorization";
+  /** The Constant REALM. */
+  public static final String REALM = "ECSR";
   
   /** The Constant FORM_BASED_LOGIN_ENTRY_POINT. */
-  public static final String FORM_BASED_LOGIN_ENTRY_POINT = "/api/auth/login";
+  public static final String FORM_BASED_LOGIN_ENTRY_POINT = "/login";
   
   /** The Constant TOKEN_BASED_AUTH_ENTRY_POINT. */
   public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/**";
   
   /** The Constant TOKEN_REFRESH_ENTRY_POINT. */
-  public static final String TOKEN_REFRESH_ENTRY_POINT = "/auth/token";
-
-  /** The authentication manager. */
-  @Autowired
-  private AuthenticationManager authenticationManager;
-
-  /** The authentication entry point. */
-  @Autowired
-  private RestAuthenticationEntryPoint authenticationEntryPoint;
-
-  /** The success handler. */
-  @Autowired
-  private AuthenticationSuccessHandler successHandler;
-
-  /** The failure handler. */
-  @Autowired
-  private AuthenticationFailureHandler failureHandler;
-
-  /** The ajax authentication provider. */
-  @Autowired
-  private AjaxAuthenticationProvider ajaxAuthenticationProvider;
+  public static final String TOKEN_REFRESH_ENTRY_POINT = "/token";
+  
+  /** The Constant WEBJARS_LOCATION. */
+  public static final String WEBJARS_LOCATION = "/webjars/**";
+  
+  /** The Constant CSS_LOCATION. */
+  public static final String CSS_LOCATION = "/css/**";
+  
+  /** The Constant JS_LOCATION. */
+  public static final String JS_LOCATION = "/js/**";
+  
+  /** The Constant JS_LOCATION. */
+  public static final String FONTS_LOCATION = "/fonts/**";
+  
+  /** The Constant JS_LOCATION. */
+  public static final String JS_VIEWS_LOCATION = "/views/**";
+  
+  /** The Constant FAV_ICO_LOCATION. */
+  public static final String FAV_ICO_LOCATION = "**/favicon.ico";
+  
+  /** The Constant INDEX_LOCATION. */
+  public static final String INDEX_LOCATION = "/index.htm";
 
   /** The JWT authentication provider. */
   @Autowired
   private JwtAuthenticationProvider jwtAuthenticationProvider;
-
-  /**
-   * Builds the ajax login processing filter.
-   *
-   * @return the ajax login processing filter
-   * @throws Exception the exception
-   */
-  @Bean
-  public AjaxLoginProcessingFilter buildAjaxLoginProcessingFilter() 
-      throws Exception {
-    AjaxLoginProcessingFilter filter = new AjaxLoginProcessingFilter(FORM_BASED_LOGIN_ENTRY_POINT,
-        successHandler, failureHandler);
-    filter.setAuthenticationManager(this.authenticationManager);
-    return filter;
-  }
-
-  /**
-   * Builds the jwt token authentication processing filter.
-   *
-   * @return the jwt token authentication processing filter
-   * @throws Exception the exception
-   */
-  @Bean
-  protected JwtTokenAuthenticationProcessingFilter buildJwtTokenAuthenticationProcessingFilter()
-      throws Exception {
-    List<String> pathsToSkip = Arrays.asList(TOKEN_REFRESH_ENTRY_POINT,
-        FORM_BASED_LOGIN_ENTRY_POINT);
-    SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip,
-        TOKEN_BASED_AUTH_ENTRY_POINT);
-    JwtTokenAuthenticationProcessingFilter filter = new JwtTokenAuthenticationProcessingFilter(
-        failureHandler, matcher);
-    filter.setAuthenticationManager(this.authenticationManager);
-    return filter;
-  }
+  
+  /** The jwt token service. */
+  @Autowired
+  private JwtTokenService jwtTokenService;
+  
+  /** The user service. */
+  @Autowired
+  private UserService userService;
 
   /**
    * @see org.springframework.security.config.annotation.web.configuration
@@ -137,8 +122,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
    *            .builders.AuthenticationManagerBuilder)
    */
   @Override
-  protected void configure(final AuthenticationManagerBuilder auth) {
-    auth.authenticationProvider(ajaxAuthenticationProvider);
+  public void configure(final AuthenticationManagerBuilder auth) {
     auth.authenticationProvider(jwtAuthenticationProvider);
   }
 
@@ -151,15 +135,36 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
    */
   @Override
   protected void configure(final HttpSecurity http) throws Exception {
-    http.csrf().disable().exceptionHandling() // NOPMD
-        .authenticationEntryPoint(this.authenticationEntryPoint)
-        .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and().authorizeRequests().antMatchers(FORM_BASED_LOGIN_ENTRY_POINT).permitAll()
-        .antMatchers(TOKEN_REFRESH_ENTRY_POINT).permitAll().and().authorizeRequests()
-        .antMatchers(TOKEN_BASED_AUTH_ENTRY_POINT).authenticated().and()
-        .addFilterBefore(buildAjaxLoginProcessingFilter(),
-            UsernamePasswordAuthenticationFilter.class)
-        .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(),
-            UsernamePasswordAuthenticationFilter.class);
+    http
+        .exceptionHandling()
+        .and()
+        .csrf().disable()
+        .headers().cacheControl().and().frameOptions().disable()
+        .and()
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//        .and()
+//        .httpBasic()
+//        .realmName(REALM)
+//        .authenticationEntryPoint(new HttpAuthenticationEntryPoint())
+        .and()
+        .anonymous()
+        .and()
+        .servletApi()
+        .and()
+        .authorizeRequests()
+        .antMatchers("**/favicon.ico").permitAll()
+        .antMatchers("/index.htm").permitAll()
+        .antMatchers("/webjars/**").permitAll()
+        .antMatchers("/css/**").permitAll()
+        .antMatchers("/js/**").permitAll()
+        .antMatchers("/fonts/**").permitAll()
+        .antMatchers("/views/**").permitAll()
+        .antMatchers("/auth/**").permitAll()
+        .antMatchers("/error").permitAll()
+        .and()
+        .authorizeRequests()
+        .anyRequest().fullyAuthenticated()
+        .and()
+        .addFilterBefore(new AuthFilter(jwtTokenService, userService), RequestHeaderAuthenticationFilter.class);
   }
 }

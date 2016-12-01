@@ -16,23 +16,14 @@
 
 package net.ljcomputing.ecsr.security.providers;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import net.ljcomputing.ecsr.security.model.UserContext;
-import net.ljcomputing.ecsr.security.token.JwtAuthenticationToken;
-import net.ljcomputing.ecsr.security.token.RawAccessJwtToken;
+import net.ljcomputing.ecsr.security.service.JwtTokenService;
 
 /**
  * JWT authentication provider.
@@ -42,11 +33,10 @@ import net.ljcomputing.ecsr.security.token.RawAccessJwtToken;
  */
 @Component
 public class JwtAuthenticationProvider implements AuthenticationProvider {
-
-  /** The token signing key. */
+  
+  /** The token. */
   @Autowired
-  @Value("#{tokenSigningKey}")
-  private String tokenSigningKey;
+  private JwtTokenService token;
 
   /**
    * @see org.springframework.security.authentication.AuthenticationProvider
@@ -55,17 +45,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
   @Override
   public Authentication authenticate(final Authentication authentication)
       throws AuthenticationException {
-    final RawAccessJwtToken rawAccessToken = (RawAccessJwtToken) authentication.getCredentials();
-    final Jws<Claims> jwsClaims = rawAccessToken.parseClaims(tokenSigningKey); // NOPMD
-    final String subject = jwsClaims.getBody().getSubject(); // NOPMD
-    @SuppressWarnings("unchecked")
-    final List<String> scopes = jwsClaims.getBody().get("scopes", List.class); // NOPMD
-    final List<GrantedAuthority> authorities = scopes.stream()
-        .map(authority -> new SimpleGrantedAuthority(authority)).collect(Collectors.toList());
-
-    final UserContext context = UserContext.create(subject, authorities);
-
-    return new JwtAuthenticationToken(context, context.getAuthorities()); // NOPMD
+    final String tokenString = token.create(authentication);
+    return token.getTokenAuthentication(tokenString);
   }
 
   /**
@@ -74,7 +55,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
    */
   @Override
   public boolean supports(final Class<?> authentication) {
-    return (JwtAuthenticationToken.class.isAssignableFrom(authentication)); // NOPMD
+    return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication); // NOPMD
   }
 
 }
