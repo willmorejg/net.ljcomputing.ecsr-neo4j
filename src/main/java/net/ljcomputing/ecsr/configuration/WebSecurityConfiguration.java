@@ -21,6 +21,7 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
@@ -33,7 +34,6 @@ import org.springframework.security.web.authentication.preauth.RequestHeaderAuth
 import net.ljcomputing.ecsr.security.filter.AuthFilter;
 import net.ljcomputing.ecsr.security.providers.JwtAuthenticationProvider;
 import net.ljcomputing.ecsr.security.service.JwtTokenService;
-import net.ljcomputing.ecsr.security.service.UserService;
 
 /**
  * Web security configuration.
@@ -42,7 +42,7 @@ import net.ljcomputing.ecsr.security.service.UserService;
  *
  */
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity//(debug = true)
 @EnableGlobalAuthentication
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -59,38 +59,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   /** The authorities key - the key to use when setting the JWT Claims. */
   public static final String AUTHORITIES_KEY = "authorities";
   
-  /** The Constant REALM. */
-  public static final String REALM = "ECSR";
-  
-  /** The Constant FORM_BASED_LOGIN_ENTRY_POINT. */
-  public static final String FORM_BASED_LOGIN_ENTRY_POINT = "/login";
+  /** The authentication and authorization entry point. */
+  public static final String AUTH_ENTRY_POINT = "/auth/**";
   
   /** The Constant TOKEN_BASED_AUTH_ENTRY_POINT. */
   public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/**";
   
   /** The Constant TOKEN_REFRESH_ENTRY_POINT. */
   public static final String TOKEN_REFRESH_ENTRY_POINT = "/token";
-  
-  /** The Constant WEBJARS_LOCATION. */
-  public static final String WEBJARS_LOCATION = "/webjars/**";
-  
-  /** The Constant CSS_LOCATION. */
-  public static final String CSS_LOCATION = "/css/**";
-  
-  /** The Constant JS_LOCATION. */
-  public static final String JS_LOCATION = "/js/**";
-  
-  /** The Constant JS_LOCATION. */
-  public static final String FONTS_LOCATION = "/fonts/**";
-  
-  /** The Constant JS_LOCATION. */
-  public static final String JS_VIEWS_LOCATION = "/views/**";
-  
-  /** The Constant FAV_ICO_LOCATION. */
-  public static final String FAV_ICO_LOCATION = "**/favicon.ico";
-  
-  /** The Constant INDEX_LOCATION. */
-  public static final String INDEX_LOCATION = "/index.htm";
 
   /** The JWT authentication provider. */
   @Autowired
@@ -99,10 +75,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   /** The jwt token service. */
   @Autowired
   private JwtTokenService jwtTokenService;
-  
-  /** The user service. */
-  @Autowired
-  private UserService userService;
 
   /**
    * @see org.springframework.security.config.annotation.web.configuration
@@ -142,29 +114,66 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .headers().cacheControl().and().frameOptions().disable()
         .and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//        .and()
-//        .httpBasic()
-//        .realmName(REALM)
-//        .authenticationEntryPoint(new HttpAuthenticationEntryPoint())
         .and()
         .anonymous()
         .and()
         .servletApi()
         .and()
         .authorizeRequests()
-        .antMatchers("**/favicon.ico").permitAll()
-        .antMatchers("/index.htm").permitAll()
-        .antMatchers("/webjars/**").permitAll()
-        .antMatchers("/css/**").permitAll()
-        .antMatchers("/js/**").permitAll()
-        .antMatchers("/fonts/**").permitAll()
-        .antMatchers("/views/**").permitAll()
-        .antMatchers("/auth/**").permitAll()
-        .antMatchers("/error").permitAll()
+        .antMatchers(HttpMethod.GET, Locations.FAV_ICO_LOCATION).permitAll()
+        .antMatchers(HttpMethod.GET, Locations.INDEX_LOCATION).permitAll()
+        .antMatchers(HttpMethod.GET, Locations.WEBJARS_LOCATION).permitAll()
+        .antMatchers(HttpMethod.GET, Locations.CSS_LOCATION).permitAll()
+        .antMatchers(HttpMethod.GET, Locations.JS_LOCATION).permitAll()
+        .antMatchers(HttpMethod.GET, Locations.FONTS_LOCATION).permitAll()
+        .antMatchers(HttpMethod.GET, Locations.JS_VIEWS_LOCATION).permitAll()
+        .antMatchers(AUTH_ENTRY_POINT).permitAll()
+        .antMatchers(Locations.ERROR_LOCATION).permitAll()
         .and()
         .authorizeRequests()
         .anyRequest().fullyAuthenticated()
         .and()
-        .addFilterBefore(new AuthFilter(jwtTokenService, userService), RequestHeaderAuthenticationFilter.class);
+        .addFilterBefore(new AuthFilter(jwtTokenService), RequestHeaderAuthenticationFilter.class);
+  }
+  
+  /**
+   * The Locations (paths / URLs) singleton.
+   */
+  public static final class Locations {
+
+    // paths / locations (URLs) that allow any GET request
+    
+    /** The favicon location. */
+    public static final String FAV_ICO_LOCATION = "**/favicon.ico";
+    
+    /** The index.htm page - the single page application. */
+    public static final String INDEX_LOCATION = "/index.htm";
+    
+    /** The webjars location - JAR-packaged JavaScript. */
+    public static final String WEBJARS_LOCATION = "/webjars/**";
+    
+    /** The CSS files location. */
+    public static final String CSS_LOCATION = "/css/**";
+    
+    /** The application-specific JavaScript files location. */
+    public static final String JS_LOCATION = "/js/**";
+    
+    /** The font files location. */
+    public static final String FONTS_LOCATION = "/fonts/**";
+    
+    /** The AngularJS views location. */
+    public static final String JS_VIEWS_LOCATION = "/views/**";
+    
+    // other permitted paths / locations (URLs)
+    
+    /** The location of the error servlet */
+    public static final String ERROR_LOCATION = "/error";
+
+    /**
+     * Instantiates a new locations.
+     */
+    private Locations() {
+      // no-op
+    }
   }
 }

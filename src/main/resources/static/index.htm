@@ -79,7 +79,7 @@
 
     
     <!--  -->
-    <div class="jumbotron" ng-controller="loginController" ng-cloak="authenticate">
+    <div class="jumbotron" ng-controller="loginController" ng-show="authenticate">
         <h2>Login</h2>
         <form name="form" ng-submit="form.$valid && login()" novalidate>
             <div class="form-group"

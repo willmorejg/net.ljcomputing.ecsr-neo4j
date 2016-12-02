@@ -27,6 +27,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -187,6 +188,15 @@ public class GlobalExceptionController {
           new Exception("The modified data has dependences."), HttpStatus.CONFLICT);
     }
 
+    return getDefaultErrorInfo(req, exception);
+  }
+  
+  @Order(Ordered.HIGHEST_PRECEDENCE)
+  @ExceptionHandler(BadCredentialsException.class)
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  public @ResponseBody ErrorInfo handleBadCredentials(final HttpServletRequest req,
+      final Exception exception) {
+    LOGGER.error("Bad credentials sent.");
     return getDefaultErrorInfo(req, exception);
   }
 }

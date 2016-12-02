@@ -31,7 +31,7 @@
         </encoder>
     </appender>
 
-    <!--logger name="org.springframework" level="ERROR" /-->
+    <logger name="org.springframework" level="ERROR" />
     <logger name="org.neo4j" level="INFO" />
     <logger name="org.apache" level="ERROR" />
     <logger name="net.ljcomputing.ecsr.neo4j" level="DEBUG" />

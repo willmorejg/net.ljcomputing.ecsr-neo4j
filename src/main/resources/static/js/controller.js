@@ -1,17 +1,23 @@
 'use strict';
 
 app.controller('loginController', function($scope, $location, loginService) {
-	console.log('ok');
+	$scope.authenticate = true;
     $scope.login = function() {
+    	console.log('ok');
         $scope.loading = true;
-        loginService.login($scope.username, $scope.password, function (result) {
-            if (result === true) {
-                $location.path('/');
-            } else {
-                $scope.error = 'Username or password is incorrect';
-                $scope.loading = false;
-            }
-        });
+        var result = loginService.login($scope.username, $scope.password);
+        result.then(
+        		function(value){
+        			console.log('value', value);
+        			$scope.loading = false;
+        			var authentication = value.authentication;
+        			$scope.authenticate = !authentication.isAuthenticated;
+        			
+        			if (authentication.isAuthenticated) {
+        				$location.path('/');
+        			}
+    			}
+    		);
     };
 });
 

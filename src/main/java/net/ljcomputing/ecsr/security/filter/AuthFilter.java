@@ -30,7 +30,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import net.ljcomputing.ecsr.security.service.JwtTokenService;
-import net.ljcomputing.ecsr.security.service.UserService;
 
 /**
  * @author James G. Willmore
@@ -39,24 +38,34 @@ import net.ljcomputing.ecsr.security.service.UserService;
 public class AuthFilter extends OncePerRequestFilter {
   private static final Logger LOGGER = LoggerFactory.getLogger(AuthFilter.class);
   private final JwtTokenService jwtTokenService;
-  private final UserService userService;
   
-  public AuthFilter(final JwtTokenService jwtTokenService, final UserService userService) {
+  public AuthFilter(final JwtTokenService jwtTokenService) {
     this.jwtTokenService = jwtTokenService;
-    this.userService = userService;
   }
 
   /* (non-Javadoc)
-   * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.FilterChain)
+   * @see org.springframework.web.filter.OncePerRequestFilter
+   *    #doFilterInternal(javax.servlet.http.HttpServletRequest, 
+   *        javax.servlet.http.HttpServletResponse, javax.servlet.FilterChain)
    */
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
+    LOGGER.info("Access attempt: {} -> {}", request.getRemoteAddr() , request.getRequestURL());
+    
     if (jwtTokenService.isValid(request)) {
+      LOGGER.debug("request is valid");
       final String jwtRequestToken = jwtTokenService.getTokenFromRequest(request);
       Authentication auth = jwtTokenService.getTokenAuthentication(jwtRequestToken);
-      SecurityContextHolder.getContext().setAuthentication(auth);
-      LOGGER.debug("Authenticated: {}", auth.getPrincipal());
+      
+      LOGGER.debug("auth.isAuthenticated(): {}", auth.isAuthenticated());
+      
+      if (auth.isAuthenticated()) {
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        LOGGER.info("Authenticated user access: {}", auth.getName());
+      } else {
+        SecurityContextHolder.clearContext();
+      }
     }
     
     filterChain.doFilter(request, response);

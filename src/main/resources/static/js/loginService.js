@@ -20,13 +20,14 @@ app.service('loginService', ['$http', '$q', 'authService', 'authData', function(
 	            authService.setTokenInfo(userInfo);
 	            authData.authentication.isAuthenticated = true;
 	            authData.authentication.userName = response.userName;
-	            deferred.resolve(null);
+	            deferred.resolve(authData);
 	        })
 	        .error(function(err, status) {
 	            authData.authentication.isAuthenticated = false;
 	            authData.authentication.userName = "";
-	            deferred.resolve(err);
+	            deferred.resolve(authData);
 	        });
+
 	    return deferred.promise;
 	}
 	this.logOut = function() {

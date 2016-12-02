@@ -42,57 +42,113 @@ import net.ljcomputing.ecsr.security.service.JwtTokenService;
 import net.ljcomputing.ecsr.security.service.UserService;
 
 /**
+ * Login controller.
+ * 
  * @author James G. Willmore
  *
  */
 @RestController
 public class LoginController {
-  
+
+  /** The Constant LOGGER. */
   private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
-  
+
+  /** The user service. */
   @Autowired
-  private UserService userService;
-  
+  private transient UserService userService;
+
+  /** The token service. */
   @Autowired
-  private JwtTokenService tokenService;
+  private transient JwtTokenService tokenService;
   
+  /** The response entity. */
+  private transient ResponseEntity<JsonAuthToken> responseEntity;
+
+  /**
+   * Login.
+   *
+   * @param body the body
+   * @param response the response
+   * @return the response entity
+   */
   @RequestMapping("/auth/login")
-  public ResponseEntity<JsonAuthToken> login(@RequestBody LoginInformation body, HttpServletResponse  response) {
-    LOGGER.debug("  =====>>>>> JSON: {}", body);
-    JsonAuthToken jsonAuthToken = new JsonAuthToken();
+  public ResponseEntity<JsonAuthToken> login(@RequestBody final LoginInformation body,
+      final HttpServletResponse response) {
+    LOGGER.info("Attempting to authenticate {}", body.username);
+
+    SecurityContextHolder.clearContext();
+
+    final JsonAuthToken jsonAuthToken = new JsonAuthToken();
     final User user = userService.getByUsername(body.username);
+    
+    LOGGER.debug("user: {}", user);
+
     if (user != null) {
       if (userService.matchPassword(user, body.password)) {
         final Set<SimpleGrantedAuthority> authorities = new HashSet<SimpleGrantedAuthority>();
         final List<EcsrRole> roles = userService.getUserRoles(user);
-        
+
         for (final EcsrRole role : roles) {
-          final SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getRoleName());
+          final SimpleGrantedAuthority authority = 
+              new SimpleGrantedAuthority(role.getRoleName()); // NOPMD
+          
           authorities.add(authority);
         }
-        
-        UsernamePasswordAuthenticationToken authToken = 
+
+        final UsernamePasswordAuthenticationToken authToken = 
             new UsernamePasswordAuthenticationToken(body.username, "", authorities);
-        
+
         jsonAuthToken.token = tokenService.create(authToken);
-        
-        ResponseEntity<JsonAuthToken> responseEntity = new ResponseEntity<JsonAuthToken>(jsonAuthToken, HttpStatus.OK);
+
+        responseEntity = new ResponseEntity<JsonAuthToken>(
+            jsonAuthToken, HttpStatus.OK);
+
         response.addHeader(WebSecurityConfiguration.AUTHORIZATION_HEADER,
             WebSecurityConfiguration.BEARER_HEADER + tokenService.create(authToken));
-        SecurityContextHolder.getContext().setAuthentication(authToken);
-        return responseEntity;
+
+        SecurityContextHolder.getContext().setAuthentication(authToken); // NOPMD
+        
+        LOGGER.info("Authenticated {}", authToken.getName());
       }
+    } else {
+      
+      jsonAuthToken.token = "Invalid credentials";
+      
+      SecurityContextHolder.clearContext();
+      
+      LOGGER.warn("FAILED to authenticate {}", body.username);
+      
+      responseEntity = new ResponseEntity<JsonAuthToken>(jsonAuthToken, HttpStatus.UNAUTHORIZED);
     }
-    jsonAuthToken.token = "Invalid credentials";
-    return new ResponseEntity<JsonAuthToken>(jsonAuthToken, HttpStatus.UNAUTHORIZED);
+
+    return responseEntity;
   }
-  
-  class LoginInformation implements Serializable {
-    public String username;
-    public String password;
+
+  /**
+   * Login information.
+   */
+  private class LoginInformation implements Serializable {
+
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -3608083617083832735L;
+
+    /** The username. */
+    public String username; // NOPMD
+
+    /** The password. */
+    public String password; // NOPMD
   }
-  
-  class JsonAuthToken implements Serializable {
-    public String token;
+
+  /**
+   * JSON authentication and authorization token.
+   */
+  private class JsonAuthToken implements Serializable {
+
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 7283674154081294487L;
+
+    /** The token. */
+    @SuppressWarnings("unused")
+    public String token; // NOPMD
   }
 }
