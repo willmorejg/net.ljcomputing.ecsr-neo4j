@@ -31,6 +31,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
 
+import net.ljcomputing.ecsr.security.entrypoint.AuthEntryPoint;
 import net.ljcomputing.ecsr.security.filter.AuthFilter;
 import net.ljcomputing.ecsr.security.providers.JwtAuthenticationProvider;
 import net.ljcomputing.ecsr.security.service.JwtTokenService;
@@ -42,11 +43,14 @@ import net.ljcomputing.ecsr.security.service.JwtTokenService;
  *
  */
 @Configuration
-@EnableWebSecurity//(debug = true)
+@EnableWebSecurity(debug = true)
 @EnableGlobalAuthentication
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
-
+  
+  /** The audit logger. */
+  public static final String AUDIT_LOGGER = "audit";
+  
   /** The authorization header. */
   public static final String AUTHORIZATION_HEADER = "Authorization"; // NOPMD
 
@@ -109,6 +113,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(final HttpSecurity http) throws Exception {
     http
         .exceptionHandling()
+        .authenticationEntryPoint(new AuthEntryPoint())
         .and()
         .csrf().disable()
         .headers().cacheControl().and().frameOptions().disable()

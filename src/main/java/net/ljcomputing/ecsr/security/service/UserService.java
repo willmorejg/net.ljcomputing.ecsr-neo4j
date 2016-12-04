@@ -19,6 +19,7 @@ package net.ljcomputing.ecsr.security.service;
 import java.util.List;
 
 import net.ljcomputing.ecsr.domain.person.EcsrRole;
+import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.domain.person.User;
 import net.ljcomputing.ecsr.domain.person.UserPassword;
 import net.ljcomputing.ecsr.domain.person.UserRoles;
@@ -38,6 +39,14 @@ public interface UserService {
    * @return the by username
    */
   User getByUsername(final String username);
+  
+  /**
+   * Gets the person by user.
+   *
+   * @param user the user
+   * @return the person
+   */
+  Person getPerson(final User user);
   
   /**
    * Save (create / update) user.

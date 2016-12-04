@@ -65,7 +65,11 @@ public final class JwtTokenServiceImpl implements JwtTokenService {
 
   /** The Constant LOGGER. */
   private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenServiceImpl.class);
-  
+
+  /** The Constant AUDIT. */
+  private static final Logger AUDIT = 
+      LoggerFactory.getLogger(WebSecurityConfiguration.AUDIT_LOGGER);
+
   /** The zone id - default is the system default zone id. */
   private static final ZoneId ZONE_ID = ZoneId.systemDefault();
 
@@ -139,8 +143,9 @@ public final class JwtTokenServiceImpl implements JwtTokenService {
     return Date.from(instant); // NOPMD
   }
 
-  /* (non-Javadoc)
-   * @see net.ljcomputing.ecsr.security.service.impl.JwtTokenService#create(org.springframework.security.core.Authentication)
+  /**
+   * @see net.ljcomputing.ecsr.security.service.impl.JwtTokenService
+   *    #create(org.springframework.security.core.Authentication)
    */
   @Override
   public String create(final Authentication authentication) {
@@ -165,8 +170,9 @@ public final class JwtTokenServiceImpl implements JwtTokenService {
     return result;
   }
 
-  /* (non-Javadoc)
-   * @see net.ljcomputing.ecsr.security.service.impl.JwtTokenService#getTokenFromRequest(javax.servlet.http.HttpServletRequest)
+  /**
+   * @see net.ljcomputing.ecsr.security.service.impl.JwtTokenService
+   *    #getTokenFromRequest(javax.servlet.http.HttpServletRequest)
    */
   @Override
   public String getTokenFromRequest(final HttpServletRequest request) {
@@ -182,8 +188,9 @@ public final class JwtTokenServiceImpl implements JwtTokenService {
     return result;
   }
 
-  /* (non-Javadoc)
-   * @see net.ljcomputing.ecsr.security.service.impl.JwtTokenService#getTokenAuthentication(java.lang.String)
+  /**
+   * @see net.ljcomputing.ecsr.security.service.impl.JwtTokenService
+   *    #getTokenAuthentication(java.lang.String)
    */
   @Override
   public Authentication getTokenAuthentication(final String token) {
@@ -211,16 +218,18 @@ public final class JwtTokenServiceImpl implements JwtTokenService {
     }
   }
 
-  /* (non-Javadoc)
-   * @see net.ljcomputing.ecsr.security.service.impl.JwtTokenService#validate(javax.servlet.http.HttpServletRequest)
+  /**
+   * @see net.ljcomputing.ecsr.security.service.impl.JwtTokenService
+   *    #validate(javax.servlet.http.HttpServletRequest)
    */
   @Override
   public Set<String> validate(final HttpServletRequest request) {
     return validate(getTokenFromRequest(request));
   }
 
-  /* (non-Javadoc)
-   * @see net.ljcomputing.ecsr.security.service.impl.JwtTokenService#validate(java.lang.String)
+  /**
+   * @see net.ljcomputing.ecsr.security.service.impl.JwtTokenService
+   *    #validate(java.lang.String)
    */
   @Override
   public Set<String> validate(final String token) {
@@ -228,6 +237,7 @@ public final class JwtTokenServiceImpl implements JwtTokenService {
 
     if (token == null) {
       result.add("No token found with request."); // NOPMD
+      AUDIT.error("No token found with request.");
     }
 
     if (!result.isEmpty()) { // NOPMD
@@ -240,22 +250,26 @@ public final class JwtTokenServiceImpl implements JwtTokenService {
       } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException
           | SignatureException | IllegalArgumentException exception) { // NOPMD
         result.add("Signature is invalid."); // NOPMD
+        AUDIT.error("Signature is invalid.");
       }
       if (claims != null) {
         final String subject = claims.getSubject(); // NOPMD
 
         if (StringUtils.isBlank(subject)) { // NOPMD
           result.add("Username is invalid."); // NOPMD
+          AUDIT.error("Username is invalid.");
         }
 
         if (claims.get(WebSecurityConfiguration.AUTHORITIES_KEY) == null) { // NOPMD
           result.add("Invalid authorities."); // NOPMD
+          AUDIT.error("Invalid authorities.");
         } else {
           final String authorities = claims.get( // NOPMD
               WebSecurityConfiguration.AUTHORITIES_KEY).toString(); // NOPMD
 
           if (StringUtils.isBlank(authorities)) { // NOPMD
             result.add("No authorities found."); // NOPMD
+            AUDIT.error("No authorities found.");
           }
         }
       }
@@ -264,16 +278,18 @@ public final class JwtTokenServiceImpl implements JwtTokenService {
     return result;
   }
 
-  /* (non-Javadoc)
-   * @see net.ljcomputing.ecsr.security.service.impl.JwtTokenService#isValid(javax.servlet.http.HttpServletRequest)
+  /**
+   * @see net.ljcomputing.ecsr.security.service.impl.JwtTokenService
+   *    #isValid(javax.servlet.http.HttpServletRequest)
    */
   @Override
   public boolean isValid(final HttpServletRequest request) {
     return isValid(getTokenFromRequest(request));
   }
 
-  /* (non-Javadoc)
-   * @see net.ljcomputing.ecsr.security.service.impl.JwtTokenService#isValid(java.lang.String)
+  /**
+   * @see net.ljcomputing.ecsr.security.service.impl.JwtTokenService
+   *    #isValid(java.lang.String)
    */
   @Override
   public boolean isValid(final String token) {

@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.ljcomputing.ecsr.configuration.WebSecurityConfiguration;
 import net.ljcomputing.ecsr.domain.person.EcsrRole;
+import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.domain.person.User;
 import net.ljcomputing.ecsr.security.service.JwtTokenService;
 import net.ljcomputing.ecsr.security.service.UserService;
@@ -52,17 +53,21 @@ public class LoginController {
 
   /** The Constant LOGGER. */
   private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+  
+  /** The audit logger. */
+  private static final Logger AUDIT = 
+      LoggerFactory.getLogger(WebSecurityConfiguration.AUDIT_LOGGER);
 
   /** The user service. */
   @Autowired
-  private transient UserService userService;
+  private UserService userService;
 
   /** The token service. */
   @Autowired
-  private transient JwtTokenService tokenService;
+  private JwtTokenService tokenService;
   
   /** The response entity. */
-  private transient ResponseEntity<JsonAuthToken> responseEntity;
+  private ResponseEntity<JsonAuthToken> responseEntity;
 
   /**
    * Login.
@@ -74,7 +79,7 @@ public class LoginController {
   @RequestMapping("/auth/login")
   public ResponseEntity<JsonAuthToken> login(@RequestBody final LoginInformation body,
       final HttpServletResponse response) {
-    LOGGER.info("Attempting to authenticate {}", body.username);
+    AUDIT.info("Attempting to authenticate {}", body.username);
 
     SecurityContextHolder.clearContext();
 
@@ -84,6 +89,8 @@ public class LoginController {
     LOGGER.debug("user: {}", user);
 
     if (user != null) {
+      final Person person = userService.getPerson(user);
+      
       if (userService.matchPassword(user, body.password)) {
         final Set<SimpleGrantedAuthority> authorities = new HashSet<SimpleGrantedAuthority>();
         final List<EcsrRole> roles = userService.getUserRoles(user);
@@ -108,16 +115,14 @@ public class LoginController {
 
         SecurityContextHolder.getContext().setAuthentication(authToken); // NOPMD
         
-        LOGGER.info("Authenticated {}", authToken.getName());
+        AUDIT.info("Authenticated {}", authToken.getName());
       }
-    } else {
-      
+    } 
+    
+    if (user == null) {
       jsonAuthToken.token = "Invalid credentials";
-      
       SecurityContextHolder.clearContext();
-      
-      LOGGER.warn("FAILED to authenticate {}", body.username);
-      
+      AUDIT.warn("FAILED to authenticate {}", body.username);
       responseEntity = new ResponseEntity<JsonAuthToken>(jsonAuthToken, HttpStatus.UNAUTHORIZED);
     }
 

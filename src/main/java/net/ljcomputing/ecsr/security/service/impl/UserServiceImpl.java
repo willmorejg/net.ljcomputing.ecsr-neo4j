@@ -25,10 +25,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ljcomputing.ecsr.domain.person.EcsrRole;
+import net.ljcomputing.ecsr.domain.person.Person;
 import net.ljcomputing.ecsr.domain.person.User;
 import net.ljcomputing.ecsr.domain.person.UserPassword;
 import net.ljcomputing.ecsr.domain.person.UserRoles;
 import net.ljcomputing.ecsr.repository.person.EcsrRoleRepository;
+import net.ljcomputing.ecsr.repository.person.PersonRepository;
 import net.ljcomputing.ecsr.repository.person.UserPasswordRepository;
 import net.ljcomputing.ecsr.repository.person.UserRepository;
 import net.ljcomputing.ecsr.repository.person.UserRolesRepository;
@@ -45,35 +47,45 @@ public class UserServiceImpl implements UserService {
   
   /** The password encoder. */
   @Autowired
-  private transient PasswordEncoder passwordEncoder;
+  private PasswordEncoder passwordEncoder;
   
   /** The user repository. */
   @Autowired
-  private transient UserRepository userRepos;
+  private UserRepository userRepos;
   
   /** The user password repository. */
   @Autowired
-  private transient UserPasswordRepository userPassRepos;
+  private UserPasswordRepository userPassRepos;
   
   /** The user roles repository. */
   @Autowired
-  private transient UserRolesRepository userRolesRepos;
+  private UserRolesRepository userRolesRepos;
   
   /** The ECSR role repository. */
   @Autowired
-  private transient EcsrRoleRepository ecsrRoleRepos;
+  private EcsrRoleRepository ecsrRoleRepos;
+  
+  /** The ECSR person repository. */
+  @Autowired
+  private PersonRepository personRepos;
 
   /**
-   * Gets the by username.
-   *
-   * @param username the username
-   * @return the by username
    * @see net.ljcomputing.ecsr.security.service.UserService
    *    #getByUsername(java.lang.String)
    */
   @Override
   public User getByUsername(final String username) {
     return userRepos.findByUsername(username);
+  }
+  
+  /**
+   * @see net.ljcomputing.ecsr.security.service.UserService
+   *    #getPerson(net.ljcomputing.ecsr.domain.person.User)
+   */
+  @Override
+  public Person getPerson(final User user) {
+    final String username = user.getUsername();
+    return personRepos.locateByUsername(username);
   }
   
   /**
@@ -86,10 +98,6 @@ public class UserServiceImpl implements UserService {
   }
 
   /**
-   * Gets the password.
-   *
-   * @param user the user
-   * @return the password
    * @see net.ljcomputing.ecsr.security.service.UserService
    *    #getPassword(net.ljcomputing.ecsr.domain.person.User)
    */
@@ -148,10 +156,6 @@ public class UserServiceImpl implements UserService {
   }
   
   /**
-   * Gets the user roles.
-   *
-   * @param user the user
-   * @return the user roles
    * @see net.ljcomputing.ecsr.security.service.UserService
    *    #getUserRoles(net.ljcomputing.ecsr.domain.person.User)
    */

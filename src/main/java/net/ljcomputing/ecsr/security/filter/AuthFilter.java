@@ -25,25 +25,42 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import net.ljcomputing.ecsr.configuration.WebSecurityConfiguration;
 import net.ljcomputing.ecsr.security.service.JwtTokenService;
 
 /**
+ * Authentication filter.
+ * 
  * @author James G. Willmore
  *
  */
 public class AuthFilter extends OncePerRequestFilter {
+  
+  /** The Constant LOGGER. */
   private static final Logger LOGGER = LoggerFactory.getLogger(AuthFilter.class);
+  
+  /** The audit logger. */
+  private static final Logger AUDIT = 
+      LoggerFactory.getLogger(WebSecurityConfiguration.AUDIT_LOGGER);
+
+  /** The JWT token service. */
   private final JwtTokenService jwtTokenService;
   
+  /**
+   * Instantiates a new authentication filter.
+   *
+   * @param jwtTokenService the JWT token service
+   */
   public AuthFilter(final JwtTokenService jwtTokenService) {
     this.jwtTokenService = jwtTokenService;
   }
 
-  /* (non-Javadoc)
+  /**
    * @see org.springframework.web.filter.OncePerRequestFilter
    *    #doFilterInternal(javax.servlet.http.HttpServletRequest, 
    *        javax.servlet.http.HttpServletResponse, javax.servlet.FilterChain)
@@ -51,7 +68,7 @@ public class AuthFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
-    LOGGER.info("Access attempt: {} -> {}", request.getRemoteAddr() , request.getRequestURL());
+    AUDIT.info("Access attempt: {} -> {}", request.getRemoteAddr() , request.getRequestURL());
     
     if (jwtTokenService.isValid(request)) {
       LOGGER.debug("request is valid");
@@ -61,14 +78,19 @@ public class AuthFilter extends OncePerRequestFilter {
       LOGGER.debug("auth.isAuthenticated(): {}", auth.isAuthenticated());
       
       if (auth.isAuthenticated()) {
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        LOGGER.info("Authenticated user access: {}", auth.getName());
+        final String refresehedToken = jwtTokenService.create(auth);
+        auth = jwtTokenService.getTokenAuthentication(refresehedToken);
+        final UsernamePasswordAuthenticationToken authToken = 
+            new UsernamePasswordAuthenticationToken(auth.getPrincipal(), "", auth.getAuthorities());
+
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+        AUDIT.info("Authenticated user access: {}", auth.getName());
       } else {
+        AUDIT.error("Authentication attempt failed");
         SecurityContextHolder.clearContext();
       }
     }
     
     filterChain.doFilter(request, response);
   }
-
 }

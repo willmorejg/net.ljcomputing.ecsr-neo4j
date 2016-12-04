@@ -39,4 +39,13 @@ public interface PersonRepository extends PersonalityRepository<Person> {
   @Query("MATCH (p:Person) " + "WHERE LOWER(p.firstName) CONTAINS LOWER({0}) "
       + "AND LOWER(p.lastName) CONTAINS LOWER({1}) " + "RETURN p")
   Iterable<Person> locateByFirstLast(String firstName, String lastName);
+
+  /**
+   * Locate by username.
+   *
+   * @param username the username
+   * @return the person
+   */
+  @Query("MATCH (n:Person)-[]-(u:User) WHERE u.username={0} RETURN DISTINCT n")
+  Person locateByUsername(String username);
 }

@@ -16,17 +16,20 @@
 
 package net.ljcomputing.ecsr.controller;
 
-import java.util.Collections;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.boot.autoconfigure.web.ErrorController;
-import org.springframework.util.Assert;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestAttributes;
@@ -38,33 +41,53 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * @author James G. Willmore
  */
 @RestController
-@RequestMapping("/error")
 public class SimpleErrorController implements ErrorController {
 
   /** The Constant LOGGER. */
   private static final Logger LOGGER = LoggerFactory.getLogger(SimpleErrorController.class);
 
+  /** The Constant PATH. */
+  private static final String PATH = "/error";
+
+  /** The debug. */
+  @Value("${debug:true}")
+  private boolean debug;
+
   /** The error attributes. */
-  private final ErrorAttributes errorAttributes;
+  @Autowired
+  private ErrorAttributes errorAttributes;
+
+  /** The timestamp format. */
+  private static final DateTimeFormatter FORMAT = DateTimeFormatter
+      .ofPattern("yyyy-MM-dd HH:mm:ss"); // NOPMD
 
   /**
-   * Instantiates a new simple error controller.
+   * Gets the current timestamp.
    *
-   * @param errorAttributes the error attributes
+   * @return the current timestamp
    */
-  @Autowired
-  public SimpleErrorController(final ErrorAttributes errorAttributes) {
-    Assert.notNull(errorAttributes, "ErrorAttributes must not be null");
-    LOGGER.debug("errorAttributes: {}", errorAttributes);
-    this.errorAttributes = errorAttributes;
+  private static String getCurrentTimestamp() {
+    return FORMAT.format(LocalDateTime.now());
+  }
+
+  /**
+   * Gets the request path.
+   *
+   * @param req the req
+   * @return the request path
+   */
+  private static String getRequestPath(final HttpServletRequest req) {
+    final StringBuffer reqPath = req.getRequestURL();
+    return reqPath.toString(); // NOPMD
   }
 
   /**
    * @see org.springframework.boot.autoconfigure.web.ErrorController#getErrorPath()
    */
+
   @Override
   public String getErrorPath() {
-    return "/error";
+    return PATH;
   }
 
   /**
@@ -74,38 +97,11 @@ public class SimpleErrorController implements ErrorController {
    * @return the map
    */
   @SuppressWarnings("unused")
-  @RequestMapping
-  public Map<String, Object> error(final HttpServletRequest request) {
-    LOGGER.error("Exception thrown: ", request.getParameterMap());
-
-    if (request == null) {
-      LOGGER.info("Throwing empty map");
-
-      return Collections.emptyMap();
-    }
-
-    final Map<String, Object> body = getErrorAttributes(request, getTraceParameter(request));
-    final String trace = (String) body.get("trace");
-    LOGGER.debug("trace: {}", trace);
-    if (trace != null) {
-      String[] lines = trace.split("\n\t");
-      body.put("trace", lines);
-    }
-    return body;
-  }
-
-  /**
-   * Gets the trace parameter.
-   *
-   * @param request the request
-   * @return the trace parameter
-   */
-  private boolean getTraceParameter(final HttpServletRequest request) {
-    String parameter = request.getParameter("trace");
-    if (parameter == null) {
-      return false;
-    }
-    return !"false".equals(parameter.toLowerCase());
+  @RequestMapping(PATH)
+  public ErrorInfo error(final HttpServletRequest request, final HttpServletResponse response) {
+    return new ErrorInfo(getCurrentTimestamp(), HttpStatus.valueOf(response.getStatus()),
+        getRequestPath(request), 
+          new Exception((String)getErrorAttributes(request, debug).get("trace")));
   }
 
   /**
@@ -115,9 +111,9 @@ public class SimpleErrorController implements ErrorController {
    * @param includeStackTrace the include stack trace
    * @return the error attributes
    */
-  private Map<String, Object> getErrorAttributes(final HttpServletRequest request,
-      final boolean includeStackTrace) {
-    LOGGER.error("Exception thrown - attributes: ", request.getParameterMap());
+
+  private Map<String, Object> getErrorAttributes(HttpServletRequest request,
+      boolean includeStackTrace) {
     final RequestAttributes requestAttributes = new ServletRequestAttributes(request);
     return errorAttributes.getErrorAttributes(requestAttributes, includeStackTrace);
   }

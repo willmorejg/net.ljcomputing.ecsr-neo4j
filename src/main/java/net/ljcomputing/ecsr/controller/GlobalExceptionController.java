@@ -191,6 +191,13 @@ public class GlobalExceptionController {
     return getDefaultErrorInfo(req, exception);
   }
   
+  /**
+   * Handle bad credentials.
+   *
+   * @param req the req
+   * @param exception the exception
+   * @return the error info
+   */
   @Order(Ordered.HIGHEST_PRECEDENCE)
   @ExceptionHandler(BadCredentialsException.class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)

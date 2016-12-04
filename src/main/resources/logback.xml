@@ -11,11 +11,11 @@
 
     <appender name="FILE"
         class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${user.home}/logs/log-${byDay}.txt </file>
+        <file>${user.home}/logs/ecsr-log.txt </file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>${user.home}/logs/logFile.%d{yyyy-MM-dd}.%i.txt
+            <fileNamePattern>${user.home}/logs/ecsr-log.%d{yyyy-MM-dd}.%i.txt
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                 class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -31,7 +31,33 @@
         </encoder>
     </appender>
 
-    <logger name="org.springframework" level="ERROR" />
+    <appender name="AUDIT"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${user.home}/logs/ecsr-audit.txt </file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${user.home}/logs/ecsr-audit.%d{yyyy-MM-dd}.%i.txt
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date{dd MMM yyyy HH:mm:ss.SSS} %-4relative [%thread] %-5level %logger{35} %L : %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <logger name="audit" level="DEBUG" additivity="false">
+        <appender-ref ref="AUDIT"/>
+    </logger>
+
+    <logger name="org.springframework" level="TRACE" />
     <logger name="org.neo4j" level="INFO" />
     <logger name="org.apache" level="ERROR" />
     <logger name="net.ljcomputing.ecsr.neo4j" level="DEBUG" />

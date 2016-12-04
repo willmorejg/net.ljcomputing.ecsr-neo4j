@@ -137,4 +137,42 @@ public class Person extends AbstractDomain implements Personality {
   public void setSuffix(final String suffix) {
     this.suffix = suffix;
   }
+  
+  /**
+   * Full name.
+   *
+   * @return the string
+   */
+  public String fullName() {
+    final StringBuilder builder = new StringBuilder();
+    
+    if (prefix != null) {
+      builder.append(prefix);
+      builder.append(" ");
+    }
+    
+    if (firstName != null) {
+      builder.append(firstName);
+      builder.append(" ");
+    }
+    
+    if (middleName != null) {
+      builder.append(middleName);
+      builder.append(" ");
+    }
+    
+    if (lastName != null) {
+      builder.append(lastName);
+
+      if (suffix != null) {
+        builder.append(" ");
+      }
+    }
+    
+    if (suffix != null) {
+      builder.append(suffix);
+    }
+    
+    return builder.toString();
+  }
 }
