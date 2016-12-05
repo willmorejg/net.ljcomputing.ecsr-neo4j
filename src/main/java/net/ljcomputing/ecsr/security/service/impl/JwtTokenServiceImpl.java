@@ -240,7 +240,7 @@ public final class JwtTokenServiceImpl implements JwtTokenService {
       AUDIT.error("No token found with request.");
     }
 
-    if (!result.isEmpty()) { // NOPMD
+    if (result.isEmpty()) { // NOPMD
       Claims claims = null; // NOPMD
 
       try {

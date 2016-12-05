@@ -67,3 +67,28 @@ app.constant('USER_ROLES', {
 	test : 'TEST'
 });
 
+app.factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {
+	return {
+		responseError : function(response) {
+			$rootScope.$broadcast({
+				401 : AUTH_EVENTS.notAuthenticated,
+				403 : AUTH_EVENTS.notAuthorized,
+				419 : AUTH_EVENTS.sessionTimeout,
+				440 : AUTH_EVENTS.sessionTimeout
+			}[response.status], response);
+			return $q.reject(response);
+		}//,
+//		request : function(config) {
+//			console.log('$rootScope.accessToken', $rootScope.accessToken);
+////			if ($rootScope.accessToken) {
+////				config.headers["Authorization"] = 'Bearer'+ $rootScope.accessToken;
+////			}
+//		}
+	};
+});
+
+app.config(function($httpProvider) {
+	$httpProvider.interceptors.push([ '$injector', function($injector) {
+		return $injector.get('AuthInterceptor');
+	} ]);
+});

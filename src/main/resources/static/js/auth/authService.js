@@ -9,7 +9,7 @@ app.factory('authService', function($http, jwtHelper, authData) {
 			.post(_loginUrl, credentials)
 			.then(function(res) {
 				var token = jwtHelper.decodeToken(res.data.token);
-				var auth = authData.create(token.sub, token.authorities);
+				var auth = authData.create(token.sub, token.authorities, res.data.token);
 				return auth;
 		});
 	};

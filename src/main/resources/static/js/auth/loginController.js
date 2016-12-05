@@ -16,13 +16,14 @@ app.controller('loginController', function($scope, $rootScope, $location,
 
 
 app.controller('loginModalCtrl', function($scope, $rootScope, $location,
-		$uibModalInstance, AUTH_EVENTS, USER_ROLES, authService) {
+		$http, $uibModalInstance, AUTH_EVENTS, USER_ROLES, authService) {
 	$scope.login = function() {
 		var credentials = $scope.credentials;
 		authService
 			.login(credentials)
 			.then(function(user) {
 				$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+				$http.defaults.headers.common["Authorization"] = 'Bearer '+ user.token;
 				$uibModalInstance.close(user);
 		}, function() {
 			$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
